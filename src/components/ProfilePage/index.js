@@ -5,7 +5,7 @@ function ProfilePage() {
   return (
     <main>
       <div data-testid="profile-email">Email</div>
-      <Link to="/" data-testid="profile-done-btn">
+      <Link to="/receitas-feitas" data-testid="profile-done-btn">
         Receitas feitas
       </Link>
       <Link to="/receitas-favoritas" data-testid="profile-favorite-btn">
