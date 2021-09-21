@@ -1,8 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-// import rockGlass from './images/rockGlass.svg';
-
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
