@@ -11,7 +11,11 @@ function ProfilePage() {
       <Link to="/receitas-favoritas" data-testid="profile-favorite-btn">
         Receitas favoritas
       </Link>
-      <Link to="/" data-testid="profile-logout-btn">
+      <Link
+        to="/"
+        data-testid="profile-logout-btn"
+        onClick={ () => localStorage.clear() }
+      >
         Sair
       </Link>
     </main>
