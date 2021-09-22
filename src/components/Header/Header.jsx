@@ -3,13 +3,14 @@ import { Link } from 'react-router-dom';
 import profileIcon from '../../images/profileIcon.svg';
 import searchIcon from '../../images/searchIcon.svg';
 
-const [inputValue, setInputValue] = useState('');
-const [showInputSearch, setShowInputSearch] = useState(false);
 
 const Header = () => (
+  const [inputValue, setInputValue] = useState('');
+  const [showInputSearch, setShowInputSearch] = useState(false);
+
   <header>
-    <Link data-testid="profile-top-btn" to="/profile">
-      <img src={ profileIcon } alt="Perfil" />
+    <Link to="/profile">
+      <img data-testid="profile-top-btn" src={ profileIcon } alt="Perfil" />
     </Link>
     <div>
       <h1 data-testid="page-title">Comidas</h1>
@@ -23,10 +24,9 @@ const Header = () => (
         />) }
       <button
         type="button"
-        data-testid="search-top-btn"
         onClick={ () => { setShowInputSearch(!showInputSearch); } }
       >
-        <img src={ searchIcon } alt="Pesquisar" />
+        <img data-testid="search-top-btn" src={ searchIcon } alt="Pesquisar" />
       </button>
     </div>
   </header>
