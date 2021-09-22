@@ -39,7 +39,7 @@ function App() {
       <Route path="/explorar/bebidas/ingredients" component={ DrinkIngredients } />
       <Route path="/explorar/bebidas/area" component={ DrinkAreas } />
       <Route path="/explorar/bebidas" component={ ExploreDrinks } />
-      <Route path="/profile" component={ Profile } />
+      <Route path="/perfil" component={ Profile } />
       <Route path="/receitas-feitas" component={ FinishedRecipes } />
       <Route path="/receitas-favoritas" component={ FavoriteRecipes } />
     </Switch>
