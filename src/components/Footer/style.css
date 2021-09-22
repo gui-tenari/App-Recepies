@@ -1,0 +1,6 @@
+footer {
+  bottom: 0;
+  height: 3em;
+  position: fixed;
+  width: 100vw;
+}
