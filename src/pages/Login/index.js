@@ -5,7 +5,9 @@ function Login({ history }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
+  const handleLogin = (event) => {
+    event.preventDefault();
+
     localStorage.setItem('user', JSON.stringify({ email }));
     localStorage.setItem('mealsToken', '1');
     localStorage.setItem('cocktailsToken', '1');
@@ -16,7 +18,7 @@ function Login({ history }) {
   const MIN_PASSWORD_LENGTH = 6;
 
   return (
-    <>
+    <form onSubmit={ handleLogin }>
       <input
         type="text"
         value={ email }
@@ -30,14 +32,13 @@ function Login({ history }) {
         data-testid="password-input"
       />
       <button
-        type="button"
+        type="submit"
         data-testid="login-submit-btn"
-        onClick={ handleLogin }
         disabled={ !(REGEX.test(email) && password.length > MIN_PASSWORD_LENGTH) }
       >
         Login
       </button>
-    </>
+    </form>
   );
 }
 

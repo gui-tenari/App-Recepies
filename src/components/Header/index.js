@@ -11,7 +11,7 @@ const Header = ({ title }) => {
 
   return (
     <header>
-      <Link to="/profile">
+      <Link to="/perfil">
         <img data-testid="profile-top-btn" src={ profileIcon } alt="Perfil" />
       </Link>
       <div>
