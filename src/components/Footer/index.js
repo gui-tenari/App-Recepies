@@ -9,14 +9,14 @@ import './style.css';
 
 const Footer = () => (
   <footer data-testid="footer">
-    <Link to="/bebidas" data-testid="drinks-bottom-btn">
-      <img src={ drinkIcon } alt="Bebidas" />
+    <Link to="/bebidas">
+      <img data-testid="drinks-bottom-btn" src={ drinkIcon } alt="Bebidas" />
     </Link>
-    <Link to="/explorar" data-testid="explore-bottom-btn">
-      <img src={ exploreIcon } alt="Explorar" />
+    <Link to="/explorar">
+      <img data-testid="explore-bottom-btn" src={ exploreIcon } alt="Explorar" />
     </Link>
-    <Link to="/comidas" data-testid="food-bottom-btn">
-      <img src={ mealIcon } alt="Comidas" />
+    <Link to="/comidas">
+      <img data-testid="food-bottom-btn" src={ mealIcon } alt="Comidas" />
     </Link>
   </footer>
 );
