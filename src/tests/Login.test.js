@@ -1,6 +1,6 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
-import Login from '../pages/Login.js';
+import Login from '../pages/Login';
 
 describe('Testa componentes da tela de Login', () => {
   const EMAIL_INPUT_TEST_ID = 'email-input';
