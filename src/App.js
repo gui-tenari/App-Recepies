@@ -1,7 +1,23 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-// import rockGlass from './images/rockGlass.svg';
+import Login from './pages/Login';
+import MealProgress from './pages/MealProgress';
+import MealDetails from './pages/MealDetails';
+import Meals from './pages/Meals';
+import DrinkAreas from './pages/DrinkAreas';
+import DrinkDetails from './pages/DrinkDetails';
+import DrinkProgress from './pages/DrinkProgress';
+import Drinks from './pages/Drinks';
+import Explore from './pages/Explore';
+import MealIngredients from './pages/MealIngredients';
+import MealAreas from './pages/MealAreas';
+import ExploreMeals from './pages/ExploreMeals';
+import DrinkIngredients from './pages/DrinkIngredients';
+import ExploreDrinks from './pages/ExploreDrinks';
+import Profile from './pages/Profile';
+import FinishedRecipes from './pages/FinishedRecipes';
+import FavoriteRecipes from './pages/FavoriteRecipes';
 
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
