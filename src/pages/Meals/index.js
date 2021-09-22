@@ -5,7 +5,7 @@ import Footer from '../../components/Footer';
 
 const Meals = () => (
   <div>
-    <Header />
+    <Header title="Comidas" />
     <h1>MEALS</h1>
     <Footer />
   </div>
