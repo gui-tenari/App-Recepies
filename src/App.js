@@ -1,8 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-// import rockGlass from './images/rockGlass.svg';
-
+import Login from './pages/Login.js';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -10,7 +9,7 @@ function App() {
   return (
     <Switch>
       <Route exact path="/" component={ Login } />
-      <Route path="/comidas/:id/in-progress" component={ MealProgress } />
+      {/* <Route path="/comidas/:id/in-progress" component={ MealProgress } />
       <Route path="/comidas/:id" component={ MealDetails } />
       <Route path="/comidas" component={ Meals } />
       <Route path="/bebidas/:id/in-progress" component={ DrinkProgress } />
@@ -25,7 +24,7 @@ function App() {
       <Route path="/explorar/bebidas" component={ ExploreDrinks } />
       <Route path="/profile" component={ Profile } />
       <Route path="/receitas-feitas" component={ FinishedRecipes } />
-      <Route path="/receitas-favoritas" component={ FavoriteRecipes } />
+      <Route path="/receitas-favoritas" component={ FavoriteRecipes } /> */}
     </Switch>
   );
 }
