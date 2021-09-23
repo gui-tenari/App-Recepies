@@ -1,5 +1,6 @@
 const MEALS_BASE_URL = 'https://www.themealdb.com/api/json/v1';
 const DRINKS_BASE_URL = 'https://www.thecocktaildb.com/api/json/v1';
+const ERROR_MESSAGE = 'Não foram encontradas receitas!';
 const MAX_RECIPES = 12;
 
 const getToken = (key) => {
@@ -9,24 +10,57 @@ const getToken = (key) => {
   return parsedToken;
 };
 
-export const getMeals = async () => {
-  const token = getToken('mealsToken');
-
-  const response = await fetch(`${MEALS_BASE_URL}/${token}/search.php?s=`);
-  const data = await response.json();
-
-  if (!data.meals) throw new Error('Não foram encontradas comidas!');
-
-  return data.meals.slice(0, MAX_RECIPES);
+const getTypeInfo = (type) => {
+  if (type === 'meals') {
+    return [getToken('mealsToken'), MEALS_BASE_URL];
+  }
+  return [getToken('cocktailsToken'), DRINKS_BASE_URL];
 };
 
-export const getDinks = async () => {
-  const token = getToken('cocktailsToken');
+export const getRecipes = async (type) => {
+  const [typeToken, typeUrl] = getTypeInfo(type);
 
-  const response = await fetch(`${DRINKS_BASE_URL}/${token}/search.php?s=`);
+  const response = await fetch(`${typeUrl}/${typeToken}/search.php?s=`);
   const data = await response.json();
 
-  if (!data.drinks) throw new Error('Não foram encontradas bebidas!');
+  if (!data[type]) throw new Error(ERROR_MESSAGE);
 
-  return data.drinks.slice(0, MAX_RECIPES);
+  return data[type].slice(0, MAX_RECIPES);
+};
+
+export const getRecipesByIngredient = async (type, ingredient) => {
+  const [typeToken, typeUrl] = getTypeInfo(type);
+
+  const response = await fetch(
+    `${typeUrl}/${typeToken}/filter.php?i=${ingredient}`,
+  );
+  const data = await response.json();
+
+  if (!data[type]) throw new Error(ERROR_MESSAGE);
+
+  return data[type].slice(0, MAX_RECIPES);
+};
+
+export const getRecipesByName = async (type, name) => {
+  const [typeToken, typeUrl] = getTypeInfo(type);
+
+  const response = await fetch(`${typeUrl}/${typeToken}/search.php?s=${name}`);
+  const data = await response.json();
+
+  if (!data[type]) throw new Error(ERROR_MESSAGE);
+
+  return data[type].slice(0, MAX_RECIPES);
+};
+
+export const getRecipesByFirstLetter = async (type, firstLetter) => {
+  const [typeToken, typeUrl] = getTypeInfo(type);
+
+  const response = await fetch(
+    `${typeUrl}/${typeToken}/search.php?f=${firstLetter}`,
+  );
+  const data = await response.json();
+
+  if (!data[type]) throw new Error(ERROR_MESSAGE);
+
+  return data[type].slice(0, MAX_RECIPES);
 };

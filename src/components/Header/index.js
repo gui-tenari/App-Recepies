@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom';
 
 import profileIcon from '../../images/profileIcon.svg';
 import searchIcon from '../../images/searchIcon.svg';
+import SearchBar from '../SearchBar';
 
 const Header = ({ title }) => {
-  const [inputValue, setInputValue] = useState('');
+  // const [inputValue, setInputValue] = useState('');
   const [showInputSearch, setShowInputSearch] = useState(false);
 
   return (
@@ -19,12 +20,13 @@ const Header = ({ title }) => {
       </div>
       <div>
         {showInputSearch && (
-          <input
-            data-testid="search-input"
-            type="text"
-            value={ inputValue }
-            onChange={ ({ target }) => setInputValue(target.value) }
-          />
+          // <input
+          //   data-testid="search-input"
+          //   type="text"
+          //   value={ inputValue }
+          //   onChange={ ({ target }) => setInputValue(target.value) }
+          // />
+          <SearchBar />
         )}
         <button
           type="button"
