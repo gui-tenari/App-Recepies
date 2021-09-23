@@ -27,10 +27,10 @@ function App() {
     <Switch>
       <Route exact path="/" component={ Login } />
       <Route path="/comidas/:id/in-progress" component={ MealProgress } />
-      <Route path="/comidas/:id" component={ MealDetails } />
+      <Route path="/comidas/:id" render={ (props) => <MealDetails { ...props } /> } />
       <Route path="/comidas" component={ Meals } />
       <Route path="/bebidas/:id/in-progress" component={ DrinkProgress } />
-      <Route path="/bebidas/:id" component={ DrinkDetails } />
+      <Route path="/bebidas/:id" render={ (props) => <DrinkDetails { ...props } /> } />
       <Route path="/bebidas" component={ Drinks } />
       <Route exact path="/explorar" component={ Explore } />
       <Route path="/explorar/comidas/ingredientes" component={ MealIngredients } />
