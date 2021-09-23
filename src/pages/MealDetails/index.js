@@ -7,7 +7,7 @@ const MealDetails = (props) => {
       params: { id },
     },
   } = props;
-  const [meals, setMeals] = useState({});
+  const [meal, setMeal] = useState({});
 
   useEffect(() => {
     async function getMeal() {
@@ -15,15 +15,16 @@ const MealDetails = (props) => {
         `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`,
       );
       const fetchedMeal = await promiseMeals.json();
-      setMeals(fetchedMeal.meals[0]);
+      setMeal(fetchedMeal.meals[0]);
     }
+
     getMeal();
   }, [id]);
 
   return (
     <div>
-      <img data-testid="recipe-photo" alt="meal" />
-      <h1 data-testid="recipe-title">{meals.name}</h1>
+      <img data-testid="recipe-photo" src={ meal.strMealThumb } alt={ meal.strMeal } />
+      <h1 data-testid="recipe-title">{meal.name}</h1>
       <button type="button" data-testid="share-btn">
         Compartilhar
       </button>
