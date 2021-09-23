@@ -2,6 +2,7 @@ import DRINKS_ACTIONS from '../actions/drinksActions';
 
 const INITIAL_STATE = {
   drinkList: [],
+  filteredDrinks: [],
   favoriteDrinks: [],
   isFetching: false,
   error: '',
@@ -10,7 +11,19 @@ const INITIAL_STATE = {
 const drinksReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case DRINKS_ACTIONS.SET_DRINKS:
-    return { ...state, isFetching: false, error: '', drinkList: action.payload };
+    return {
+      ...state,
+      isFetching: false,
+      error: '',
+      drinkList: action.payload,
+    };
+  case DRINKS_ACTIONS.SET_FILTERED_DRINKS:
+    return {
+      ...state,
+      isFetching: false,
+      error: '',
+      filteredDrinks: action.payload,
+    };
   case DRINKS_ACTIONS.REQUEST_API:
     return { ...state, isFetching: true };
   case DRINKS_ACTIONS.FAILED_REQUEST:

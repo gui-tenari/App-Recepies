@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
@@ -9,12 +10,18 @@ import Loading from '../../components/Loading';
 import { fetchDrinksThunk } from '../../redux/actions/drinksActions';
 
 const Drinks = () => {
-  const { drinkList, isFetching } = useSelector(({ drinks }) => drinks);
+  const { filteredDrinks, isFetching } = useSelector(({ drinks }) => drinks);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(fetchDrinksThunk());
   }, [dispatch]);
+
+  if (filteredDrinks.length === 1) {
+    const { idDrink } = filteredDrinks[0];
+    history.push(`/bebidas/${idDrink}`);
+  }
 
   return (
     <div>
@@ -23,7 +30,7 @@ const Drinks = () => {
       {isFetching ? (
         <Loading />
       ) : (
-        drinkList.map(({ idDrink, strDrinkThumb, strDrink }, index) => (
+        filteredDrinks.map(({ idDrink, strDrinkThumb, strDrink }, index) => (
           <RecipeCard
             key={ idDrink }
             thumb={ strDrinkThumb }

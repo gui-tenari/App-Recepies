@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import profileIcon from '../../images/profileIcon.svg';
 import searchIcon from '../../images/searchIcon.svg';
-import SearchBar from '../../pages/SearchBar';
+import SearchBar from '../SearchBar';
 
 const Header = ({ title }) => {
   // const [inputValue, setInputValue] = useState('');
