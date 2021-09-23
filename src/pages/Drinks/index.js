@@ -26,6 +26,7 @@ const Drinks = () => {
         drinkList.map(({ idDrink, strDrinkThumb, strDrink }, index) => (
           <RecipeCard
             key={ idDrink }
+            id={ idDrink }
             thumb={ strDrinkThumb }
             name={ strDrink }
             index={ index }
