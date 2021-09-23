@@ -12,7 +12,7 @@ const DrinkDetails = (props) => {
       setDrinks(fetchedDrink.drinks[0]);
     }
     getDrink();
-  }, []);
+  }, [id]);
 
   return (
     <div>

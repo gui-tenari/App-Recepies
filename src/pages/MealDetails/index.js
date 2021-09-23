@@ -18,7 +18,7 @@ const MealDetails = (props) => {
       setMeals(fetchedMeal.meals[0]);
     }
     getMeal();
-  }, []);
+  }, [id]);
 
   return (
     <div>
