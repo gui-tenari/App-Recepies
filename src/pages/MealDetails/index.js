@@ -80,21 +80,26 @@ const MealDetails = (props) => {
         </div>
       ))}
       {measures.map((measure, index) => (
-        <div
-          key={ measure }
-          data-testid={ `${index}-ingredient-name-and-measure` }
-        >
+        <div key={ measure } data-testid={ `${index}-ingredient-name-and-measure` }>
           {measure}
         </div>
       ))}
       <p data-testid="instructions">{meal.strInstructions}</p>
       <iframe data-testid="video" src={ meal.strYoutube } title={ meal.strMeal } />
-      {drinks.slice(0, MAX_RECOMENDATIONS).map((drink, index) => (
-        <div data-testid={ `${index}-recomendation-card` } key={ drink.strDrink }>
-          <span data-testid={ `${index}-recomendation-title` }>{drink.strDrink}</span>
-          <img src={ drink.strDrinkThumb } alt={ drink.strDrink } />
-        </div>
-      ))}
+      <div className="carousel">
+        {drinks.slice(0, MAX_RECOMENDATIONS).map((drink, index) => (
+          <div
+            className="recommendation-card"
+            data-testid={ `${index}-recomendation-card` }
+            key={ drink.strDrink }
+          >
+            <span data-testid={ `${index}-recomendation-title` }>
+              {drink.strDrink}
+            </span>
+            <img src={ drink.strDrinkThumb } alt={ drink.strDrink } />
+          </div>
+        ))}
+      </div>
       <button
         onClick={ startRecipe }
         className="start-recipe"

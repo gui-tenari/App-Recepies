@@ -1,20 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import './style.css';
 import { useHistory } from 'react-router-dom';
+
+import './style.css';
 
 const MAX_RECOMENDATIONS = 6;
 const MAX_NUMBER = 20;
 
 const DrinkDetails = (props) => {
-  const { match: { params: { id } } } = props;
+  const {
+    match: {
+      params: { id },
+    },
+  } = props;
   const [drink, setDrink] = useState({});
   const [meals, setMeals] = useState([]);
   const history = useHistory();
 
   useEffect(() => {
     async function getDrink() {
-      const promiseDrinks = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
+      const promiseDrinks = await fetch(
+        `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`,
+      );
       const fetchedDrink = await promiseDrinks.json();
       setDrink(fetchedDrink.drinks[0]);
     }
@@ -28,6 +35,7 @@ const DrinkDetails = (props) => {
       );
       const fetchedMeals = await promiseMeals.json();
       setMeals([...fetchedMeals.meals]);
+      console.log(fetchedMeals.meals);
     }
 
     getMeals();
@@ -74,21 +82,30 @@ const DrinkDetails = (props) => {
         </div>
       ))}
       {measures.map((measure, index) => (
-        <div
-          key={ measure }
-          data-testid={ `${index}-ingredient-name-and-measure` }
-        >
+        <div key={ measure } data-testid={ `${index}-ingredient-name-and-measure` }>
           {measure}
         </div>
       ))}
       <p data-testid="instructions">{drink.strInstructions}</p>
-      <iframe data-testid="video" src={ drink.strYoutube } title={ drink.strDrink } />
-      {meals.slice(0, MAX_RECOMENDATIONS).map((meal, index) => (
-        <div data-testid={ `${index}-recomendation-card` } key={ meal.strDrink }>
-          <span data-testid={ `${index}-recomendation-title` }>{meal.strDrink}</span>
-          <img src={ meal.strDrinkThumb } alt={ meal.strDrink } />
-        </div>
-      ))}
+      <iframe
+        data-testid="video"
+        src={ drink.strYoutube }
+        title={ drink.strDrink }
+      />
+      <div className="carousel">
+        {meals.slice(0, MAX_RECOMENDATIONS).map((meal, index) => (
+          <div
+            className="recommendation-card"
+            data-testid={ `${index}-recomendation-card` }
+            key={ meal.strMeal }
+          >
+            <span data-testid={ `${index}-recomendation-title` }>
+              {meal.strMeal}
+            </span>
+            <img src={ meal.strMealThumb } alt={ meal.strMeal } />
+          </div>
+        ))}
+      </div>
       <button
         onClick={ startRecipe }
         className="start-recipe"
