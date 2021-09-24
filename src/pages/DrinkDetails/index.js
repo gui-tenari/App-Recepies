@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import './style.css';
 
 const MAX_RECOMENDATIONS = 6;
 const MAX_NUMBER = 20;
@@ -82,7 +83,7 @@ const DrinkDetails = (props) => {
           <img src={ meal.strDrinkThumb } alt={ meal.strDrink } />
         </div>
       ))}
-      <button type="button" data-testid="start-recipe-btn">
+      <button className="start-recipe" type="button" data-testid="start-recipe-btn">
         Iniciar Receita
       </button>
     </div>
