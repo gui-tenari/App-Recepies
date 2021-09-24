@@ -3,7 +3,9 @@ import MEALS_ACTIONS from '../actions/mealsActions';
 const INITIAL_STATE = {
   mealList: [],
   filteredMeals: [],
+  categories: [],
   favoriteMeals: [],
+  filterType: '',
   isFetching: false,
   error: '',
 };
@@ -22,7 +24,15 @@ const mealsReducer = (state = INITIAL_STATE, action) => {
       ...state,
       isFetching: false,
       error: '',
-      filteredMeals: action.payload,
+      filteredMeals: action.payload.meals,
+      filterType: action.payload.filterType,
+    };
+  case MEALS_ACTIONS.SET_MEAL_CATEGORIES:
+    return {
+      ...state,
+      isFetching: false,
+      error: '',
+      categories: action.payload,
     };
   case MEALS_ACTIONS.REQUEST_API:
     return { ...state, isFetching: true };
