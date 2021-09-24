@@ -3,6 +3,7 @@ import DRINKS_ACTIONS from '../actions/drinksActions';
 const INITIAL_STATE = {
   drinkList: [],
   filteredDrinks: [],
+  categories: [],
   favoriteDrinks: [],
   isFetching: false,
   error: '',
@@ -23,6 +24,13 @@ const drinksReducer = (state = INITIAL_STATE, action) => {
       isFetching: false,
       error: '',
       filteredDrinks: action.payload,
+    };
+  case DRINKS_ACTIONS.SET_DRINK_CATEGORIES:
+    return {
+      ...state,
+      isFetching: false,
+      error: '',
+      categories: action.payload,
     };
   case DRINKS_ACTIONS.REQUEST_API:
     return { ...state, isFetching: true };

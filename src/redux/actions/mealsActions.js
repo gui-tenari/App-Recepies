@@ -3,6 +3,7 @@ import {
   getRecipesByIngredient,
   getRecipesByName,
   getRecipesByFirstLetter,
+  getRecipeCategories,
 } from '../../services/recipesAPI';
 
 const RECIPES_NOT_FOUND = 'Sinto muito, não encontramos nenhuma'
@@ -11,6 +12,7 @@ const RECIPES_NOT_FOUND = 'Sinto muito, não encontramos nenhuma'
 const MEALS_ACTIONS = {
   SET_MEALS: 'SET_MEALS',
   SET_FILTERED_MEALS: 'SET_FILTERED_MEALS',
+  SET_MEAL_CATEGORIES: 'SET_MEAL_CATEGORIES',
   SET_FAVORITE: 'SET_FAVORITE',
   REQUEST_API: 'REQUEST_API',
   FAILED_REQUEST: 'FAILED_REQUEST',
@@ -21,6 +23,11 @@ const setMeals = (meals) => ({ type: MEALS_ACTIONS.SET_MEALS, payload: meals });
 const setFilteredMeals = (meals) => ({
   type: MEALS_ACTIONS.SET_FILTERED_MEALS,
   payload: meals,
+});
+
+const setCategories = (categories) => ({
+  type: MEALS_ACTIONS.SET_MEAL_CATEGORIES,
+  payload: categories,
 });
 
 const requestApi = () => ({ type: MEALS_ACTIONS.REQUEST_API });
@@ -78,6 +85,25 @@ export const setMealsByFirstLetter = (type, search) => async (dispatch) => {
     dispatch(setFilteredMeals(meals));
   } catch (error) {
     global.alert(RECIPES_NOT_FOUND);
+    dispatch(failedRequest(error.message));
+  }
+};
+
+export const setMealCategories = () => async (dispatch, getState) => {
+  dispatch(requestApi());
+
+  try {
+    const { meals } = getState();
+    const { categories } = meals;
+
+    console.log(categories);
+
+    if (!categories.length) {
+      const retrievedCategories = await getRecipeCategories('meals');
+
+      dispatch(setCategories(retrievedCategories));
+    }
+  } catch (error) {
     dispatch(failedRequest(error.message));
   }
 };

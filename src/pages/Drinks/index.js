@@ -6,6 +6,7 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import RecipeCard from '../../components/RecipeCard';
 import Loading from '../../components/Loading';
+import CategoryFilters from '../../components/CategoryFilters';
 
 import { fetchDrinksThunk } from '../../redux/actions/drinksActions';
 
@@ -26,7 +27,7 @@ const Drinks = () => {
   return (
     <div>
       <Header title="Bebidas" />
-      <h1>Bebidas</h1>
+      <CategoryFilters type="drinks" />
       {isFetching ? (
         <Loading />
       ) : (
