@@ -78,6 +78,19 @@ export const getRecipesByFirstLetter = async (type, firstLetter) => {
   return data[type].slice(0, MAX_RECIPES);
 };
 
+export const getRecipesByCategory = async (type, category) => {
+  const [typeToken, typeUrl] = getTypeInfo(type);
+
+  const response = await fetch(
+    `${typeUrl}/${typeToken}/filter.php?c=${category}`,
+  );
+  const data = await response.json();
+
+  if (!data[type]) throw new Error(ERROR_MESSAGE);
+
+  return data[type].slice(0, MAX_RECIPES);
+};
+
 export const getRecipeCategories = async (type) => {
   const [typeToken, typeUrl] = getTypeInfo(type);
 

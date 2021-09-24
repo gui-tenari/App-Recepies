@@ -25,7 +25,7 @@ const CategoryFilters = ({ type }) => {
   return (
     <div className="category-filters">
       {categories.map(({ strCategory: category }) => (
-        <CategoryButton key={ category } category={ category } />
+        <CategoryButton key={ category } category={ category } type={ type } />
       ))}
     </div>
   );

@@ -4,6 +4,7 @@ import {
   getRecipesByName,
   getRecipesByFirstLetter,
   getRecipeCategories,
+  getRecipesByCategory,
 } from '../../services/recipesAPI';
 
 const RECIPES_NOT_FOUND = 'Sinto muito, não encontramos nenhuma'
@@ -22,9 +23,9 @@ const setDrinks = (drinks) => ({
   payload: drinks,
 });
 
-const setFilteredDrinks = (drinks) => ({
+const setFilteredDrinks = (drinks, filterType) => ({
   type: DRINKS_ACTIONS.SET_FILTERED_DRINKS,
-  payload: drinks,
+  payload: { drinks, filterType },
 });
 
 const setCategories = (categories) => ({
@@ -58,7 +59,7 @@ export const setDrinksByIngredient = (type, search) => async (dispatch) => {
   try {
     const drinks = await getRecipesByIngredient(type, search);
 
-    dispatch(setFilteredDrinks(drinks));
+    dispatch(setFilteredDrinks(drinks, 'query'));
   } catch (error) {
     global.alert(RECIPES_NOT_FOUND);
     dispatch(failedRequest(error.message));
@@ -72,7 +73,7 @@ export const setDrinksByName = (type, search) => async (dispatch) => {
   try {
     const drinks = await getRecipesByName(type, search);
 
-    dispatch(setFilteredDrinks(drinks));
+    dispatch(setFilteredDrinks(drinks, 'query'));
   } catch (error) {
     global.alert(RECIPES_NOT_FOUND);
     dispatch(failedRequest(error.message));
@@ -85,9 +86,21 @@ export const setDrinksByFirstLetter = (type, search) => async (dispatch) => {
   try {
     const drinks = await getRecipesByFirstLetter(type, search);
 
-    dispatch(setFilteredDrinks(drinks));
+    dispatch(setFilteredDrinks(drinks, 'query'));
   } catch (error) {
     global.alert(RECIPES_NOT_FOUND);
+    dispatch(failedRequest(error.message));
+  }
+};
+
+export const setDrinksByCategory = (category) => async (dispatch) => {
+  dispatch(requestApi());
+
+  try {
+    const drinks = await getRecipesByCategory('drinks', category);
+
+    dispatch(setFilteredDrinks(drinks, 'category'));
+  } catch (error) {
     dispatch(failedRequest(error.message));
   }
 };

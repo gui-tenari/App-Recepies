@@ -11,7 +11,7 @@ import CategoryFilters from '../../components/CategoryFilters';
 import { fetchDrinksThunk } from '../../redux/actions/drinksActions';
 
 const Drinks = () => {
-  const { filteredDrinks, isFetching } = useSelector(({ drinks }) => drinks);
+  const { filteredDrinks, isFetching, filterType } = useSelector(({ drinks }) => drinks);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -19,7 +19,7 @@ const Drinks = () => {
     dispatch(fetchDrinksThunk());
   }, [dispatch]);
 
-  if (filteredDrinks.length === 1) {
+  if (filteredDrinks.length === 1 && filterType === 'query') {
     const { idDrink } = filteredDrinks[0];
     history.push(`/bebidas/${idDrink}`);
   }

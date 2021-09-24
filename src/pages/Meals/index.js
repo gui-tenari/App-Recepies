@@ -11,7 +11,7 @@ import CategoryFilters from '../../components/CategoryFilters';
 import { fetchMealsThunk } from '../../redux/actions/mealsActions';
 
 const Meals = () => {
-  const { filteredMeals, isFetching } = useSelector(({ meals }) => meals);
+  const { filteredMeals, isFetching, filterType } = useSelector(({ meals }) => meals);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -19,7 +19,7 @@ const Meals = () => {
     dispatch(fetchMealsThunk());
   }, [dispatch]);
 
-  if (filteredMeals.length === 1) {
+  if (filteredMeals.length === 1 && filterType === 'query') {
     const { idMeal } = filteredMeals[0];
 
     history.push(`/comidas/${idMeal}`);

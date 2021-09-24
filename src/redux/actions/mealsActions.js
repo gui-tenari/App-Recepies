@@ -3,6 +3,7 @@ import {
   getRecipesByIngredient,
   getRecipesByName,
   getRecipesByFirstLetter,
+  getRecipesByCategory,
   getRecipeCategories,
 } from '../../services/recipesAPI';
 
@@ -20,9 +21,9 @@ const MEALS_ACTIONS = {
 
 const setMeals = (meals) => ({ type: MEALS_ACTIONS.SET_MEALS, payload: meals });
 
-const setFilteredMeals = (meals) => ({
+const setFilteredMeals = (meals, filterType) => ({
   type: MEALS_ACTIONS.SET_FILTERED_MEALS,
-  payload: meals,
+  payload: { meals, filterType },
 });
 
 const setCategories = (categories) => ({
@@ -44,7 +45,7 @@ export const fetchMealsThunk = () => async (dispatch) => {
     const meals = await getRecipes('meals');
 
     dispatch(setMeals(meals));
-    dispatch(setFilteredMeals(meals));
+    dispatch(setFilteredMeals(meals, 'query'));
   } catch (error) {
     dispatch(failedRequest(error.message));
   }
@@ -56,7 +57,7 @@ export const setMealsByIngredient = (type, search) => async (dispatch) => {
   try {
     const meals = await getRecipesByIngredient(type, search);
 
-    dispatch(setFilteredMeals(meals));
+    dispatch(setFilteredMeals(meals, 'query'));
   } catch (error) {
     global.alert(RECIPES_NOT_FOUND);
     dispatch(failedRequest(error.message));
@@ -69,7 +70,7 @@ export const setMealsByName = (type, search) => async (dispatch) => {
   try {
     const meals = await getRecipesByName(type, search);
 
-    dispatch(setFilteredMeals(meals));
+    dispatch(setFilteredMeals(meals, 'query'));
   } catch (error) {
     global.alert(RECIPES_NOT_FOUND);
     dispatch(failedRequest(error.message));
@@ -82,9 +83,21 @@ export const setMealsByFirstLetter = (type, search) => async (dispatch) => {
   try {
     const meals = await getRecipesByFirstLetter(type, search);
 
-    dispatch(setFilteredMeals(meals));
+    dispatch(setFilteredMeals(meals, 'query'));
   } catch (error) {
     global.alert(RECIPES_NOT_FOUND);
+    dispatch(failedRequest(error.message));
+  }
+};
+
+export const setMealsByCategory = (category) => async (dispatch) => {
+  dispatch(requestApi());
+
+  try {
+    const meals = await getRecipesByCategory('meals', category);
+
+    dispatch(setFilteredMeals(meals, 'category'));
+  } catch (error) {
     dispatch(failedRequest(error.message));
   }
 };
