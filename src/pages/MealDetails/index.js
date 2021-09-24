@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 const MAX_RECOMENDATIONS = 6;
+const MAX_NUMBER = 20;
 
 const MealDetails = (props) => {
   const {
@@ -32,9 +33,21 @@ const MealDetails = (props) => {
       const fetchedDrinks = await promiseDrinks.json();
       setDrinks([...fetchedDrinks.drinks]);
     }
-
     getDrinks();
   }, []);
+
+  const ingredients = [];
+  for (let i = 1; i <= MAX_NUMBER; i += 1) {
+    if (meal[`strIngredient${i}`] !== '') {
+      ingredients.push(meal[`strIngredient${i}`]);
+    }
+  }
+  const measures = [];
+  for (let i = 1; i <= MAX_NUMBER; i += 1) {
+    if (meal[`strMeasure${i}`] !== '') {
+      measures.push(meal[`strMeasure${i}`]);
+    }
+  }
 
   return (
     <div>
@@ -51,7 +64,22 @@ const MealDetails = (props) => {
         Favoritar
       </button>
       <p data-testid="recipe-category">{meal.strCategory}</p>
-      <div data-testid={ `${id}-ingredient-name-and-measure` }>Ingredientes</div>
+      {ingredients.map((ingredient, index) => (
+        <div
+          key={ ingredient }
+          data-testid={ `${index}-ingredient-name-and-measure` }
+        >
+          {ingredient}
+        </div>
+      ))}
+      {measures.map((measure, index) => (
+        <div
+          key={ measure }
+          data-testid={ `${index}-ingredient-name-and-measure` }
+        >
+          {measure}
+        </div>
+      ))}
       <p data-testid="instructions">{meal.strInstructions}</p>
       <iframe data-testid="video" src={ meal.strYoutube } title={ meal.strMeal } />
       {drinks.slice(0, MAX_RECOMENDATIONS).map((drink, index) => (
