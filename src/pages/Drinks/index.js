@@ -25,7 +25,7 @@ const Drinks = () => {
 
   return (
     <div>
-      <Header title="Bebidas" />
+      <Header title="Bebidas" hasSearchBar />
       <h1>Bebidas</h1>
       {isFetching ? (
         <Loading />

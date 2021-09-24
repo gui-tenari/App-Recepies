@@ -1,7 +1,11 @@
 import React from 'react';
 
+import Header from '../../components/Header';
+
 const FavoriteRecipes = () => (
-  <div />
+  <div>
+    <Header title="Receitas Favoritas" />
+  </div>
 );
 
 export default FavoriteRecipes;

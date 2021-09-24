@@ -26,7 +26,7 @@ const Meals = () => {
 
   return (
     <div>
-      <Header title="Comidas" />
+      <Header title="Comidas" hasSearchBar />
       <h1>MEALS</h1>
       {isFetching ? (
         <Loading />

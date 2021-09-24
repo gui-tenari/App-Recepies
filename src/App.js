@@ -35,10 +35,10 @@ function App() {
       <Route exact path="/explorar" component={ Explore } />
       <Route path="/explorar/comidas/ingredientes" component={ MealIngredients } />
       <Route path="/explorar/comidas/area" component={ MealAreas } />
-      <Route path="/explorar/comidas" component={ ExploreMeals } />
-      <Route path="/explorar/bebidas/ingredients" component={ DrinkIngredients } />
+      <Route exact path="/explorar/comidas" component={ ExploreMeals } />
+      <Route path="/explorar/bebidas/ingredientes" component={ DrinkIngredients } />
       <Route path="/explorar/bebidas/area" component={ DrinkAreas } />
-      <Route path="/explorar/bebidas" component={ ExploreDrinks } />
+      <Route exact path="/explorar/bebidas" component={ ExploreDrinks } />
       <Route path="/perfil" component={ Profile } />
       <Route path="/receitas-feitas" component={ FinishedRecipes } />
       <Route path="/receitas-favoritas" component={ FavoriteRecipes } />
