@@ -69,7 +69,6 @@ export const setDrinksByIngredient = (type, search) => async (dispatch) => {
 export const setDrinksByName = (type, search) => async (dispatch) => {
   dispatch(requestApi());
 
-  console.log(type, search);
   try {
     const drinks = await getRecipesByName(type, search);
 

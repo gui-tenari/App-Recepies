@@ -109,8 +109,6 @@ export const setMealCategories = () => async (dispatch, getState) => {
     const { meals } = getState();
     const { categories } = meals;
 
-    console.log(categories);
-
     if (!categories.length) {
       const retrievedCategories = await getRecipeCategories('meals');
 
