@@ -1,7 +1,9 @@
 const MEALS_BASE_URL = 'https://www.themealdb.com/api/json/v1';
 const DRINKS_BASE_URL = 'https://www.thecocktaildb.com/api/json/v1';
 const ERROR_MESSAGE = 'Não foram encontradas receitas!';
+
 const MAX_RECIPES = 12;
+const MAX_CATEGORIES = 5;
 
 const getToken = (key) => {
   const token = localStorage.getItem(key);
@@ -26,6 +28,17 @@ export const getRecipes = async (type) => {
   if (!data[type]) throw new Error(ERROR_MESSAGE);
 
   return data[type].slice(0, MAX_RECIPES);
+};
+
+export const getRecipeById = async (type, id) => {
+  const [typeToken, typeUrl] = getTypeInfo(type);
+
+  const response = await fetch(`${typeUrl}/${typeToken}/lookup.php?i=${id}`);
+  const data = await response.json();
+
+  if (!data[type]) throw new Error(ERROR_MESSAGE);
+
+  return data[type][0];
 };
 
 export const getRecipesByIngredient = async (type, ingredient) => {
@@ -63,4 +76,28 @@ export const getRecipesByFirstLetter = async (type, firstLetter) => {
   if (!data[type]) throw new Error(ERROR_MESSAGE);
 
   return data[type].slice(0, MAX_RECIPES);
+};
+
+export const getRecipesByCategory = async (type, category) => {
+  const [typeToken, typeUrl] = getTypeInfo(type);
+
+  const response = await fetch(
+    `${typeUrl}/${typeToken}/filter.php?c=${category}`,
+  );
+  const data = await response.json();
+
+  if (!data[type]) throw new Error(ERROR_MESSAGE);
+
+  return data[type].slice(0, MAX_RECIPES);
+};
+
+export const getRecipeCategories = async (type) => {
+  const [typeToken, typeUrl] = getTypeInfo(type);
+
+  const response = await fetch(`${typeUrl}/${typeToken}/list.php?c=list`);
+  const data = await response.json();
+
+  if (!data[type]) throw new Error(ERROR_MESSAGE);
+
+  return data[type].slice(0, MAX_CATEGORIES);
 };

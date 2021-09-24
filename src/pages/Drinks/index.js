@@ -6,11 +6,12 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import RecipeCard from '../../components/RecipeCard';
 import Loading from '../../components/Loading';
+import CategoryFilters from '../../components/CategoryFilters';
 
 import { fetchDrinksThunk } from '../../redux/actions/drinksActions';
 
 const Drinks = () => {
-  const { filteredDrinks, isFetching } = useSelector(({ drinks }) => drinks);
+  const { filteredDrinks, isFetching, filterType } = useSelector(({ drinks }) => drinks);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -18,7 +19,7 @@ const Drinks = () => {
     dispatch(fetchDrinksThunk());
   }, [dispatch]);
 
-  if (filteredDrinks.length === 1) {
+  if (filteredDrinks.length === 1 && filterType === 'query') {
     const { idDrink } = filteredDrinks[0];
     history.push(`/bebidas/${idDrink}`);
   }
@@ -26,7 +27,7 @@ const Drinks = () => {
   return (
     <div>
       <Header title="Bebidas" />
-      <h1>Bebidas</h1>
+      <CategoryFilters type="drinks" />
       {isFetching ? (
         <Loading />
       ) : (
