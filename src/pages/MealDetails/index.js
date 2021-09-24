@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import './style.css';
+import { useHistory } from 'react-router-dom';
 
 const MAX_RECOMENDATIONS = 6;
 const MAX_NUMBER = 20;
@@ -13,6 +14,7 @@ const MealDetails = (props) => {
   } = props;
   const [meal, setMeal] = useState({});
   const [drinks, setDrinks] = useState([]);
+  const history = useHistory();
 
   useEffect(() => {
     async function getMeal() {
@@ -48,6 +50,10 @@ const MealDetails = (props) => {
     if (meal[`strMeasure${i}`] !== '') {
       measures.push(meal[`strMeasure${i}`]);
     }
+  }
+
+  function startRecipe() {
+    history.push(`/comidas/${id}/in-progress`);
   }
 
   return (
@@ -89,7 +95,12 @@ const MealDetails = (props) => {
           <img src={ drink.strDrinkThumb } alt={ drink.strDrink } />
         </div>
       ))}
-      <button className="start-recipe" type="button" data-testid="start-recipe-btn">
+      <button
+        onClick={ startRecipe }
+        className="start-recipe"
+        type="button"
+        data-testid="start-recipe-btn"
+      >
         Iniciar Receita
       </button>
     </div>
