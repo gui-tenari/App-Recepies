@@ -34,9 +34,9 @@ const mealsReducer = (state = INITIAL_STATE, action) => {
       error: '',
       categories: action.payload,
     };
-  case MEALS_ACTIONS.REQUEST_API:
+  case MEALS_ACTIONS.REQUEST_MEALS_API:
     return { ...state, isFetching: true };
-  case MEALS_ACTIONS.FAILED_REQUEST:
+  case MEALS_ACTIONS.FAILED_MEALS_REQUEST:
     return { ...state, isFetching: false, error: action.payload };
   default:
     return state;
