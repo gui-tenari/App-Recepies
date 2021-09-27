@@ -22,16 +22,11 @@ function DrinkProgress(props) {
 
   const MAX_NUMBER = 20;
 
-  // for ()
   const ingredients = [];
   for (let i = 1; i <= MAX_NUMBER; i += 1) {
     if (drink[`strIngredient${i}`]) {
       ingredients.push(drink[`strIngredient${i}`]);
-      console.log(!!drink[`strIngredient${i}`]);
     }
-    // if (drink[`strIngredient${i}`] !== null && (drink[`strIngredient${i}`] !== '')) {
-    ingredients.push(drink[`strIngredient${i}`]);
-    // }
   }
 
   return (

@@ -23,7 +23,7 @@ function MealProgress(props) {
 
   const ingredients = [];
   for (let i = 1; i <= MAX_NUMBER; i += 1) {
-    if (meal[`strIngredient${i}`] !== '') {
+    if (meal[`strIngredient${i}`]) {
       ingredients.push(meal[`strIngredient${i}`]);
     }
   }
