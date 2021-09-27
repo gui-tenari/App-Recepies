@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import './style.css';
 import { useHistory } from 'react-router-dom';
+
+import Loading from '../../components/Loading';
+
+import './style.css';
 
 const MAX_RECOMENDATIONS = 6;
 const MAX_NUMBER = 20;
@@ -56,6 +59,10 @@ const MealDetails = (props) => {
     history.push(`/comidas/${id}/in-progress`);
   }
 
+  if (!meal.strMeal) {
+    return <Loading />;
+  }
+
   return (
     <div>
       <img
@@ -72,20 +79,21 @@ const MealDetails = (props) => {
       </button>
       <p data-testid="recipe-category">{meal.strCategory}</p>
       {ingredients.map((ingredient, index) => (
-        <div
-          key={ ingredient }
-          data-testid={ `${index}-ingredient-name-and-measure` }
-        >
+        <div key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
           {ingredient}
         </div>
       ))}
       {measures.map((measure, index) => (
-        <div key={ measure } data-testid={ `${index}-ingredient-name-and-measure` }>
+        <div key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
           {measure}
         </div>
       ))}
       <p data-testid="instructions">{meal.strInstructions}</p>
-      <iframe data-testid="video" src={ meal.strYoutube } title={ meal.strMeal } />
+      <iframe
+        data-testid="video"
+        src={ meal.strYoutube.replace(/(?<=\.com)\//, '/embed/') }
+        title={ meal.strMeal }
+      />
       <div className="carousel">
         {drinks.slice(0, MAX_RECOMENDATIONS).map((drink, index) => (
           <div
@@ -115,7 +123,7 @@ const MealDetails = (props) => {
 MealDetails.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      id: PropTypes.number,
+      id: PropTypes.string,
     }),
   }).isRequired,
 };

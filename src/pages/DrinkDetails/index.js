@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 
+import Loading from '../../components/Loading';
+
 import './style.css';
 
 const MAX_RECOMENDATIONS = 6;
@@ -35,7 +37,6 @@ const DrinkDetails = (props) => {
       );
       const fetchedMeals = await promiseMeals.json();
       setMeals([...fetchedMeals.meals]);
-      console.log(fetchedMeals.meals);
     }
 
     getMeals();
@@ -58,6 +59,10 @@ const DrinkDetails = (props) => {
     history.push(`/bebidas/${id}/in-progress`);
   }
 
+  if (!drink.strDrink) {
+    return <Loading />;
+  }
+
   return (
     <div>
       <img
@@ -75,23 +80,18 @@ const DrinkDetails = (props) => {
       <p data-testid="recipe-category">{drink.strAlcoholic}</p>
       {ingredients.map((ingredient, index) => (
         <div
-          key={ ingredient }
+          key={ index }
           data-testid={ `${index}-ingredient-name-and-measure` }
         >
           {ingredient}
         </div>
       ))}
       {measures.map((measure, index) => (
-        <div key={ measure } data-testid={ `${index}-ingredient-name-and-measure` }>
+        <div key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
           {measure}
         </div>
       ))}
       <p data-testid="instructions">{drink.strInstructions}</p>
-      <iframe
-        data-testid="video"
-        src={ drink.strYoutube }
-        title={ drink.strDrink }
-      />
       <div className="carousel">
         {meals.slice(0, MAX_RECOMENDATIONS).map((meal, index) => (
           <div
@@ -121,7 +121,7 @@ const DrinkDetails = (props) => {
 DrinkDetails.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      id: PropTypes.number,
+      id: PropTypes.string,
     }),
   }).isRequired,
 };

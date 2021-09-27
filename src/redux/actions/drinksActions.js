@@ -14,8 +14,8 @@ const DRINKS_ACTIONS = {
   SET_DRINKS: 'SET_DRINKS',
   SET_FILTERED_DRINKS: 'SET_FILTERED_DRINKS',
   SET_DRINK_CATEGORIES: 'SET_DRINK_CATEGORIES',
-  REQUEST_API: 'REQUEST_API',
-  FAILED_REQUEST: 'FAILED_REQUEST',
+  REQUEST_DRINKS_API: 'REQUEST_DRINKS_API',
+  FAILED_DRINKS_REQUEST: 'FAILED_DRINKS_REQUEST',
 };
 
 const setDrinks = (drinks) => ({
@@ -23,7 +23,7 @@ const setDrinks = (drinks) => ({
   payload: drinks,
 });
 
-const setFilteredDrinks = (drinks, filterType) => ({
+export const setFilteredDrinks = (drinks, filterType) => ({
   type: DRINKS_ACTIONS.SET_FILTERED_DRINKS,
   payload: { drinks, filterType },
 });
@@ -33,10 +33,10 @@ const setCategories = (categories) => ({
   payload: categories,
 });
 
-const requestApi = () => ({ type: DRINKS_ACTIONS.REQUEST_API });
+const requestApi = () => ({ type: DRINKS_ACTIONS.REQUEST_DRINKS_API });
 
 const failedRequest = (error) => ({
-  type: DRINKS_ACTIONS.FAILED_REQUEST,
+  type: DRINKS_ACTIONS.FAILED_DRINKS_REQUEST,
   payload: error,
 });
 
