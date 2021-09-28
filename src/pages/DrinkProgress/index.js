@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-// import { indexOf } from 'lodash';
+import { useHistory } from 'react-router-dom';
 
 function DrinkProgress(props) {
   const {
@@ -10,6 +10,7 @@ function DrinkProgress(props) {
   } = props;
 
   const [drink, setDrink] = useState({});
+  const history = useHistory();
 
   useEffect(() => {
     async function getDrinks() {
@@ -29,6 +30,10 @@ function DrinkProgress(props) {
     }
   }
 
+  function handleClickBebidas() {
+    history.push('/receitas-feitas');
+  }
+
   return (
     <div>
       <img
@@ -45,21 +50,21 @@ function DrinkProgress(props) {
       </button>
       <p data-testid="recipe-category">{drink.strAlcoholic}</p>
       {ingredients.map((ingredient, index) => (
-        <div
+        <label
           key={ ingredient }
           data-testid={ `${index}-ingredient-step` }
+          htmlFor={ `${index}-ingredient` }
         >
+          <input
+            type="checkbox"
+            id={ `${index}-ingredient` }
+          />
           {ingredient}
-        </div>
+        </label>
       ))}
-      {/* {measures.map((measure, index) => (
-        <div key={ measure } data-testid={ `${index}-ingredient-name-and-measure` }>
-          {measure}
-        </div>
-      ))} */}
       <p data-testid="instructions">{drink.strInstructions}</p>
       <button
-        // onClick={ startRecipe }
+        onClick={ handleClickBebidas }
         className="start-recipe"
         type="button"
         data-testid="finish-recipe-btn"

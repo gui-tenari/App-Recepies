@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
+
+import './style.css';
 
 const MAX_NUMBER = 20;
 
@@ -10,7 +13,9 @@ function MealProgress(props) {
     },
   } = props;
   const [meal, setMeal] = useState({});
-  // const [drinks, setDrinks] = useState([]);
+  const [saveIngredient, setSaveIngredient] = useState([]);
+  // const [, setSaveIngredient] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     async function getMeal() {
@@ -19,13 +24,33 @@ function MealProgress(props) {
       setMeal(fetchedMeal.meals[0]);
     }
     getMeal();
+    // return(() => {
+
+    // });
   }, [id]);
+
+  function handlerClick(e) {
+    if (e.target.checked && !saveIngredient.includes(e.target.name)) {
+      setSaveIngredient([...saveIngredient, e.target.name]);
+      console.log(saveIngredient);
+    } else {
+      setSaveIngredient(saveIngredient.filter((name) => e.target.name !== name));
+    }
+  }
+
+  useEffect(() => {
+
+  }, []);
 
   const ingredients = [];
   for (let i = 1; i <= MAX_NUMBER; i += 1) {
     if (meal[`strIngredient${i}`]) {
       ingredients.push(meal[`strIngredient${i}`]);
     }
+  }
+
+  function handleClickComidas() {
+    history.push('/receitas-feitas');
   }
 
   return (
@@ -44,26 +69,29 @@ function MealProgress(props) {
       </button>
       <p data-testid="recipe-category">{meal.strCategory}</p>
       {ingredients.map((ingredient, index) => (
-        <div
+        <label
           key={ ingredient }
           data-testid={ `${index}-ingredient-step` }
+          htmlFor={ `${index}-ingredient` }
+          className={ saveIngredient.includes(ingredient) ? 'finished' : '' }
         >
+          <input
+            type="checkbox"
+            id={ `${index}-ingredient` }
+            name={ ingredient }
+            onClick={ handlerClick }
+          />
           {ingredient}
-        </div>
+        </label>
       ))}
       <p data-testid="instructions">{meal.strInstructions}</p>
-      {/* {measures.map((measure, index) => (
-        <div key={ measure } data-testid={ `${index}-ingredient-name-and-measure` }>
-          {measure}
-        </div>
-      ))} */}
       <button
-        // onClick={  }
+        onClick={ handleClickComidas }
         className="start-recipe"
         type="button"
         data-testid="finish-recipe-btn"
       >
-        Iniciar Receita
+        Finalizar Receita
       </button>
     </div>
   );
@@ -78,15 +106,3 @@ MealProgress.propTypes = {
 };
 
 export default MealProgress;
-
-// 47 - Desenvolva a tela de maneira que contenha uma imagem da receita, seu titulo, sua categoria (ou se a bebida é alcoólica ou não) uma lista de ingredientes com suas respectivas quantidade e suas instruções
-// Verifica se os atributos data-testid estão presentes na tela com suas respectivas quantidades:
-
-// A foto deve possuir o atributo data-testid="recipe-photo";
-// O título deve possuir o atributo data-testid="recipe-title";
-// O botão de compartilhar deve possuir o atributo data-testid="share-btn";
-// O botão de favoritar deve possuir o atributo data-testid="favorite-btn";
-// O texto da categoria deve possuir o atributo data-testid="recipe-category";
-// Os ingredientes devem possuir o atributo data-testid=${index}-ingredient-step, a verificação será feita pelo length do atributo.
-// O elemento de instruções deve possuir o atributo data-testid="instructions";
-// O botão para finalizar a receita deve possuir o atributo data-testid="finish-recipe-btn".
