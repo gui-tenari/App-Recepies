@@ -4,6 +4,14 @@ import { useHistory } from 'react-router-dom';
 
 import Loading from '../../components/Loading';
 
+import {
+  getFavoriteRecipes,
+  toggleFavoriteRecipe,
+} from '../../utils/localStorageHelpers';
+
+import whiteHeart from '../../images/whiteHeartIcon.svg';
+import blackHeart from '../../images/blackHeartIcon.svg';
+
 import './style.css';
 
 const MAX_RECOMENDATIONS = 6;
@@ -15,8 +23,11 @@ const DrinkDetails = (props) => {
       params: { id },
     },
   } = props;
+
   const [drink, setDrink] = useState({});
+  const [isFavorite, setFavorite] = useState(false);
   const [meals, setMeals] = useState([]);
+
   const history = useHistory();
 
   useEffect(() => {
@@ -24,11 +35,23 @@ const DrinkDetails = (props) => {
       const promiseDrinks = await fetch(
         `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`,
       );
-      const fetchedDrink = await promiseDrinks.json();
-      setDrink(fetchedDrink.drinks[0]);
+      const { drinks } = await promiseDrinks.json();
+      const fetchedDrink = drinks[0];
+
+      setDrink(fetchedDrink);
     }
     getDrink();
   }, [id]);
+
+  useEffect(() => {
+    const favoriteRecipes = getFavoriteRecipes();
+
+    setFavorite(
+      favoriteRecipes.some(
+        (favoriteRecipe) => favoriteRecipe.id === drink.idDrink,
+      ),
+    );
+  }, [drink]);
 
   useEffect(() => {
     async function getMeals() {
@@ -59,6 +82,11 @@ const DrinkDetails = (props) => {
     history.push(`/bebidas/${id}/in-progress`);
   }
 
+  async function handleFavoriteClick() {
+    toggleFavoriteRecipe(drink, 'bebida', isFavorite);
+    setFavorite(!isFavorite);
+  }
+
   if (!drink.strDrink) {
     return <Loading />;
   }
@@ -74,15 +102,17 @@ const DrinkDetails = (props) => {
       <button type="button" data-testid="share-btn">
         Compartilhar
       </button>
-      <button type="button" data-testid="favorite-btn">
-        Favoritar
+      <button type="button" onClick={ handleFavoriteClick }>
+        <img
+          data-testid="favorite-btn"
+          src={ isFavorite ? blackHeart : whiteHeart }
+          alt="favorite"
+          style={ { pointerEvents: 'none' } }
+        />
       </button>
       <p data-testid="recipe-category">{drink.strAlcoholic}</p>
       {ingredients.map((ingredient, index) => (
-        <div
-          key={ index }
-          data-testid={ `${index}-ingredient-name-and-measure` }
-        >
+        <div key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
           {ingredient}
         </div>
       ))}

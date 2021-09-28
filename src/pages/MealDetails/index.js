@@ -4,6 +4,14 @@ import { useHistory } from 'react-router-dom';
 
 import Loading from '../../components/Loading';
 
+import {
+  getFavoriteRecipes,
+  toggleFavoriteRecipe,
+} from '../../utils/localStorageHelpers';
+
+import whiteHeart from '../../images/whiteHeartIcon.svg';
+import blackHeart from '../../images/blackHeartIcon.svg';
+
 import './style.css';
 
 const MAX_RECOMENDATIONS = 6;
@@ -15,8 +23,11 @@ const MealDetails = (props) => {
       params: { id },
     },
   } = props;
+
   const [meal, setMeal] = useState({});
   const [drinks, setDrinks] = useState([]);
+  const [isFavorite, setFavorite] = useState(false);
+
   const history = useHistory();
 
   useEffect(() => {
@@ -24,12 +35,22 @@ const MealDetails = (props) => {
       const promiseMeals = await fetch(
         `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`,
       );
-      const fetchedMeal = await promiseMeals.json();
-      setMeal(fetchedMeal.meals[0]);
+      const { meals } = await promiseMeals.json();
+      const fetchedMeal = meals[0];
+      setMeal(fetchedMeal);
     }
-
     getMeal();
   }, [id]);
+
+  useEffect(() => {
+    const favoriteRecipes = getFavoriteRecipes();
+
+    setFavorite(
+      favoriteRecipes.some(
+        (favoriteRecipe) => favoriteRecipe.id === meal.idMeal,
+      ),
+    );
+  }, [meal]);
 
   useEffect(() => {
     async function getDrinks() {
@@ -59,6 +80,11 @@ const MealDetails = (props) => {
     history.push(`/comidas/${id}/in-progress`);
   }
 
+  function handleFavoriteClick() {
+    toggleFavoriteRecipe(meal, 'comida', isFavorite);
+    setFavorite(!isFavorite);
+  }
+
   if (!meal.strMeal) {
     return <Loading />;
   }
@@ -74,8 +100,13 @@ const MealDetails = (props) => {
       <button type="button" data-testid="share-btn">
         Compartilhar
       </button>
-      <button type="button" data-testid="favorite-btn">
-        Favoritar
+      <button type="button" onClick={ handleFavoriteClick }>
+        <img
+          data-testid="favorite-btn"
+          src={ isFavorite ? blackHeart : whiteHeart }
+          alt="favorite"
+          style={ { pointerEvents: 'none' } }
+        />
       </button>
       <p data-testid="recipe-category">{meal.strCategory}</p>
       {ingredients.map((ingredient, index) => (
