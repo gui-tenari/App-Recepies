@@ -15,13 +15,13 @@ const MEALS_ACTIONS = {
   SET_FILTERED_MEALS: 'SET_FILTERED_MEALS',
   SET_MEAL_CATEGORIES: 'SET_MEAL_CATEGORIES',
   SET_FAVORITE: 'SET_FAVORITE',
-  REQUEST_API: 'REQUEST_API',
-  FAILED_REQUEST: 'FAILED_REQUEST',
+  REQUEST_MEALS_API: 'REQUEST_MEALS_API',
+  FAILED_MEALS_REQUEST: 'FAILED_MEALS_REQUEST',
 };
 
 const setMeals = (meals) => ({ type: MEALS_ACTIONS.SET_MEALS, payload: meals });
 
-const setFilteredMeals = (meals, filterType) => ({
+export const setFilteredMeals = (meals, filterType) => ({
   type: MEALS_ACTIONS.SET_FILTERED_MEALS,
   payload: { meals, filterType },
 });
@@ -31,10 +31,10 @@ const setCategories = (categories) => ({
   payload: categories,
 });
 
-const requestApi = () => ({ type: MEALS_ACTIONS.REQUEST_API });
+const requestApi = () => ({ type: MEALS_ACTIONS.REQUEST_MEALS_API });
 
 const failedRequest = (error) => ({
-  type: MEALS_ACTIONS.FAILED_REQUEST,
+  type: MEALS_ACTIONS.FAILED_MEALS_REQUEST,
   payload: error,
 });
 

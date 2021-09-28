@@ -34,9 +34,9 @@ const drinksReducer = (state = INITIAL_STATE, action) => {
       error: '',
       categories: action.payload,
     };
-  case DRINKS_ACTIONS.REQUEST_API:
+  case DRINKS_ACTIONS.REQUEST_DRINKS_API:
     return { ...state, isFetching: true };
-  case DRINKS_ACTIONS.FAILED_REQUEST:
+  case DRINKS_ACTIONS.FAILED_DRINKS_REQUEST:
     return { ...state, isFetching: false, error: action.payload };
   default:
     return state;

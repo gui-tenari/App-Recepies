@@ -2,10 +2,22 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 
+import Loading from '../../components/Loading';
+
+import {
+  getFavoriteRecipes,
+  toggleFavoriteRecipe,
+} from '../../utils/localStorageHelpers';
+
+import whiteHeart from '../../images/whiteHeartIcon.svg';
+import blackHeart from '../../images/blackHeartIcon.svg';
+import shareIcon from '../../images/shareIcon.svg';
+
 import './style.css';
 
 const MAX_RECOMENDATIONS = 6;
 const MAX_NUMBER = 20;
+const COPIED_LINK_ALERT_TIME = 3000;
 
 const DrinkDetails = (props) => {
   const {
@@ -13,8 +25,12 @@ const DrinkDetails = (props) => {
       params: { id },
     },
   } = props;
+
   const [drink, setDrink] = useState({});
+  const [isFavorite, setFavorite] = useState(false);
+  const [copiedLink, setCopiedLink] = useState(false);
   const [meals, setMeals] = useState([]);
+
   const history = useHistory();
 
   useEffect(() => {
@@ -22,11 +38,23 @@ const DrinkDetails = (props) => {
       const promiseDrinks = await fetch(
         `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`,
       );
-      const fetchedDrink = await promiseDrinks.json();
-      setDrink(fetchedDrink.drinks[0]);
+      const { drinks } = await promiseDrinks.json();
+      const fetchedDrink = drinks[0];
+
+      setDrink(fetchedDrink);
     }
     getDrink();
   }, [id]);
+
+  useEffect(() => {
+    const favoriteRecipes = getFavoriteRecipes();
+
+    setFavorite(
+      favoriteRecipes.some(
+        (favoriteRecipe) => favoriteRecipe.id === drink.idDrink,
+      ),
+    );
+  }, [drink]);
 
   useEffect(() => {
     async function getMeals() {
@@ -35,7 +63,6 @@ const DrinkDetails = (props) => {
       );
       const fetchedMeals = await promiseMeals.json();
       setMeals([...fetchedMeals.meals]);
-      console.log(fetchedMeals.meals);
     }
 
     getMeals();
@@ -58,6 +85,21 @@ const DrinkDetails = (props) => {
     history.push(`/bebidas/${id}/in-progress`);
   }
 
+  async function handleFavoriteClick() {
+    toggleFavoriteRecipe(drink, 'bebida', isFavorite);
+    setFavorite(!isFavorite);
+  }
+
+  function handleShareClick() {
+    navigator.clipboard.writeText(global.location.href);
+    setCopiedLink(true);
+    setTimeout(() => setCopiedLink(false), COPIED_LINK_ALERT_TIME);
+  }
+
+  if (!drink.strDrink) {
+    return <Loading />;
+  }
+
   return (
     <div>
       <img
@@ -66,32 +108,33 @@ const DrinkDetails = (props) => {
         alt={ drink.strDrink }
       />
       <h1 data-testid="recipe-title">{drink.strDrink}</h1>
-      <button type="button" data-testid="share-btn">
-        Compartilhar
+      <button
+        type="button"
+        data-testid="share-btn"
+        onClick={ handleShareClick }
+      >
+        <img src={ shareIcon } alt="share" />
       </button>
-      <button type="button" data-testid="favorite-btn">
-        Favoritar
+      {copiedLink && <p>Link copiado!</p>}
+      <button type="button" onClick={ handleFavoriteClick }>
+        <img
+          data-testid="favorite-btn"
+          src={ isFavorite ? blackHeart : whiteHeart }
+          alt="favorite"
+        />
       </button>
       <p data-testid="recipe-category">{drink.strAlcoholic}</p>
       {ingredients.map((ingredient, index) => (
-        <div
-          key={ ingredient }
-          data-testid={ `${index}-ingredient-name-and-measure` }
-        >
+        <div key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
           {ingredient}
         </div>
       ))}
       {measures.map((measure, index) => (
-        <div key={ measure } data-testid={ `${index}-ingredient-name-and-measure` }>
+        <div key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
           {measure}
         </div>
       ))}
       <p data-testid="instructions">{drink.strInstructions}</p>
-      <iframe
-        data-testid="video"
-        src={ drink.strYoutube }
-        title={ drink.strDrink }
-      />
       <div className="carousel">
         {meals.slice(0, MAX_RECOMENDATIONS).map((meal, index) => (
           <div
@@ -121,7 +164,7 @@ const DrinkDetails = (props) => {
 DrinkDetails.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      id: PropTypes.number,
+      id: PropTypes.string,
     }),
   }).isRequired,
 };
