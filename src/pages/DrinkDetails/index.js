@@ -87,6 +87,11 @@ const DrinkDetails = (props) => {
     setFavorite(!isFavorite);
   }
 
+  function handleShareClick() {
+    navigator.clipboard.writeText(global.location.href);
+    global.alert('Link copiado!');
+  }
+
   if (!drink.strDrink) {
     return <Loading />;
   }
@@ -99,7 +104,11 @@ const DrinkDetails = (props) => {
         alt={ drink.strDrink }
       />
       <h1 data-testid="recipe-title">{drink.strDrink}</h1>
-      <button type="button" data-testid="share-btn">
+      <button
+        type="button"
+        data-testid="share-btn"
+        onClick={ handleShareClick }
+      >
         Compartilhar
       </button>
       <button type="button" onClick={ handleFavoriteClick }>
