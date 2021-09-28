@@ -4,10 +4,20 @@ import { useHistory } from 'react-router-dom';
 
 import Loading from '../../components/Loading';
 
+import {
+  getFavoriteRecipes,
+  toggleFavoriteRecipe,
+} from '../../utils/localStorageHelpers';
+
+import whiteHeart from '../../images/whiteHeartIcon.svg';
+import blackHeart from '../../images/blackHeartIcon.svg';
+import shareIcon from '../../images/shareIcon.svg';
+
 import './style.css';
 
 const MAX_RECOMENDATIONS = 6;
 const MAX_NUMBER = 20;
+const COPIED_LINK_ALERT_TIME = 3000;
 
 const MealDetails = (props) => {
   const {
@@ -15,8 +25,12 @@ const MealDetails = (props) => {
       params: { id },
     },
   } = props;
+
   const [meal, setMeal] = useState({});
   const [drinks, setDrinks] = useState([]);
+  const [copiedLink, setCopiedLink] = useState(false);
+  const [isFavorite, setFavorite] = useState(false);
+
   const history = useHistory();
 
   useEffect(() => {
@@ -24,12 +38,22 @@ const MealDetails = (props) => {
       const promiseMeals = await fetch(
         `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`,
       );
-      const fetchedMeal = await promiseMeals.json();
-      setMeal(fetchedMeal.meals[0]);
+      const { meals } = await promiseMeals.json();
+      const fetchedMeal = meals[0];
+      setMeal(fetchedMeal);
     }
-
     getMeal();
   }, [id]);
+
+  useEffect(() => {
+    const favoriteRecipes = getFavoriteRecipes();
+
+    setFavorite(
+      favoriteRecipes.some(
+        (favoriteRecipe) => favoriteRecipe.id === meal.idMeal,
+      ),
+    );
+  }, [meal]);
 
   useEffect(() => {
     async function getDrinks() {
@@ -59,6 +83,17 @@ const MealDetails = (props) => {
     history.push(`/comidas/${id}/in-progress`);
   }
 
+  function handleFavoriteClick() {
+    toggleFavoriteRecipe(meal, 'comida', isFavorite);
+    setFavorite(!isFavorite);
+  }
+
+  function handleShareClick() {
+    navigator.clipboard.writeText(global.location.href);
+    setCopiedLink(true);
+    setTimeout(() => setCopiedLink(false), COPIED_LINK_ALERT_TIME);
+  }
+
   if (!meal.strMeal) {
     return <Loading />;
   }
@@ -71,12 +106,17 @@ const MealDetails = (props) => {
         alt={ meal.strMeal }
       />
       <h1 data-testid="recipe-title">{meal.strMeal}</h1>
-      <button type="button" data-testid="share-btn">
-        Compartilhar
+      <button type="button" data-testid="share-btn" onClick={ handleShareClick }>
+        <img src={ shareIcon } alt="share" />
       </button>
-      <button type="button" data-testid="favorite-btn">
-        Favoritar
+      <button type="button" onClick={ handleFavoriteClick }>
+        <img
+          data-testid="favorite-btn"
+          src={ isFavorite ? blackHeart : whiteHeart }
+          alt="favorite"
+        />
       </button>
+      {copiedLink && <p>Link copiado!</p>}
       <p data-testid="recipe-category">{meal.strCategory}</p>
       {ingredients.map((ingredient, index) => (
         <div key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
@@ -91,7 +131,7 @@ const MealDetails = (props) => {
       <p data-testid="instructions">{meal.strInstructions}</p>
       <iframe
         data-testid="video"
-        src={ meal.strYoutube.replace(/(?<=\.com)\//, '/embed/') }
+        src={ meal.strYoutube.replace('watch?v=', 'embed/') }
         title={ meal.strMeal }
       />
       <div className="carousel">
