@@ -91,6 +91,18 @@ export const getRecipesByCategory = async (type, category) => {
   return data[type].slice(0, MAX_RECIPES);
 };
 
+export const getRandomRecipe = async (type) => {
+  let url;
+  if (type === 'meals') {
+    url = `${MEALS_BASE_URL}/1/random.php`;
+  } else {
+    url = `${DRINKS_BASE_URL}/1/random.php`;
+  }
+  const response = await fetch(url);
+  const data = await response.json();
+  return (data);
+};
+
 export const getRecipeCategories = async (type) => {
   const [typeToken, typeUrl] = getTypeInfo(type);
 
