@@ -122,7 +122,9 @@ const MealDetails = (props) => {
       <p data-testid="instructions">{meal.strInstructions}</p>
       <iframe
         data-testid="video"
-        src={ meal.strYoutube.replace(/(?<=\.com)\//, '/embed/') }
+        src={ meal.strYoutube
+          .replace('watch?v=', 'embed/')
+          .replace('youtube', 'youtube-nocookie') }
         title={ meal.strMeal }
       />
       <div className="carousel">
