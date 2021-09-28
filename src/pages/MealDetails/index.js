@@ -11,11 +11,13 @@ import {
 
 import whiteHeart from '../../images/whiteHeartIcon.svg';
 import blackHeart from '../../images/blackHeartIcon.svg';
+import shareIcon from '../../images/shareIcon.svg';
 
 import './style.css';
 
 const MAX_RECOMENDATIONS = 6;
 const MAX_NUMBER = 20;
+const COPIED_LINK_ALERT_TIME = 3000;
 
 const MealDetails = (props) => {
   const {
@@ -26,6 +28,7 @@ const MealDetails = (props) => {
 
   const [meal, setMeal] = useState({});
   const [drinks, setDrinks] = useState([]);
+  const [copiedLink, setCopiedLink] = useState(false);
   const [isFavorite, setFavorite] = useState(false);
 
   const history = useHistory();
@@ -85,6 +88,12 @@ const MealDetails = (props) => {
     setFavorite(!isFavorite);
   }
 
+  function handleShareClick() {
+    navigator.clipboard.writeText(global.location.href);
+    setCopiedLink(true);
+    setTimeout(() => setCopiedLink(false), COPIED_LINK_ALERT_TIME);
+  }
+
   if (!meal.strMeal) {
     return <Loading />;
   }
@@ -97,8 +106,8 @@ const MealDetails = (props) => {
         alt={ meal.strMeal }
       />
       <h1 data-testid="recipe-title">{meal.strMeal}</h1>
-      <button type="button" data-testid="share-btn">
-        Compartilhar
+      <button type="button" data-testid="share-btn" onClick={ handleShareClick }>
+        <img src={ shareIcon } alt="share" />
       </button>
       <button type="button" onClick={ handleFavoriteClick }>
         <img
@@ -107,6 +116,7 @@ const MealDetails = (props) => {
           alt="favorite"
         />
       </button>
+      {copiedLink && <p>Link copiado!</p>}
       <p data-testid="recipe-category">{meal.strCategory}</p>
       {ingredients.map((ingredient, index) => (
         <div key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
@@ -121,9 +131,7 @@ const MealDetails = (props) => {
       <p data-testid="instructions">{meal.strInstructions}</p>
       <iframe
         data-testid="video"
-        src={ meal.strYoutube
-          .replace('watch?v=', 'embed/')
-          .replace('youtube', 'youtube-nocookie') }
+        src={ meal.strYoutube.replace('watch?v=', 'embed/') }
         title={ meal.strMeal }
       />
       <div className="carousel">

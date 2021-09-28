@@ -11,11 +11,13 @@ import {
 
 import whiteHeart from '../../images/whiteHeartIcon.svg';
 import blackHeart from '../../images/blackHeartIcon.svg';
+import shareIcon from '../../images/shareIcon.svg';
 
 import './style.css';
 
 const MAX_RECOMENDATIONS = 6;
 const MAX_NUMBER = 20;
+const COPIED_LINK_ALERT_TIME = 3000;
 
 const DrinkDetails = (props) => {
   const {
@@ -26,6 +28,7 @@ const DrinkDetails = (props) => {
 
   const [drink, setDrink] = useState({});
   const [isFavorite, setFavorite] = useState(false);
+  const [copiedLink, setCopiedLink] = useState(false);
   const [meals, setMeals] = useState([]);
 
   const history = useHistory();
@@ -89,7 +92,8 @@ const DrinkDetails = (props) => {
 
   function handleShareClick() {
     navigator.clipboard.writeText(global.location.href);
-    global.alert('Link copiado!');
+    setCopiedLink(true);
+    setTimeout(() => setCopiedLink(false), COPIED_LINK_ALERT_TIME);
   }
 
   if (!drink.strDrink) {
@@ -109,8 +113,9 @@ const DrinkDetails = (props) => {
         data-testid="share-btn"
         onClick={ handleShareClick }
       >
-        Compartilhar
+        <img src={ shareIcon } alt="share" />
       </button>
+      {copiedLink && <p>Link copiado!</p>}
       <button type="button" onClick={ handleFavoriteClick }>
         <img
           data-testid="favorite-btn"
