@@ -105,7 +105,6 @@ const MealDetails = (props) => {
           data-testid="favorite-btn"
           src={ isFavorite ? blackHeart : whiteHeart }
           alt="favorite"
-          style={ { pointerEvents: 'none' } }
         />
       </button>
       <p data-testid="recipe-category">{meal.strCategory}</p>

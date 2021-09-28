@@ -26,7 +26,7 @@ export const toggleFavoriteRecipe = (recipe, type, isFavorite) => {
     const newFavoriteRecipes = [...favoriteRecipes, {
       id: recipe[`id${typeTable[type]}`],
       type,
-      area: recipe.strArea,
+      area: recipe.strArea || '',
       category: recipe.strCategory,
       alcoholicOrNot: recipe.strAlcoholic || '',
       name: recipe[`str${typeTable[type]}`],
