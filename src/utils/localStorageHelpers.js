@@ -36,3 +36,20 @@ export const toggleFavoriteRecipe = (recipe, type, isFavorite) => {
     setFavoriteRecipes(newFavoriteRecipes);
   }
 };
+
+export const getInProgressRecipes = () => {
+  const inProgressRecipes = localStorage.getItem('inProgressRecipes');
+
+  return inProgressRecipes ? JSON.parse(inProgressRecipes) : {
+    meals: {},
+    cocktails: {},
+  };
+};
+
+export const setInProgressRecipes = (recipes, type, id) => {
+  const inProgressRecipes = getInProgressRecipes();
+
+  inProgressRecipes[type][id] = recipes;
+
+  localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
+};

@@ -3,21 +3,14 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 
 import Loading from '../../components/Loading';
+import ShareButton from '../../components/ShareButton';
+import FavoriteButton from '../../components/FavoriteButton';
 
-import {
-  getFavoriteRecipes,
-  toggleFavoriteRecipe,
-} from '../../utils/localStorageHelpers';
-
-import whiteHeart from '../../images/whiteHeartIcon.svg';
-import blackHeart from '../../images/blackHeartIcon.svg';
-import shareIcon from '../../images/shareIcon.svg';
+import getIngredients from '../../utils/getIngredients';
 
 import './style.css';
 
 const MAX_RECOMENDATIONS = 6;
-const MAX_NUMBER = 20;
-const COPIED_LINK_ALERT_TIME = 3000;
 
 const DrinkDetails = (props) => {
   const {
@@ -27,9 +20,8 @@ const DrinkDetails = (props) => {
   } = props;
 
   const [drink, setDrink] = useState({});
-  const [isFavorite, setFavorite] = useState(false);
-  const [copiedLink, setCopiedLink] = useState(false);
   const [meals, setMeals] = useState([]);
+  const [ingredients, setIngredients] = useState([]);
 
   const history = useHistory();
 
@@ -47,16 +39,6 @@ const DrinkDetails = (props) => {
   }, [id]);
 
   useEffect(() => {
-    const favoriteRecipes = getFavoriteRecipes();
-
-    setFavorite(
-      favoriteRecipes.some(
-        (favoriteRecipe) => favoriteRecipe.id === drink.idDrink,
-      ),
-    );
-  }, [drink]);
-
-  useEffect(() => {
     async function getMeals() {
       const promiseMeals = await fetch(
         'https://www.themealdb.com/api/json/v1/1/search.php?s=',
@@ -68,32 +50,12 @@ const DrinkDetails = (props) => {
     getMeals();
   }, []);
 
-  const ingredients = [];
-  for (let i = 1; i <= MAX_NUMBER; i += 1) {
-    if (drink[`strIngredient${i}`] !== '') {
-      ingredients.push(drink[`strIngredient${i}`]);
-    }
-  }
-  const measures = [];
-  for (let i = 1; i <= MAX_NUMBER; i += 1) {
-    if (drink[`strMeasure${i}`] !== '') {
-      measures.push(drink[`strMeasure${i}`]);
-    }
-  }
+  useEffect(() => {
+    setIngredients(getIngredients(drink));
+  }, [drink]);
 
   function startRecipe() {
     history.push(`/bebidas/${id}/in-progress`);
-  }
-
-  async function handleFavoriteClick() {
-    toggleFavoriteRecipe(drink, 'bebida', isFavorite);
-    setFavorite(!isFavorite);
-  }
-
-  function handleShareClick() {
-    navigator.clipboard.writeText(global.location.href);
-    setCopiedLink(true);
-    setTimeout(() => setCopiedLink(false), COPIED_LINK_ALERT_TIME);
   }
 
   if (!drink.strDrink) {
@@ -108,30 +70,15 @@ const DrinkDetails = (props) => {
         alt={ drink.strDrink }
       />
       <h1 data-testid="recipe-title">{drink.strDrink}</h1>
-      <button
-        type="button"
-        data-testid="share-btn"
-        onClick={ handleShareClick }
-      >
-        <img src={ shareIcon } alt="share" />
-      </button>
-      {copiedLink && <p>Link copiado!</p>}
-      <button type="button" onClick={ handleFavoriteClick }>
-        <img
-          data-testid="favorite-btn"
-          src={ isFavorite ? blackHeart : whiteHeart }
-          alt="favorite"
-        />
-      </button>
+      <ShareButton />
+      <FavoriteButton recipe={ drink } type="bebida" />
       <p data-testid="recipe-category">{drink.strAlcoholic}</p>
-      {ingredients.map((ingredient, index) => (
+      {ingredients.map(({ ingredient, measure }, index) => (
         <div key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
-          {ingredient}
-        </div>
-      ))}
-      {measures.map((measure, index) => (
-        <div key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
-          {measure}
+          <p>
+            {ingredient}
+            {measure && <span>{` - ${measure}`}</span>}
+          </p>
         </div>
       ))}
       <p data-testid="instructions">{drink.strInstructions}</p>
