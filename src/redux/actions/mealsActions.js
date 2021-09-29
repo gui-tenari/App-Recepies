@@ -8,7 +8,7 @@ import {
 } from '../../services/recipesAPI';
 
 const RECIPES_NOT_FOUND = 'Sinto muito, não encontramos nenhuma'
-  + ' receita para esses filtros.';
++ ' receita para esses filtros.';
 
 const MEALS_ACTIONS = {
   SET_MEALS: 'SET_MEALS',
@@ -38,16 +38,22 @@ const failedRequest = (error) => ({
   payload: error,
 });
 
-export const fetchMealsThunk = () => async (dispatch) => {
-  dispatch(requestApi());
+export const fetchMealsThunk = () => async (dispatch, getState) => {
+  const {
+    meals: { filteredMeals },
+  } = getState();
 
-  try {
-    const meals = await getRecipes('meals');
+  if (filteredMeals.length === 0) {
+    dispatch(requestApi());
 
-    dispatch(setMeals(meals));
-    dispatch(setFilteredMeals(meals, 'query'));
-  } catch (error) {
-    dispatch(failedRequest(error.message));
+    try {
+      const meals = await getRecipes('meals');
+
+      dispatch(setMeals(meals));
+      dispatch(setFilteredMeals(meals, 'query'));
+    } catch (error) {
+      dispatch(failedRequest(error.message));
+    }
   }
 };
 

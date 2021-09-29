@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import Header from '../../components/Header';
+import Footer from '../../components/Footer';
 
 function Profile() {
   const [email, setEmail] = useState('');
@@ -31,6 +32,7 @@ function Profile() {
       >
         Sair
       </Link>
+      <Footer />
     </main>
   );
 }

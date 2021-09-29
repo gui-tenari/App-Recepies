@@ -3,6 +3,7 @@ const DRINKS_BASE_URL = 'https://www.thecocktaildb.com/api/json/v1';
 const ERROR_MESSAGE = 'Não foram encontradas receitas!';
 
 const MAX_RECIPES = 12;
+const MAX_INGREDIENTS = 12;
 const MAX_CATEGORIES = 5;
 
 const getToken = (key) => {
@@ -91,6 +92,18 @@ export const getRecipesByCategory = async (type, category) => {
   return data[type].slice(0, MAX_RECIPES);
 };
 
+export const getRandomRecipe = async (type) => {
+  let url;
+  if (type === 'meals') {
+    url = `${MEALS_BASE_URL}/1/random.php`;
+  } else {
+    url = `${DRINKS_BASE_URL}/1/random.php`;
+  }
+  const response = await fetch(url);
+  const data = await response.json();
+  return (data);
+};
+
 export const getRecipeCategories = async (type) => {
   const [typeToken, typeUrl] = getTypeInfo(type);
 
@@ -100,4 +113,17 @@ export const getRecipeCategories = async (type) => {
   if (!data[type]) throw new Error(ERROR_MESSAGE);
 
   return data[type].slice(0, MAX_CATEGORIES);
+};
+
+export const getIngredients = async (type) => {
+  let url;
+  if (type === 'meals') {
+    url = `${MEALS_BASE_URL}/1/list.php?i=list`;
+  } else {
+    url = `${DRINKS_BASE_URL}/1/list.php?i=list`;
+  }
+  const response = await fetch(url);
+  const data = await response.json();
+
+  return data[type].slice(0, MAX_INGREDIENTS);
 };

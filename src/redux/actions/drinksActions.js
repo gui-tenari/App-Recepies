@@ -8,7 +8,7 @@ import {
 } from '../../services/recipesAPI';
 
 const RECIPES_NOT_FOUND = 'Sinto muito, não encontramos nenhuma'
-  + ' receita para esses filtros.';
++ ' receita para esses filtros.';
 
 const DRINKS_ACTIONS = {
   SET_DRINKS: 'SET_DRINKS',
@@ -40,16 +40,22 @@ const failedRequest = (error) => ({
   payload: error,
 });
 
-export const fetchDrinksThunk = () => async (dispatch) => {
-  dispatch(requestApi());
+export const fetchDrinksThunk = () => async (dispatch, getState) => {
+  const {
+    drinks: { filteredDrinks },
+  } = getState();
 
-  try {
-    const drinks = await getRecipes('drinks');
+  if (filteredDrinks.length === 0) {
+    dispatch(requestApi());
 
-    dispatch(setDrinks(drinks));
-    dispatch(setFilteredDrinks(drinks));
-  } catch (error) {
-    dispatch(failedRequest(error.message));
+    try {
+      const drinks = await getRecipes('drinks');
+
+      dispatch(setDrinks(drinks));
+      dispatch(setFilteredDrinks(drinks));
+    } catch (error) {
+      dispatch(failedRequest(error.message));
+    }
   }
 };
 
