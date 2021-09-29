@@ -2,9 +2,17 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 
-import './style.css';
+import ShareButton from '../../components/ShareButton';
+import FavoriteButton from '../../components/FavoriteButton';
 
-const MAX_NUMBER = 20;
+import {
+  getInProgressRecipes,
+  setInProgressRecipes,
+} from '../../utils/localStorageHelpers';
+
+import getIngredients from '../../utils/getIngredients';
+
+import './style.css';
 
 function MealProgress(props) {
   const {
@@ -12,40 +20,48 @@ function MealProgress(props) {
       params: { id },
     },
   } = props;
+
   const [meal, setMeal] = useState({});
-  const [saveIngredient, setSaveIngredient] = useState([]);
-  // const [, setSaveIngredient] = useState(false);
+  const [progressInfo, setProgressInfo] = useState([]);
+  const [ingredients, setIngredients] = useState([]);
+
   const history = useHistory();
 
   useEffect(() => {
     async function getMeal() {
-      const promiseMeals = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
+      const promiseMeals = await fetch(
+        `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`,
+      );
       const fetchedMeal = await promiseMeals.json();
       setMeal(fetchedMeal.meals[0]);
     }
-    getMeal();
-    // return(() => {
 
-    // });
+    function getRecipeStatus() {
+      const inProgressRecipes = getInProgressRecipes();
+      const { meals } = inProgressRecipes;
+
+      setProgressInfo(meals[id] || []);
+    }
+
+    getMeal();
+    getRecipeStatus();
   }, [id]);
 
-  function handlerClick(e) {
-    if (e.target.checked && !saveIngredient.includes(e.target.name)) {
-      setSaveIngredient([...saveIngredient, e.target.name]);
-      console.log(saveIngredient);
-    } else {
-      setSaveIngredient(saveIngredient.filter((name) => e.target.name !== name));
+  useEffect(() => {
+    if (id) {
+      setInProgressRecipes(progressInfo, 'meals', id);
     }
-  }
+  }, [id, progressInfo]);
 
   useEffect(() => {
+    setIngredients(getIngredients(meal));
+  }, [meal]);
 
-  }, []);
-
-  const ingredients = [];
-  for (let i = 1; i <= MAX_NUMBER; i += 1) {
-    if (meal[`strIngredient${i}`]) {
-      ingredients.push(meal[`strIngredient${i}`]);
+  function handleChange(ingredient, isChecked) {
+    if (!isChecked) {
+      setProgressInfo([...progressInfo, ingredient]);
+    } else {
+      setProgressInfo(progressInfo.filter((name) => ingredient !== name));
     }
   }
 
@@ -61,35 +77,36 @@ function MealProgress(props) {
         alt={ meal.strMeal }
       />
       <h1 data-testid="recipe-title">{meal.strMeal}</h1>
-      <button type="button" data-testid="share-btn">
-        Compartilhar
-      </button>
-      <button type="button" data-testid="favorite-btn">
-        Favoritar
-      </button>
+      <ShareButton />
+      <FavoriteButton recipe={ meal } type="comida" />
       <p data-testid="recipe-category">{meal.strCategory}</p>
-      {ingredients.map((ingredient, index) => (
-        <label
-          key={ ingredient }
-          data-testid={ `${index}-ingredient-step` }
-          htmlFor={ `${index}-ingredient` }
-          className={ saveIngredient.includes(ingredient) ? 'finished' : '' }
-        >
-          <input
-            type="checkbox"
-            id={ `${index}-ingredient` }
-            name={ ingredient }
-            onClick={ handlerClick }
-          />
-          {ingredient}
-        </label>
-      ))}
+      {ingredients.map(({ ingredient }, index) => {
+        const isChecked = progressInfo.includes(ingredient);
+        return (
+          <label
+            key={ ingredient }
+            data-testid={ `${index}-ingredient-step` }
+            htmlFor={ `${index}-ingredient` }
+            className={ isChecked ? 'finished' : '' }
+          >
+            <input
+              type="checkbox"
+              id={ `${index}-ingredient` }
+              name="progress"
+              checked={ isChecked }
+              onChange={ () => handleChange(ingredient, isChecked) }
+            />
+            {ingredient}
+          </label>
+        );
+      })}
       <p data-testid="instructions">{meal.strInstructions}</p>
       <button
         onClick={ handleClickComidas }
         className="start-recipe"
         type="button"
         data-testid="finish-recipe-btn"
+        disabled={ progressInfo.length !== ingredients.length }
       >
         Finalizar Receita
       </button>
@@ -100,7 +117,7 @@ function MealProgress(props) {
 MealProgress.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      id: PropTypes.number,
+      id: PropTypes.string,
     }),
   }).isRequired,
 };

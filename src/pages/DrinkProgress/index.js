@@ -2,6 +2,16 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 
+import ShareButton from '../../components/ShareButton';
+import FavoriteButton from '../../components/FavoriteButton';
+
+import {
+  getInProgressRecipes,
+  setInProgressRecipes,
+} from '../../utils/localStorageHelpers';
+
+import getIngredients from '../../utils/getIngredients';
+
 function DrinkProgress(props) {
   const {
     match: {
@@ -10,23 +20,46 @@ function DrinkProgress(props) {
   } = props;
 
   const [drink, setDrink] = useState({});
+  const [progressInfo, setProgressInfo] = useState([]);
+  const [ingredients, setIngredients] = useState([]);
+
   const history = useHistory();
 
   useEffect(() => {
     async function getDrinks() {
-      const promiseDrinks = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
+      const promiseDrinks = await fetch(
+        `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`,
+      );
       const fetchedDrinks = await promiseDrinks.json();
       setDrink(fetchedDrinks.drinks[0]);
     }
+
+    function getRecipeStatus() {
+      const inProgressRecipes = getInProgressRecipes();
+      const { cocktails } = inProgressRecipes;
+
+      setProgressInfo(cocktails[id] || []);
+    }
+
     getDrinks();
+    getRecipeStatus();
   }, [id]);
 
-  const MAX_NUMBER = 20;
+  useEffect(() => {
+    if (id) {
+      setInProgressRecipes(progressInfo, 'cocktails', id);
+    }
+  }, [id, progressInfo]);
 
-  const ingredients = [];
-  for (let i = 1; i <= MAX_NUMBER; i += 1) {
-    if (drink[`strIngredient${i}`]) {
-      ingredients.push(drink[`strIngredient${i}`]);
+  useEffect(() => {
+    setIngredients(getIngredients(drink));
+  }, [drink]);
+
+  function handleChange(ingredient, isChecked) {
+    if (!isChecked) {
+      setProgressInfo([...progressInfo, ingredient]);
+    } else {
+      setProgressInfo(progressInfo.filter((name) => ingredient !== name));
     }
   }
 
@@ -42,32 +75,37 @@ function DrinkProgress(props) {
         alt={ drink.strDrink }
       />
       <h1 data-testid="recipe-title">{drink.strDrink}</h1>
-      <button type="button" data-testid="share-btn">
-        Compartilhar
-      </button>
-      <button type="button" data-testid="favorite-btn">
-        Favoritar
-      </button>
+      <ShareButton />
+      <FavoriteButton recipe={ drink } type="bebida" />
       <p data-testid="recipe-category">{drink.strAlcoholic}</p>
-      {ingredients.map((ingredient, index) => (
-        <label
-          key={ ingredient }
-          data-testid={ `${index}-ingredient-step` }
-          htmlFor={ `${index}-ingredient` }
-        >
-          <input
-            type="checkbox"
-            id={ `${index}-ingredient` }
-          />
-          {ingredient}
-        </label>
-      ))}
+      {ingredients.map(({ ingredient }, index) => {
+        const isChecked = progressInfo.includes(ingredient);
+
+        return (
+          <label
+            key={ ingredient }
+            data-testid={ `${index}-ingredient-step` }
+            htmlFor={ `${index}-ingredient` }
+            className={ isChecked ? 'finished' : '' }
+          >
+            <input
+              type="checkbox"
+              id={ `${index}-ingredient` }
+              name="progress"
+              checked={ isChecked }
+              onChange={ () => handleChange(ingredient, isChecked) }
+            />
+            {ingredient}
+          </label>
+        );
+      })}
       <p data-testid="instructions">{drink.strInstructions}</p>
       <button
         onClick={ handleClickBebidas }
         className="start-recipe"
         type="button"
         data-testid="finish-recipe-btn"
+        disabled={ progressInfo.length !== ingredients.length }
       >
         Finalizar Receita
       </button>
@@ -77,7 +115,7 @@ function DrinkProgress(props) {
 DrinkProgress.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      id: PropTypes.number,
+      id: PropTypes.string,
     }),
   }).isRequired,
 };
