@@ -2,13 +2,18 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import Header from '../../components/Header';
+import Footer from '../../components/Footer';
 import { getRandomRecipe } from '../../services/recipesAPI';
 
 const ExploreMeals = ({ history }) => {
   const handleClick = async () => {
-    const { meals } = await getRandomRecipe('meals');
-    const { idMeal } = meals[0];
-    history.push(`/comidas/${idMeal}`);
+    try {
+      const { meals } = await getRandomRecipe('meals');
+      const { idMeal } = meals[0];
+      history.push(`/comidas/${idMeal}`);
+    } catch (error) {
+      global.alert('nenhuma receita encotrada');
+    }
   };
 
   return (
@@ -35,6 +40,7 @@ const ExploreMeals = ({ history }) => {
       >
         Me Surpreenda!
       </button>
+      <Footer />
     </div>
   );
 };

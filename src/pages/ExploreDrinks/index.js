@@ -2,13 +2,18 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import Header from '../../components/Header';
+import Footer from '../../components/Footer';
 import { getRandomRecipe } from '../../services/recipesAPI';
 
 const ExploreDrinks = ({ history }) => {
   const handleClick = async () => {
-    const { drinks } = await getRandomRecipe('drinks');
-    const { idDrink } = drinks[0];
-    history.push(`/bebidas/${idDrink}`);
+    try {
+      const { drinks } = await getRandomRecipe('drinks');
+      const { idDrink } = drinks[0];
+      history.push(`/bebidas/${idDrink}`);
+    } catch (error) {
+      global.alert('nenhuma receita encontrada');
+    }
   };
 
   return (
@@ -28,6 +33,7 @@ const ExploreDrinks = ({ history }) => {
       >
         Me Surpreenda!
       </button>
+      <Footer />
     </div>
   );
 };
