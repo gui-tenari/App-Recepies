@@ -75,7 +75,7 @@ function DrinkProgress(props) {
         alt={ drink.strDrink }
       />
       <h1 data-testid="recipe-title">{drink.strDrink}</h1>
-      <ShareButton type="bebidas" id={ drink.idDrink } testId="share-btn" />
+      <ShareButton type="bebidas" id={ id } testId="share-btn" />
       <FavoriteButton recipe={ drink } type="bebida" testId="favorite-btn" />
       <p data-testid="recipe-category">{drink.strAlcoholic}</p>
       {ingredients.map(({ ingredient }, index) => {

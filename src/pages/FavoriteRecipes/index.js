@@ -1,19 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
 import Header from '../../components/Header';
 import CategoryButton from '../../components/CategoryButton';
 import FavoriteRecipeCard from '../../components/FavoriteRecipeCard';
 
-import { getFavoriteRecipes } from '../../utils/localStorageHelpers';
-
 const FavoriteRecipes = () => {
-  const [favoriteRecipes, setFavoriteRecipes] = useState([]);
-
-  useEffect(() => {
-    setFavoriteRecipes(getFavoriteRecipes());
-  }, []);
+  const { favoriteRecipes } = useSelector((state) => state);
 
   const handleFilterClick = () => {};
+
   return (
     <div>
       <Header title="Receitas Favoritas" />
