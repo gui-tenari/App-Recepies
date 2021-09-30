@@ -77,8 +77,8 @@ function DrinkProgress(props) {
         alt={ drink.strDrink }
       />
       <h1 data-testid="recipe-title">{drink.strDrink}</h1>
-      <ShareButton />
-      <FavoriteButton recipe={ drink } type="bebida" />
+      <ShareButton type="bebidas" id={ drink.idDrink } testId="share-btn" />
+      <FavoriteButton recipe={ drink } type="bebida" testId="favorite-btn" />
       <p data-testid="recipe-category">{drink.strAlcoholic}</p>
       {ingredients.map(({ ingredient }, index) => {
         const isChecked = progressInfo.includes(ingredient);
