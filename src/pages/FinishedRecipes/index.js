@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import Header from '../../components/Header';
-import shareIcon from '../../images/shareIcon.svg';
+import ShareButton from '../../components/ShareButton';
 
 const FinishedRecipes = () => {
   const doneRecipes = localStorage.getItem('doneRecipes');
@@ -23,23 +23,26 @@ const FinishedRecipes = () => {
         <div key={ recipe.id }>
           <img
             data-testid={ `${index}-horizontal-image` }
-            src={ recipe.imagem }
+            src={ recipe.image }
             alt={ recipe.name }
           />
-          <p data-testid={ `${index}-horizontal-top-text` }>{recipe.category}</p>
+          <p
+            data-testid={ `${index}-horizontal-top-text` }
+          >
+            {`${recipe.area} - ${recipe.category}`}
+          </p>
           <p data-testid={ `${index}-horizontal-name` }>{recipe.name}</p>
           <p data-testid={ `${index}-horizontal-done-date` }>{recipe.doneDate}</p>
-          <button type="button" data-testid={ `${index}-horizontal-share-btn` }>
-            <img src={ shareIcon } alt="share" />
-          </button>
-          { recipe.tags.map((tag) => (
-            <span
-              key={ tag }
-              data-testid={ `${index}-${tag}-horizontal-tag` }
-            >
+          <ShareButton
+            type={ `${recipe.type}s` }
+            id={ recipe.id }
+            testId={ `${index}-horizontal-share-btn` }
+          />
+          {recipe.tags.map((tag) => (
+            <span key={ tag } data-testid={ `${index}-${tag}-horizontal-tag` }>
               {tag}
             </span>
-          )) }
+          ))}
         </div>
       ))}
     </div>

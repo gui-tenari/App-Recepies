@@ -61,7 +61,7 @@ export const getFinishedRecipe = (recipe, type) => {
     category: recipe.strCategory,
     alcoholicOrNot: recipe.strAlcoholic || '',
     name: recipe[`str${type}`],
-    imagem: recipe[`str${type}Thumb`],
+    image: recipe[`str${type}Thumb`],
     doneDate: getTodaysDate(),
     tags: recipe.strTags ? recipe.strTags.split(',') : [],
   };
