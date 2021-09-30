@@ -26,10 +26,10 @@ const FinishedRecipes = () => {
             src={ recipe.image }
             alt={ recipe.name }
           />
-          <p
-            data-testid={ `${index}-horizontal-top-text` }
-          >
-            {`${recipe.area} - ${recipe.category}`}
+          <p data-testid={ `${index}-horizontal-top-text` }>
+            {recipe.type === 'comida'
+              ? `${recipe.area} - ${recipe.category}`
+              : recipe.alcoholicOrNot}
           </p>
           <p data-testid={ `${index}-horizontal-name` }>{recipe.name}</p>
           <p data-testid={ `${index}-horizontal-done-date` }>{recipe.doneDate}</p>
