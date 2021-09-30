@@ -46,7 +46,7 @@ const FinishedRecipes = () => {
         <div key={ recipe.id }>
           <Link to={ `/${recipe.type}s/${recipe.id}` }>
             <img
-              style={ { width: '10em' } }
+              style={ { width: '11em' } }
               data-testid={ `${index}-horizontal-image` }
               src={ recipe.image }
               alt={ recipe.name }
