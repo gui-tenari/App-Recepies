@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import { Link } from 'react-router-dom';
 import Header from '../../components/Header';
 import ShareButton from '../../components/ShareButton';
 
@@ -44,17 +44,24 @@ const FinishedRecipes = () => {
       </button>
       {filteredRecipes.map((recipe, index) => (
         <div key={ recipe.id }>
-          <img
-            data-testid={ `${index}-horizontal-image` }
-            src={ recipe.image }
-            alt={ recipe.name }
-          />
+          <Link to={ `/${recipe.type}s/${recipe.id}` }>
+            <img
+              style={ { width: '10em' } }
+              data-testid={ `${index}-horizontal-image` }
+              src={ recipe.image }
+              alt={ recipe.name }
+            />
+          </Link>
           <p data-testid={ `${index}-horizontal-top-text` }>
             {recipe.type === 'comida'
               ? `${recipe.area} - ${recipe.category}`
               : recipe.alcoholicOrNot}
           </p>
-          <p data-testid={ `${index}-horizontal-name` }>{recipe.name}</p>
+          <Link to={ `/${recipe.type}s/${recipe.id}` }>
+            <p data-testid={ `${index}-horizontal-name` }>
+              {recipe.name}
+            </p>
+          </Link>
           <p data-testid={ `${index}-horizontal-done-date` }>{recipe.doneDate}</p>
           <ShareButton
             type={ `${recipe.type}s` }
