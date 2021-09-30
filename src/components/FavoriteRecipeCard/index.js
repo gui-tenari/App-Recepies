@@ -1,45 +1,41 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import FavoriteButton from '../FavoriteButton';
 import ShareButton from '../ShareButton';
 
-const FavoriteRecipeCard = ({ recipe, index }) => {
-  const { pathname } = useLocation();
-
-  return (
-    <div>
+const FavoriteRecipeCard = ({ recipe, index }) => (
+  <div>
+    <Link to={ `/${recipe.type}s/${recipe.id}` }>
       <img
         data-testid={ `${index}-horizontal-image` }
         src={ recipe.image }
         alt={ recipe.name }
+        style={ { width: '10em' } }
       />
-      <p data-testid={ `${index}-horizontal-top-text` }>
-        {recipe.type === 'comida' ? recipe.area : recipe.alcoholicOrNot}
-        {' - '}
-        {recipe.category}
-      </p>
+    </Link>
+    <p data-testid={ `${index}-horizontal-top-text` }>
+      {recipe.type === 'comida' ? recipe.area : recipe.alcoholicOrNot}
+      {' - '}
+      {recipe.category}
+    </p>
+    <Link to={ `/${recipe.type}s/${recipe.id}` }>
       <p data-testid={ `${index}-horizontal-name` }>{recipe.name}</p>
-      <ShareButton
-        type={ `${recipe.type}s` }
-        id={ recipe.id }
-        testId={ `${index}-horizontal-share-btn` }
-      />
-      <FavoriteButton
-        recipe={ recipe }
-        type={ recipe.type }
-        testId={ `${index}-horizontal-favorite-btn` }
-      />
-      <Link
-        to={ `${pathname}/${recipe.id}` }
-        data-testid={ `${index}-recipe-card` }
-      >
-        Mais detalhes
-      </Link>
-    </div>
-  );
-};
+    </Link>
+
+    <ShareButton
+      type={ `${recipe.type}s` }
+      id={ recipe.id }
+      testId={ `${index}-horizontal-share-btn` }
+    />
+    <FavoriteButton
+      recipe={ recipe }
+      type={ recipe.type }
+      testId={ `${index}-horizontal-favorite-btn` }
+    />
+  </div>
+);
 
 FavoriteRecipeCard.propTypes = {
   recipe: PropTypes.shape({
