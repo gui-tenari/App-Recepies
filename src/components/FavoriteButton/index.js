@@ -46,7 +46,7 @@ const FavoriteButton = ({ recipe, type, testId }) => {
   function handleFavoriteClick() {
     const favoriteShape = getFavoriteShape();
 
-    toggleFavoriteRecipe(favoriteShape, type, isFavorite);
+    toggleFavoriteRecipe(favoriteShape, isFavorite);
     setFavorite(!isFavorite);
   }
 

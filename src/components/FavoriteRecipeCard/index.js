@@ -15,7 +15,11 @@ const FavoriteRecipeCard = ({ recipe, index }) => {
         src={ recipe.image }
         alt={ recipe.name }
       />
-      <p data-testid={ `${index}-horizontal-top-text` }>{recipe.category}</p>
+      <p data-testid={ `${index}-horizontal-top-text` }>
+        {recipe.type === 'comida' ? recipe.area : recipe.alcoholicOrNot}
+        {' - '}
+        {recipe.category}
+      </p>
       <p data-testid={ `${index}-horizontal-name` }>{recipe.name}</p>
       <ShareButton
         type={ `${recipe.type}s` }

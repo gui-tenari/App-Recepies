@@ -18,8 +18,8 @@ const ShareButton = ({ type, id, testId }) => {
 
   return (
     <>
-      <button type="button" data-testid={ testId } onClick={ handleShareClick }>
-        <img src={ shareIcon } alt="share" />
+      <button type="button" onClick={ handleShareClick }>
+        <img src={ shareIcon } alt="share" data-testid={ testId } />
       </button>
       {copiedLink && <p>Link copiado!</p>}
     </>

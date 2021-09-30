@@ -8,7 +8,7 @@ export const setFavoriteRecipes = (recipes) => {
   localStorage.setItem('favoriteRecipes', JSON.stringify(recipes));
 };
 
-export const toggleFavoriteRecipe = (recipe, type, isFavorite) => {
+export const toggleFavoriteRecipe = (recipe, isFavorite) => {
   const favoriteRecipes = getFavoriteRecipes();
 
   if (isFavorite) {
