@@ -54,7 +54,7 @@ export const setInProgressRecipes = (recipes, type, id) => {
   localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
 };
 
-export const getTodaysDate = () => {
+const getTodaysDate = () => {
   // código para pegar data atual retirado de https://www.horadecodar.com.br/2021/04/03/como-pegar-a-data-atual-com-javascript/
   const data = new Date();
   const dia = String(data.getDate()).padStart(2, '0');
