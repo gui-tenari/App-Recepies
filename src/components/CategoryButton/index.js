@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 import './style.css';
 
-const CategoryButton = ({ category, handleFilterClick }) => (
+const CategoryButton = ({ category, handleFilterClick, testId }) => (
   <button
     className="category-button"
     type="button"
-    data-testid={ `${category}-category-filter` }
+    data-testid={ testId }
     onClick={ () => handleFilterClick(category) }
   >
     {category}
@@ -17,6 +17,7 @@ const CategoryButton = ({ category, handleFilterClick }) => (
 CategoryButton.propTypes = {
   category: PropTypes.string.isRequired,
   handleFilterClick: PropTypes.func.isRequired,
+  testId: PropTypes.string.isRequired,
 };
 
 export default CategoryButton;

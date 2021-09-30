@@ -1,8 +1,3 @@
-const typeTable = {
-  comida: 'Meal',
-  bebida: 'Drink',
-};
-
 export const getFavoriteRecipes = () => {
   const favoriteRecipes = localStorage.getItem('favoriteRecipes');
 
@@ -18,20 +13,12 @@ export const toggleFavoriteRecipe = (recipe, type, isFavorite) => {
 
   if (isFavorite) {
     const newFavoriteRecipes = favoriteRecipes.filter(
-      (favoriteRecipe) => favoriteRecipe.id !== recipe[`id${typeTable[type]}`],
+      (favoriteRecipe) => favoriteRecipe.id !== recipe.id,
     );
 
     setFavoriteRecipes(newFavoriteRecipes);
   } else {
-    const newFavoriteRecipes = [...favoriteRecipes, {
-      id: recipe[`id${typeTable[type]}`],
-      type,
-      area: recipe.strArea || '',
-      category: recipe.strCategory,
-      alcoholicOrNot: recipe.strAlcoholic || '',
-      name: recipe[`str${typeTable[type]}`],
-      image: recipe[`str${typeTable[type]}Thumb`],
-    }];
+    const newFavoriteRecipes = [...favoriteRecipes, recipe];
 
     setFavoriteRecipes(newFavoriteRecipes);
   }
