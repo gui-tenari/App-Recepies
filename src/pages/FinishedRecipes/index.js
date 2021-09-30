@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Header from '../../components/Header';
 import ShareButton from '../../components/ShareButton';
@@ -7,19 +7,42 @@ const FinishedRecipes = () => {
   const doneRecipes = localStorage.getItem('doneRecipes');
   const doneRecipesParse = JSON.parse(doneRecipes);
   const [recipes] = useState(doneRecipesParse);
+  const [filteredRecipes, setFilteredRecipes] = useState(doneRecipesParse);
+  const [filter, setFilter] = useState('');
+
+  useEffect(() => {
+    if (filter === '') {
+      setFilteredRecipes(recipes);
+    } else {
+      setFilteredRecipes(recipes.filter((recipe) => recipe.type === filter));
+    }
+  }, [filter, recipes]);
+
   return (
     <div>
       <Header title="Receitas Feitas" />
-      <button type="button" data-testid="filter-by-all-btn">
+      <button
+        onClick={ () => setFilter('') }
+        type="button"
+        data-testid="filter-by-all-btn"
+      >
         All
       </button>
-      <button type="button" data-testid="filter-by-food-btn">
+      <button
+        onClick={ () => setFilter('comida') }
+        type="button"
+        data-testid="filter-by-food-btn"
+      >
         Food
       </button>
-      <button type="button" data-testid="filter-by-drink-btn">
+      <button
+        onClick={ () => setFilter('bebida') }
+        type="button"
+        data-testid="filter-by-drink-btn"
+      >
         Drinks
       </button>
-      {recipes.map((recipe, index) => (
+      {filteredRecipes.map((recipe, index) => (
         <div key={ recipe.id }>
           <img
             data-testid={ `${index}-horizontal-image` }
