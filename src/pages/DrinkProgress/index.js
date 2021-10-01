@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 
@@ -6,9 +7,12 @@ import ShareButton from '../../components/ShareButton';
 import FavoriteButton from '../../components/FavoriteButton';
 
 import {
+  addRecipeIngredient,
+  removeRecipeIngredient,
+} from '../../redux/actions/inProgressRecipesActions';
+
+import {
   getFinishedRecipe,
-  getInProgressRecipes,
-  setInProgressRecipes,
 } from '../../utils/localStorageHelpers';
 
 import getIngredients from '../../utils/getIngredients';
@@ -21,9 +25,12 @@ function DrinkProgress(props) {
   } = props;
 
   const [drink, setDrink] = useState({});
-  const [progressInfo, setProgressInfo] = useState([]);
   const [ingredients, setIngredients] = useState([]);
+  const progressInfo = useSelector(
+    ({ inProgressRecipes }) => inProgressRecipes.cocktails[id] || [],
+  );
 
+  const dispatch = useDispatch();
   const history = useHistory();
 
   useEffect(() => {
@@ -35,22 +42,8 @@ function DrinkProgress(props) {
       setDrink(fetchedDrinks.drinks[0]);
     }
 
-    function getRecipeStatus() {
-      const inProgressRecipes = getInProgressRecipes();
-      const { cocktails } = inProgressRecipes;
-
-      setProgressInfo(cocktails[id] || []);
-    }
-
     getDrinks();
-    getRecipeStatus();
   }, [id]);
-
-  useEffect(() => {
-    if (id) {
-      setInProgressRecipes(progressInfo, 'cocktails', id);
-    }
-  }, [id, progressInfo]);
 
   useEffect(() => {
     setIngredients(getIngredients(drink));
@@ -58,9 +51,9 @@ function DrinkProgress(props) {
 
   function handleChange(ingredient, isChecked) {
     if (!isChecked) {
-      setProgressInfo([...progressInfo, ingredient]);
+      dispatch(addRecipeIngredient(id, 'bebida', ingredient));
     } else {
-      setProgressInfo(progressInfo.filter((name) => ingredient !== name));
+      dispatch(removeRecipeIngredient(id, 'bebida', ingredient));
     }
   }
 

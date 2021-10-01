@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 
@@ -6,9 +7,12 @@ import ShareButton from '../../components/ShareButton';
 import FavoriteButton from '../../components/FavoriteButton';
 
 import {
+  addRecipeIngredient,
+  removeRecipeIngredient,
+} from '../../redux/actions/inProgressRecipesActions';
+
+import {
   getFinishedRecipe,
-  getInProgressRecipes,
-  setInProgressRecipes,
 } from '../../utils/localStorageHelpers';
 
 import getIngredients from '../../utils/getIngredients';
@@ -23,9 +27,12 @@ function MealProgress(props) {
   } = props;
 
   const [meal, setMeal] = useState({});
-  const [progressInfo, setProgressInfo] = useState([]);
   const [ingredients, setIngredients] = useState([]);
+  const progressInfo = useSelector(
+    ({ inProgressRecipes }) => inProgressRecipes.meals[id] || [],
+  );
 
+  const dispatch = useDispatch();
   const history = useHistory();
 
   useEffect(() => {
@@ -37,22 +44,8 @@ function MealProgress(props) {
       setMeal(fetchedMeal.meals[0]);
     }
 
-    function getRecipeStatus() {
-      const inProgressRecipes = getInProgressRecipes();
-      const { meals } = inProgressRecipes;
-
-      setProgressInfo(meals[id] || []);
-    }
-
     getMeal();
-    getRecipeStatus();
   }, [id]);
-
-  useEffect(() => {
-    if (id) {
-      setInProgressRecipes(progressInfo, 'meals', id);
-    }
-  }, [id, progressInfo]);
 
   useEffect(() => {
     setIngredients(getIngredients(meal));
@@ -60,9 +53,9 @@ function MealProgress(props) {
 
   function handleChange(ingredient, isChecked) {
     if (!isChecked) {
-      setProgressInfo([...progressInfo, ingredient]);
+      dispatch(addRecipeIngredient(id, 'comida', ingredient));
     } else {
-      setProgressInfo(progressInfo.filter((name) => ingredient !== name));
+      dispatch(removeRecipeIngredient(id, 'comida', ingredient));
     }
   }
 

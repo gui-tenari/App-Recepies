@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 
@@ -22,6 +23,9 @@ const MealDetails = (props) => {
   const [meal, setMeal] = useState({});
   const [drinks, setDrinks] = useState([]);
   const [ingredients, setIngredients] = useState([]);
+  const isInProgress = useSelector(
+    ({ inProgressRecipes }) => !!inProgressRecipes.meals[id],
+  );
 
   const history = useHistory();
 
@@ -105,7 +109,7 @@ const MealDetails = (props) => {
         type="button"
         data-testid="start-recipe-btn"
       >
-        Iniciar Receita
+        {isInProgress ? 'Continuar Receita' : 'Iniciar Receita'}
       </button>
     </div>
   );

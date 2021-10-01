@@ -43,7 +43,7 @@ export const setInProgressRecipes = (recipes, type, id) => {
 
 export const getFinishedRecipe = (recipe, type) => {
   const doneRecipes = localStorage.getItem('doneRecipes');
-  const doneRecipesParse = JSON.parse(doneRecipes);
+  const doneRecipesParse = JSON.parse(doneRecipes) || [];
   const finishedRecipe = {
     id: recipe[`id${type}`],
     type: type === 'Meal' ? 'comida' : 'bebida',

@@ -42,7 +42,7 @@ const FinishedRecipes = () => {
       >
         Drinks
       </button>
-      {filteredRecipes.map((recipe, index) => (
+      {filteredRecipes && filteredRecipes.map((recipe, index) => (
         <div key={ recipe.id }>
           <Link to={ `/${recipe.type}s/${recipe.id}` }>
             <img
