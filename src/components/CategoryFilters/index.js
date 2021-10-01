@@ -65,11 +65,13 @@ const CategoryFilters = ({ type }) => {
         category="All"
         type={ type }
         handleFilterClick={ handleAllClick }
+        testId="All-category-filter"
       />
       {categories.map(({ strCategory: category }) => (
         <CategoryButton
           key={ category }
           category={ category }
+          testId={ `${category}-category-filter` }
           type={ type }
           handleFilterClick={ handleFilterClick }
         />

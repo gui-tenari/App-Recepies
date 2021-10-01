@@ -6,6 +6,7 @@ import ShareButton from '../../components/ShareButton';
 import FavoriteButton from '../../components/FavoriteButton';
 
 import {
+  getFinishedRecipe,
   getInProgressRecipes,
   setInProgressRecipes,
 } from '../../utils/localStorageHelpers';
@@ -66,6 +67,7 @@ function MealProgress(props) {
   }
 
   function handleClickComidas() {
+    getFinishedRecipe(meal, 'Meal');
     history.push('/receitas-feitas');
   }
 
@@ -77,8 +79,8 @@ function MealProgress(props) {
         alt={ meal.strMeal }
       />
       <h1 data-testid="recipe-title">{meal.strMeal}</h1>
-      <ShareButton />
-      <FavoriteButton recipe={ meal } type="comida" />
+      <ShareButton type="comidas" id={ meal.idMeal } testId="share-btn" />
+      <FavoriteButton recipe={ meal } type="comida" testId="favorite-btn" />
       <p data-testid="recipe-category">{meal.strCategory}</p>
       {ingredients.map(({ ingredient }, index) => {
         const isChecked = progressInfo.includes(ingredient);

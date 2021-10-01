@@ -15,6 +15,10 @@ function Login({ history }) {
       'inProgressRecipes',
       JSON.stringify({ meals: {}, cocktails: {} }),
     );
+    localStorage.setItem(
+      'doneRecipes',
+      JSON.stringify([]),
+    );
     history.push('/comidas');
   };
 

@@ -9,7 +9,12 @@ import {
 import whiteHeart from '../../images/whiteHeartIcon.svg';
 import blackHeart from '../../images/blackHeartIcon.svg';
 
-const FavoriteButton = ({ recipe, type }) => {
+const typeTable = {
+  comida: 'Meal',
+  bebida: 'Drink',
+};
+
+const FavoriteButton = ({ recipe, type, testId }) => {
   const [isFavorite, setFavorite] = useState(false);
 
   useEffect(() => {
@@ -18,21 +23,37 @@ const FavoriteButton = ({ recipe, type }) => {
     const recipeId = type === 'comida' ? recipe.idMeal : recipe.idDrink;
 
     setFavorite(
-      favoriteRecipes.some(
-        (favoriteRecipe) => favoriteRecipe.id === recipeId,
-      ),
+      favoriteRecipes.some(({ id }) => id === recipeId || id === recipe.id),
     );
   }, [recipe, type]);
 
+  function getFavoriteShape() {
+    if (recipe[`id${typeTable[type]}`]) {
+      return {
+        id: recipe[`id${typeTable[type]}`],
+        type,
+        area: recipe.strArea || '',
+        category: recipe.strCategory,
+        alcoholicOrNot: recipe.strAlcoholic || '',
+        name: recipe[`str${typeTable[type]}`],
+        image: recipe[`str${typeTable[type]}Thumb`],
+      };
+    }
+
+    return recipe;
+  }
+
   function handleFavoriteClick() {
-    toggleFavoriteRecipe(recipe, type, isFavorite);
+    const favoriteShape = getFavoriteShape();
+
+    toggleFavoriteRecipe(favoriteShape, type, isFavorite);
     setFavorite(!isFavorite);
   }
 
   return (
     <button type="button" onClick={ handleFavoriteClick }>
       <img
-        data-testid="favorite-btn"
+        data-testid={ testId }
         src={ isFavorite ? blackHeart : whiteHeart }
         alt="favorite"
       />
@@ -43,6 +64,7 @@ const FavoriteButton = ({ recipe, type }) => {
 FavoriteButton.propTypes = {
   recipe: PropTypes.objectOf(PropTypes.any).isRequired,
   type: PropTypes.string.isRequired,
+  testId: PropTypes.string.isRequired,
 };
 
 export default FavoriteButton;

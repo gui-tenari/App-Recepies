@@ -1,8 +1,3 @@
-const typeTable = {
-  comida: 'Meal',
-  bebida: 'Drink',
-};
-
 export const getFavoriteRecipes = () => {
   const favoriteRecipes = localStorage.getItem('favoriteRecipes');
 
@@ -18,20 +13,12 @@ export const toggleFavoriteRecipe = (recipe, type, isFavorite) => {
 
   if (isFavorite) {
     const newFavoriteRecipes = favoriteRecipes.filter(
-      (favoriteRecipe) => favoriteRecipe.id !== recipe[`id${typeTable[type]}`],
+      (favoriteRecipe) => favoriteRecipe.id !== recipe.id,
     );
 
     setFavoriteRecipes(newFavoriteRecipes);
   } else {
-    const newFavoriteRecipes = [...favoriteRecipes, {
-      id: recipe[`id${typeTable[type]}`],
-      type,
-      area: recipe.strArea || '',
-      category: recipe.strCategory,
-      alcoholicOrNot: recipe.strAlcoholic || '',
-      name: recipe[`str${typeTable[type]}`],
-      image: recipe[`str${typeTable[type]}Thumb`],
-    }];
+    const newFavoriteRecipes = [...favoriteRecipes, recipe];
 
     setFavoriteRecipes(newFavoriteRecipes);
   }
@@ -52,4 +39,32 @@ export const setInProgressRecipes = (recipes, type, id) => {
   inProgressRecipes[type][id] = recipes;
 
   localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
+};
+
+const getTodaysDate = () => {
+  // código para pegar data atual retirado de https://www.horadecodar.com.br/2021/04/03/como-pegar-a-data-atual-com-javascript/
+  const data = new Date();
+  const dia = String(data.getDate()).padStart(2, '0');
+  const mes = String(data.getMonth() + 1).padStart(2, '0');
+  const ano = data.getFullYear();
+  const dataAtual = `${dia}/${mes}/${ano}`;
+  return dataAtual;
+};
+
+export const getFinishedRecipe = (recipe, type) => {
+  const doneRecipes = localStorage.getItem('doneRecipes');
+  const doneRecipesParse = JSON.parse(doneRecipes);
+  const finishedRecipe = {
+    id: recipe[`id${type}`],
+    type: type === 'Meal' ? 'comida' : 'bebida',
+    area: recipe.strArea,
+    category: recipe.strCategory,
+    alcoholicOrNot: recipe.strAlcoholic || '',
+    name: recipe[`str${type}`],
+    image: recipe[`str${type}Thumb`],
+    doneDate: getTodaysDate(),
+    tags: recipe.strTags ? recipe.strTags.split(',') : [],
+  };
+  doneRecipesParse.push(finishedRecipe);
+  localStorage.setItem('doneRecipes', JSON.stringify(doneRecipesParse));
 };

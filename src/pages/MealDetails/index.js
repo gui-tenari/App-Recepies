@@ -68,8 +68,8 @@ const MealDetails = (props) => {
         alt={ meal.strMeal }
       />
       <h1 data-testid="recipe-title">{meal.strMeal}</h1>
-      <ShareButton />
-      <FavoriteButton recipe={ meal } type="comida" />
+      <ShareButton type="comidas" id={ meal.idMeal } testId="share-btn" />
+      <FavoriteButton recipe={ meal } type="comida" testId="favorite-btn" />
       <p data-testid="recipe-category">{meal.strCategory}</p>
       {ingredients.map(({ ingredient, measure }, index) => (
         <div key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
