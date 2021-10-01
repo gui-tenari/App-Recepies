@@ -6,6 +6,7 @@ import ShareButton from '../../components/ShareButton';
 import FavoriteButton from '../../components/FavoriteButton';
 
 import {
+  getFinishedRecipe,
   getInProgressRecipes,
   setInProgressRecipes,
 } from '../../utils/localStorageHelpers';
@@ -66,6 +67,7 @@ function MealProgress(props) {
   }
 
   function handleClickComidas() {
+    getFinishedRecipe(meal, 'Meal');
     history.push('/receitas-feitas');
   }
 
