@@ -41,16 +41,6 @@ export const setInProgressRecipes = (recipes, type, id) => {
   localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
 };
 
-const getTodaysDate = () => {
-  // código para pegar data atual retirado de https://www.horadecodar.com.br/2021/04/03/como-pegar-a-data-atual-com-javascript/
-  const data = new Date();
-  const dia = String(data.getDate()).padStart(2, '0');
-  const mes = String(data.getMonth() + 1).padStart(2, '0');
-  const ano = data.getFullYear();
-  const dataAtual = `${dia}/${mes}/${ano}`;
-  return dataAtual;
-};
-
 export const getFinishedRecipe = (recipe, type) => {
   const doneRecipes = localStorage.getItem('doneRecipes');
   const doneRecipesParse = JSON.parse(doneRecipes);
@@ -62,7 +52,7 @@ export const getFinishedRecipe = (recipe, type) => {
     alcoholicOrNot: recipe.strAlcoholic || '',
     name: recipe[`str${type}`],
     image: recipe[`str${type}Thumb`],
-    doneDate: getTodaysDate(),
+    doneDate: Intl.DateTimeFormat('pt-BR').format(Date.now()),
     tags: recipe.strTags ? recipe.strTags.split(',') : [],
   };
   doneRecipesParse.push(finishedRecipe);

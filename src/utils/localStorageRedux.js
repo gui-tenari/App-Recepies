@@ -1,8 +1,4 @@
-const getFavoriteRecipes = () => {
-  const favoriteRecipes = localStorage.getItem('favoriteRecipes');
-
-  return favoriteRecipes ? JSON.parse(favoriteRecipes) : [];
-};
+import { getFavoriteRecipes } from '../redux/reducers/favoriteRecipesReducer';
 
 export const loadState = () => {
   const favoriteRecipes = getFavoriteRecipes();
