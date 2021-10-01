@@ -5,7 +5,6 @@ import Login from './pages/Login';
 import MealProgress from './pages/MealProgress';
 import MealDetails from './pages/MealDetails';
 import Meals from './pages/Meals';
-import DrinkAreas from './pages/DrinkAreas';
 import DrinkDetails from './pages/DrinkDetails';
 import DrinkProgress from './pages/DrinkProgress';
 import Drinks from './pages/Drinks';
@@ -21,6 +20,7 @@ import FavoriteRecipes from './pages/FavoriteRecipes';
 
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
@@ -37,11 +37,11 @@ function App() {
       <Route path="/explorar/comidas/area" component={ MealAreas } />
       <Route exact path="/explorar/comidas" component={ ExploreMeals } />
       <Route path="/explorar/bebidas/ingredientes" component={ DrinkIngredients } />
-      <Route path="/explorar/bebidas/area" component={ DrinkAreas } />
       <Route exact path="/explorar/bebidas" component={ ExploreDrinks } />
       <Route path="/perfil" component={ Profile } />
       <Route path="/receitas-feitas" component={ FinishedRecipes } />
       <Route path="/receitas-favoritas" component={ FavoriteRecipes } />
+      <Route component={ NotFound } />
     </Switch>
   );
 }

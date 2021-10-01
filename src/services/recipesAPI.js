@@ -127,3 +127,19 @@ export const getIngredients = async (type) => {
 
   return data[type].slice(0, MAX_INGREDIENTS);
 };
+
+export const getMealAreas = async () => {
+  const [typeToken, typeUrl] = getTypeInfo('meals');
+  const response = await fetch(`${typeUrl}/${typeToken}/list.php?a=list`);
+  const data = await response.json();
+
+  return data.meals;
+};
+
+export const getMealsByArea = async (area) => {
+  const [typeToken, typeUrl] = getTypeInfo('meals');
+  const response = await fetch(`${typeUrl}/${typeToken}/filter.php?a=${area}`);
+  const data = await response.json();
+
+  return data.meals.slice(0, MAX_RECIPES);
+};

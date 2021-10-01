@@ -5,6 +5,7 @@ import {
   getRecipesByFirstLetter,
   getRecipesByCategory,
   getRecipeCategories,
+  getMealsByArea,
 } from '../../services/recipesAPI';
 
 const RECIPES_NOT_FOUND = 'Sinto muito, não encontramos nenhuma'
@@ -103,6 +104,18 @@ export const setMealsByCategory = (category) => async (dispatch) => {
     const meals = await getRecipesByCategory('meals', category);
 
     dispatch(setFilteredMeals(meals, 'category'));
+  } catch (error) {
+    dispatch(failedRequest(error.message));
+  }
+};
+
+export const setMealsByArea = (area) => async (dispatch) => {
+  dispatch(requestApi());
+
+  try {
+    const meals = await getMealsByArea(area);
+
+    dispatch(setFilteredMeals(meals, 'query'));
   } catch (error) {
     dispatch(failedRequest(error.message));
   }
