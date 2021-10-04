@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 import ShareButton from '../../components/ShareButton';
 import FavoriteButton from '../../components/FavoriteButton';
@@ -11,27 +10,21 @@ import {
   removeRecipeIngredient,
 } from '../../redux/actions/inProgressRecipesActions';
 
-import {
-  getFinishedRecipe,
-} from '../../utils/localStorageHelpers';
+import { setDoneRecipe } from '../../redux/actions/doneRecipesActions';
 
 import getIngredients from '../../utils/getIngredients';
 
-function DrinkProgress(props) {
-  const {
-    match: {
-      params: { id },
-    },
-  } = props;
-
+function DrinkProgress() {
   const [drink, setDrink] = useState({});
   const [ingredients, setIngredients] = useState([]);
-  const progressInfo = useSelector(
-    ({ inProgressRecipes }) => inProgressRecipes.cocktails[id] || [],
-  );
 
   const dispatch = useDispatch();
   const history = useHistory();
+  const { id } = useParams();
+
+  const progressInfo = useSelector(
+    ({ inProgressRecipes }) => inProgressRecipes.cocktails[id] || [],
+  );
 
   useEffect(() => {
     async function getDrinks() {
@@ -58,7 +51,7 @@ function DrinkProgress(props) {
   }
 
   function handleClickBebidas() {
-    getFinishedRecipe(drink, 'Drink');
+    dispatch(setDoneRecipe(drink, 'Drink'));
     history.push('/receitas-feitas');
   }
 
@@ -107,12 +100,5 @@ function DrinkProgress(props) {
     </div>
   );
 }
-DrinkProgress.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string,
-    }),
-  }).isRequired,
-};
 
 export default DrinkProgress;

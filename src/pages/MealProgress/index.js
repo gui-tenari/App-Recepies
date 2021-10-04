@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 import ShareButton from '../../components/ShareButton';
 import FavoriteButton from '../../components/FavoriteButton';
@@ -11,29 +10,23 @@ import {
   removeRecipeIngredient,
 } from '../../redux/actions/inProgressRecipesActions';
 
-import {
-  getFinishedRecipe,
-} from '../../utils/localStorageHelpers';
+import { setDoneRecipe } from '../../redux/actions/doneRecipesActions';
 
 import getIngredients from '../../utils/getIngredients';
 
 import './style.css';
 
-function MealProgress(props) {
-  const {
-    match: {
-      params: { id },
-    },
-  } = props;
-
+function MealProgress() {
   const [meal, setMeal] = useState({});
   const [ingredients, setIngredients] = useState([]);
-  const progressInfo = useSelector(
-    ({ inProgressRecipes }) => inProgressRecipes.meals[id] || [],
-  );
 
   const dispatch = useDispatch();
   const history = useHistory();
+  const { id } = useParams();
+
+  const progressInfo = useSelector(
+    ({ inProgressRecipes }) => inProgressRecipes.meals[id] || [],
+  );
 
   useEffect(() => {
     async function getMeal() {
@@ -60,7 +53,7 @@ function MealProgress(props) {
   }
 
   function handleClickComidas() {
-    getFinishedRecipe(meal, 'Meal');
+    dispatch(setDoneRecipe(meal, 'Meal'));
     history.push('/receitas-feitas');
   }
 
@@ -108,13 +101,5 @@ function MealProgress(props) {
     </div>
   );
 }
-
-MealProgress.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string,
-    }),
-  }).isRequired,
-};
 
 export default MealProgress;
