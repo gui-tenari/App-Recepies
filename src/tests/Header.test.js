@@ -32,12 +32,13 @@ describe('9 - Implemente os elementos do header', () => {
 
 describe('10 - Implemente um ícone para a tela de perfil', () => {
   const hasNoHeader = () => {
-  //   expect(<App hasSearchBar />).not.toContain(BUTTON_PEFIL_TEST_ID);
-  //   expect(<App hasSearchBar />).not.toContain(TITLE_HEADER_TEST_ID);
-  //   expect(<App hasSearchBar />).not.toContain(BUTTON_SEARCH_TEST_ID);
+    const buttonProfile = screen.queryByTestId(BUTTON_PEFIL_TEST_ID);
+    const titleHeader = screen.queryByTestId(TITLE_HEADER_TEST_ID);
+    const buttonSearch = screen.queryByTestId(BUTTON_SEARCH_TEST_ID);
 
-    const header = screen.queryByTestId('header');
-    expect(header).not.toBeInTheDocument();
+    expect(buttonProfile).not.toBeInTheDocument();
+    expect(titleHeader).not.toBeInTheDocument();
+    expect(buttonSearch).not.toBeInTheDocument();
   };
 
   const hasHeader = (title, withSearchButton = true) => {
