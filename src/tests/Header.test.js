@@ -1,181 +1,247 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import Header from '../components/Header/index';
+import App from '../App';
+// import Login from '../pages/Login/index';
+// import userEvent from '@testing-library/user-event';
+
 import renderWithRouter from './renderWithRouter';
+import { renderWithRouterAndStore } from './renderWithRouterAndStore';
 
 const BUTTON_PEFIL_TEST_ID = 'profile-top-btn';
 const TITLE_HEADER_TEST_ID = 'page-title';
 const BUTTON_SEARCH_TEST_ID = 'search-top-btn';
+const SEACH_TEST_ID = 'search-input';
 
 describe('9 - Implemente os elementos do header', () => {
   it('Tem os data-testids profile-top-btn, page-title e search-top-btn', () => {
-    const { history } = renderWithRouter(<Header />);
+    const { history } = renderWithRouter(<Header title="Comidas" hasSearchBar />);
     history.push('/comidas');
     expect(history.location.pathname).toBe('/comidas');
 
     const buttonProfile = screen.getByTestId(BUTTON_PEFIL_TEST_ID);
     const titleHeader = screen.getByTestId(TITLE_HEADER_TEST_ID);
-    // const buttonSearch = screen.getByTestId(BUTTON_SEARCH_TEST_ID);
+    const buttonSearch = screen.getByTestId(BUTTON_SEARCH_TEST_ID);
 
     expect(buttonProfile).toBeInTheDocument();
     expect(titleHeader).toBeInTheDocument();
-    // expect(buttonSearch).toBeInTheDocument();
-  //   cy.get('[data-testid="profile-top-btn"]');
-  //   cy.get('[data-testid="page-title"]');
-  //   cy.get('[data-testid="search-top-btn"]');
-  // });
+    expect(buttonSearch).toBeInTheDocument();
+  });
+});
+
+describe('10 - Implemente um ícone para a tela de perfil', () => {
+  const hasNoHeader = () => {
+  //   expect(<App hasSearchBar />).not.toContain(BUTTON_PEFIL_TEST_ID);
+  //   expect(<App hasSearchBar />).not.toContain(TITLE_HEADER_TEST_ID);
+  //   expect(<App hasSearchBar />).not.toContain(BUTTON_SEARCH_TEST_ID);
+
+    const header = screen.queryByTestId('header');
+    expect(header).not.toBeInTheDocument();
+  };
+
+  const hasHeader = (title, withSearchButton = true) => {
+    const buttonProfile = screen.getByTestId(BUTTON_PEFIL_TEST_ID);
+    const titleHeader = screen.getByTestId(TITLE_HEADER_TEST_ID);
+    const buttonSearch = screen.getByTestId(BUTTON_SEARCH_TEST_ID);
+
+    expect(buttonProfile).toBeInTheDocument();
+
+    expect(titleHeader).toBeInTheDocument();
+    if (withSearchButton) {
+      expect(buttonSearch).toBeInTheDocument();
+    } else {
+      expect(buttonSearch).not.toBeInTheDocument();
+    }
+  };
+
+  it('1 - Não tem header na tela de login', () => {
+    const { history } = renderWithRouterAndStore(<App />);
+    history.push('/Login');
+    expect(history.location.pathname).toBe('/Login');
+
+    hasNoHeader();
   });
 
-  // describe('10 - Implemente um ícone para a tela de perfil, um título e um ícone para a busca, caso exista no protótipo', () => {
-  //   const hasNoHeader = () => {
-  //     cy.get('[data-testid="profile-top-btn"]').should('not.exist');
-  //     cy.get('[data-testid="page-title"]').should('not.exist');
-  //     cy.get('[data-testid="search-top-btn"]').should('not.exist');
-  //   };
+  it('2 - O header tem os ícones corretos na tela de principal de comidas', () => {
+    const { history } = renderWithRouterAndStore(<App />);
+    history.push('/comidas');
+    expect(history.location.pathname).toBe('/comidas');
 
-  //   const hasHeader = (title, withSearchButton = true) => {
-  //     cy.get('[data-testid="profile-top-btn"]')
-  //       .should('have.attr', 'src')
-  //       .should('include', 'profileIcon');
+    hasHeader();
+  });
 
-  //     cy.get('[data-testid="page-title"]').contains(title);
+  it('3 - O header tem os ícones corretos na tela de receitas de bebidas', () => {
+    const { history } = renderWithRouterAndStore(<App />);
+    history.push('/bebidas');
+    expect(history.location.pathname).toBe('/bebidas');
 
-  //     if (withSearchButton){
-  //       cy.get('[data-testid="search-top-btn"]')
-  //         .should('have.attr', 'src')
-  //         .should('include', 'searchIcon');
-  //     } else {
-  //       cy.get('[data-testid="search-top-btn"]').should('not.exist');
-  //     }
-  //   };
+    hasHeader();
+  });
 
-  //   it('Não tem header na tela de login', () => {
-  //     cy.visit('http://localhost:3000/');
+  it('4 - Não tem header na tela de detalhes de uma receita de comida', () => {
+    const { history } = renderWithRouterAndStore(<App />);
+    history.push('/comidas/52771');
+    expect(history.location.pathname).toBe('/comidas/52771');
 
-  //     hasNoHeader();
-  //   });
+    hasNoHeader();
+  });
 
-  //   it('O header tem os ícones corretos na tela de principal de receitas de comidas', () => {
-  //     cy.visit('http://localhost:3000/comidas');
+  it('5 - Não tem header na tela de detalhes de uma receita de bebida', () => {
+    const { history } = renderWithRouterAndStore(<App />);
+    history.push('/bebidas/178319');
+    expect(history.location.pathname).toBe('/bebidas/178319');
 
-  //     hasHeader('Comidas');
-  //   });
+    hasNoHeader();
+  });
 
-  //   it('O header tem os ícones corretos na tela de principal de receitas de bebidas', () => {
-  //     cy.visit('http://localhost:3000/bebidas');
+  it('6 - Não tem header na tela de receita em processo de comida', () => {
+    const { history } = renderWithRouterAndStore(<App />);
+    history.push('/comidas/52771/in-progress');
+    expect(history.location.pathname).toBe('/comidas/52771/in-progress');
 
-  //     hasHeader('Bebidas');
-  //   });
+    hasNoHeader();
+  });
 
-  //   it('Não tem header na tela de detalhes de uma receita de comida', () => {
-  //     cy.visit('http://localhost:3000/comidas/52771');
+  it('7 - Não tem header na tela de receita em processo de bebida', () => {
+    const { history } = renderWithRouterAndStore(<App />);
+    history.push('/bebidas/178319/in-progress');
+    expect(history.location.pathname).toBe('/bebidas/178319/in-progress');
 
-  //     hasNoHeader();
-  //   });
+    hasNoHeader();
+  });
 
-  //   it('Não tem header na tela de detalhes de uma receita de bebida', () => {
-  //     cy.visit('http://localhost:3000/bebidas/178319');
+  it('8 - O header tem os ícones corretos na tela de explorar', () => {
+    const { history } = renderWithRouterAndStore(
+      <Header title="Explorar" hasSearchBar />,
+    );
+    history.push('/explorar');
+    expect(history.location.pathname).toBe('/explorar');
 
-  //     hasNoHeader();
-  //   });
+    hasHeader();
+  });
 
-  //   it('Não tem header na tela de receita em processo de comida', () => {
-  //     cy.visit('http://localhost:3000/comidas/52771/in-progress');
+  it('9 - O header tem os ícones corretos na tela de explorar comidas', () => {
+    const { history } = renderWithRouterAndStore(
+      <Header title="Explorar Comidas" hasSearchBar />,
+    );
+    history.push('/explorar/comidas');
+    expect(history.location.pathname).toBe('/explorar/comidas');
 
-  //     hasNoHeader();
-  //   });
+    hasHeader();
+  });
 
-  //   it('Não tem header na tela de receita em processo de bebida', () => {
-  //     cy.visit('http://localhost:3000/bebidas/178319/in-progress');
+  it('10 - O header tem os ícones corretos na tela de explorar bebidas', () => {
+    const { history } = renderWithRouterAndStore(
+      <Header title="Explorar Bebidas" hasSearchBar />,
+    );
+    history.push('/explorar/bebidas');
+    expect(history.location.pathname).toBe('/explorar/bebidas');
 
-  //     hasNoHeader();
-  //   });
+    hasHeader();
+  });
 
-  //   it('O header tem os ícones corretos na tela de explorar', () => {
-  //     cy.visit('http://localhost:3000/explorar');
+  it('11 - tem os ícones corretos na tela de explorar comidas por ingrediente', () => {
+    const { history } = renderWithRouterAndStore(
+      <Header title="Explorar Ingredientes" hasSearchBar />,
+    );
+    history.push('/explorar/comidas/ingredientes');
+    expect(history.location.pathname).toBe('/explorar/comidas/ingredientes');
 
-  //     hasHeader('Explorar', false);
-  //   });
+    hasHeader();
+  });
 
-  //   it('O header tem os ícones corretos na tela de explorar comidas', () => {
-  //     cy.visit('http://localhost:3000/explorar/comidas');
+  it('12 - tem os ícones corretos na tela de explorar bebidas por ingrediente', () => {
+    const { history } = renderWithRouterAndStore(
+      <Header title="Explorar Ingredientes" hasSearchBar />,
+    );
+    history.push('/explorar/bebidas/ingredientes');
+    expect(history.location.pathname).toBe('/explorar/bebidas/ingredientes');
 
-  //     hasHeader('Explorar Comidas', false);
-  //   });
+    hasHeader();
+  });
 
-  //   it('O header tem os ícones corretos na tela de explorar bebidas', () => {
-  //     cy.visit('http://localhost:3000/explorar/bebidas');
+  it('13 - tem os ícones corretos na tela de explorar comidas por  origem', () => {
+    const { history } = renderWithRouterAndStore(
+      <Header title="Explorar Origem" hasSearchBar />,
+    );
+    history.push('/explorar/bebidas/area');
+    expect(history.location.pathname).toBe('/explorar/bebidas/area');
 
-  //     hasHeader('Explorar Bebidas', false);
-  //   });
+    hasHeader();
+  });
 
-  //   it('O header tem os ícones corretos na tela de explorar comidas por ingrediente', () => {
-  //     cy.visit('http://localhost:3000/explorar/comidas/ingredientes');
+  it('14 - O header tem os ícones corretos na tela de perfil', () => {
+    const { history } = renderWithRouterAndStore(
+      <Header title="Perfil" hasSearchBar />,
+    );
+    history.push('/perfil');
+    expect(history.location.pathname).toBe('/perfil');
 
-  //     hasHeader('Explorar Ingredientes', false);
-  //   });
+    hasHeader();
+  });
 
-  //   it('O header tem os ícones corretos na tela de explorar bebidas por ingrediente', () => {
-  //     cy.visit('http://localhost:3000/explorar/bebidas/ingredientes');
+  it('15 - O header tem os ícones corretos na tela de receitas feitas', () => {
+    const { history } = renderWithRouterAndStore(
+      <Header title="Receitas Feitas" hasSearchBar />,
+    );
+    history.push('/receitas-feitas');
+    expect(history.location.pathname).toBe('/receitas-feitas');
 
-  //     hasHeader('Explorar Ingredientes', false);
-  //   });
+    hasHeader();
+  });
 
-  //   it('O header tem os ícones corretos na tela de explorar comidas por local de origem', () => {
-  //     cy.visit('http://localhost:3000/explorar/comidas/area');
+  it('16 - O header tem os ícones corretos na tela de receitas favoritas', () => {
+    const { history } = renderWithRouterAndStore(
+      <Header title="Receitas Favoritas" hasSearchBar />,
+    );
+    history.push('/receitas-favoritas');
+    expect(history.location.pathname).toBe('/receitas-favoritas');
 
-  //     hasHeader('Explorar Origem');
-  //   });
+    hasHeader();
+  });
+});
 
-  //   it('O header tem os ícones corretos na tela de perfil', () => {
-  //     cy.visit('http://localhost:3000/perfil');
+describe('11 - Redirecione o usuário para a tela de perfil ao clicar no botão', () => {
+  it('A mudança de tela ocorre corretamente', () => {
+    renderWithRouter(<Header title="Comidas" hasSearchBar />);
 
-  //     hasHeader('Perfil', false);
-  //   });
+    const buttonProfile = screen.getByTestId(BUTTON_PEFIL_TEST_ID);
+    const titleHeader = screen.getByTestId(TITLE_HEADER_TEST_ID);
 
-  //   it('O header tem os ícones corretos na tela de receitas feitas', () => {
-  //     cy.visit('http://localhost:3000/receitas-feitas');
+    expect(titleHeader).toString('Comidas');
+    userEvent.click(buttonProfile);
+    expect(titleHeader).toString('Perfil');
+  });
+});
 
-  //     hasHeader('Receitas Feitas', false);
-  //   });
+describe('12 - botão de busca que quando clicado a barra de busca deve aparecer.', () => {
+  it('Ao clicar no botão de busca pela primeira vez a barra de busca aparece', () => {
+    const { history } = renderWithRouterAndStore(<Header title="Comidas" hasSearchBar />);
+    history.push('/comidas');
+    expect(history.location.pathname).toBe('/comidas');
+    const buttonSearch = screen.getByTestId(BUTTON_SEARCH_TEST_ID);
 
-  //   it('O header tem os ícones corretos na tela de receitas favoritas', () => {
-  //     cy.visit('http://localhost:3000/receitas-favoritas');
+    expect(buttonSearch).toBeInTheDocument();
+    userEvent.click(buttonSearch);
+    const searchInput = screen.getByTestId(SEACH_TEST_ID);
+    expect(searchInput).toBeInTheDocument();
+  });
 
-  //     hasHeader('Receitas Favoritas', false);
-  //   });
-  // });
+  it('Ao clicar no botão de busca pela segunda vez a barra de busca desaparece', () => {
+    const { history } = renderWithRouterAndStore(<Header title="Comidas" hasSearchBar />);
+    history.push('/comidas');
+    expect(history.location.pathname).toBe('/comidas');
 
-  // describe('11 - Redirecione a pessoa usuária para a tela de perfil ao clicar no botão de perfil', () => {
-  //   it('A mudança de tela ocorre corretamente', () => {
-  //     cy.visit('http://localhost:3000/comidas');
+    const buttonSearch = screen.getByTestId(BUTTON_SEARCH_TEST_ID);
 
-  //     cy.get('[data-testid="page-title"]').contains('Comidas');
+    expect(buttonSearch).toBeInTheDocument();
+    userEvent.click(buttonSearch);
 
-  //     cy.get('[data-testid="profile-top-btn"]').click();
+    const searchInput = screen.getByTestId(SEACH_TEST_ID);
 
-  //     cy.get('[data-testid="page-title"]').contains('Perfil');
-  //   });
-  // });
-
-  // describe('12 - Desenvolva o botão de busca que, ao ser clicado, a barra de busca deve aparecer. O mesmo serve para escondê-la', () => {
-  //   it('Ao clicar no botão de busca pela primeira vez a barra de busca aparece', () => {
-  //     cy.visit('http://localhost:3000/comidas');
-
-  //     cy.get('[data-testid="search-input"]').should('not.exist');
-
-  //     cy.get('[data-testid="search-top-btn"]').click();
-
-  //     cy.get('[data-testid="search-input"]');
-  //   });
-
-  //   it('Ao clicar no botão de busca pela segunda vez a barra de busca desaparece', () => {
-  //     cy.visit('http://localhost:3000/comidas');
-
-  //     cy.get('[data-testid="search-top-btn"]').click();
-  //     cy.get('[data-testid="search-input"]');
-
-//     cy.get('[data-testid="search-top-btn"]').click();
-//     cy.get('[data-testid="search-input"]').should('not.exist');
-//   });
+    expect(searchInput).toBeInTheDocument();
+    userEvent.click(buttonSearch);
+    expect(searchInput).not.toBeInTheDocument();
+  });
 });
