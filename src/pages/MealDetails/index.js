@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 
 import Loading from '../../components/Loading';
 import ShareButton from '../../components/ShareButton';
@@ -12,18 +12,19 @@ import './style.css';
 
 const MAX_RECOMENDATIONS = 6;
 
-const MealDetails = (props) => {
-  const {
-    match: {
-      params: { id },
-    },
-  } = props;
-
+const MealDetails = () => {
   const [meal, setMeal] = useState({});
   const [drinks, setDrinks] = useState([]);
   const [ingredients, setIngredients] = useState([]);
 
   const history = useHistory();
+  const { id } = useParams();
+
+  const isDone = useSelector(({ doneRecipes }) => doneRecipes
+    .some((recipe) => recipe.id === id));
+  const isInProgress = useSelector(
+    ({ inProgressRecipes }) => !!inProgressRecipes.meals[id],
+  );
 
   useEffect(() => {
     async function getMeal() {
@@ -99,24 +100,18 @@ const MealDetails = (props) => {
           </div>
         ))}
       </div>
-      <button
-        onClick={ startRecipe }
-        className="start-recipe"
-        type="button"
-        data-testid="start-recipe-btn"
-      >
-        Iniciar Receita
-      </button>
+      {!isDone && (
+        <button
+          onClick={ startRecipe }
+          className="start-recipe"
+          type="button"
+          data-testid="start-recipe-btn"
+        >
+          {isInProgress ? 'Continuar Receita' : 'Iniciar Receita'}
+        </button>
+      )}
     </div>
   );
-};
-
-MealDetails.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string,
-    }),
-  }).isRequired,
 };
 
 export default MealDetails;

@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import {
-  getFavoriteRecipes,
-  toggleFavoriteRecipe,
-} from '../../utils/localStorageHelpers';
+import { toggleFavoriteRecipe } from '../../redux/actions/favoriteRecipesActions';
 
 import whiteHeart from '../../images/whiteHeartIcon.svg';
 import blackHeart from '../../images/blackHeartIcon.svg';
@@ -15,17 +13,17 @@ const typeTable = {
 };
 
 const FavoriteButton = ({ recipe, type, testId }) => {
+  const { favoriteRecipes } = useSelector((state) => state);
   const [isFavorite, setFavorite] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const favoriteRecipes = getFavoriteRecipes();
-
     const recipeId = type === 'comida' ? recipe.idMeal : recipe.idDrink;
 
     setFavorite(
       favoriteRecipes.some(({ id }) => id === recipeId || id === recipe.id),
     );
-  }, [recipe, type]);
+  }, [favoriteRecipes, recipe, type]);
 
   function getFavoriteShape() {
     if (recipe[`id${typeTable[type]}`]) {
@@ -46,7 +44,7 @@ const FavoriteButton = ({ recipe, type, testId }) => {
   function handleFavoriteClick() {
     const favoriteShape = getFavoriteShape();
 
-    toggleFavoriteRecipe(favoriteShape, type, isFavorite);
+    dispatch(toggleFavoriteRecipe(favoriteShape, isFavorite));
     setFavorite(!isFavorite);
   }
 

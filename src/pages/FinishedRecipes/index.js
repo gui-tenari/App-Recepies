@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Header from '../../components/Header';
 import ShareButton from '../../components/ShareButton';
 
 const FinishedRecipes = () => {
-  const doneRecipes = localStorage.getItem('doneRecipes');
-  const doneRecipesParse = JSON.parse(doneRecipes);
-  const [recipes] = useState(doneRecipesParse);
-  const [filteredRecipes, setFilteredRecipes] = useState(doneRecipesParse);
+  const { doneRecipes } = useSelector((state) => state);
+
+  const [filteredRecipes, setFilteredRecipes] = useState(doneRecipes);
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
     if (filter === '') {
-      setFilteredRecipes(recipes);
+      setFilteredRecipes(doneRecipes);
     } else {
-      setFilteredRecipes(recipes.filter((recipe) => recipe.type === filter));
+      setFilteredRecipes(doneRecipes.filter((recipe) => recipe.type === filter));
     }
-  }, [filter, recipes]);
+  }, [filter, doneRecipes]);
 
   return (
     <div>
@@ -42,7 +42,7 @@ const FinishedRecipes = () => {
       >
         Drinks
       </button>
-      {filteredRecipes.map((recipe, index) => (
+      {filteredRecipes && filteredRecipes.map((recipe, index) => (
         <div key={ recipe.id }>
           <Link to={ `/${recipe.type}s/${recipe.id}` }>
             <img

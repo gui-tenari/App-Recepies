@@ -4,7 +4,6 @@ const INITIAL_STATE = {
   drinkList: [],
   filteredDrinks: [],
   categories: [],
-  favoriteDrinks: [],
   filterType: '',
   isFetching: false,
   error: '',

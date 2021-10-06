@@ -4,7 +4,6 @@ const INITIAL_STATE = {
   mealList: [],
   filteredMeals: [],
   categories: [],
-  favoriteMeals: [],
   filterType: '',
   isFetching: false,
   error: '',
