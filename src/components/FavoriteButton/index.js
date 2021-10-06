@@ -1,38 +1,57 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import {
-  getFavoriteRecipes,
-  toggleFavoriteRecipe,
-} from '../../utils/localStorageHelpers';
+import { toggleFavoriteRecipe } from '../../redux/actions/favoriteRecipesActions';
 
 import whiteHeart from '../../images/whiteHeartIcon.svg';
 import blackHeart from '../../images/blackHeartIcon.svg';
 
-const FavoriteButton = ({ recipe, type }) => {
+const typeTable = {
+  comida: 'Meal',
+  bebida: 'Drink',
+};
+
+const FavoriteButton = ({ recipe, type, testId }) => {
+  const { favoriteRecipes } = useSelector((state) => state);
   const [isFavorite, setFavorite] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const favoriteRecipes = getFavoriteRecipes();
-
     const recipeId = type === 'comida' ? recipe.idMeal : recipe.idDrink;
 
     setFavorite(
-      favoriteRecipes.some(
-        (favoriteRecipe) => favoriteRecipe.id === recipeId,
-      ),
+      favoriteRecipes.some(({ id }) => id === recipeId || id === recipe.id),
     );
-  }, [recipe, type]);
+  }, [favoriteRecipes, recipe, type]);
+
+  function getFavoriteShape() {
+    if (recipe[`id${typeTable[type]}`]) {
+      return {
+        id: recipe[`id${typeTable[type]}`],
+        type,
+        area: recipe.strArea || '',
+        category: recipe.strCategory,
+        alcoholicOrNot: recipe.strAlcoholic || '',
+        name: recipe[`str${typeTable[type]}`],
+        image: recipe[`str${typeTable[type]}Thumb`],
+      };
+    }
+
+    return recipe;
+  }
 
   function handleFavoriteClick() {
-    toggleFavoriteRecipe(recipe, type, isFavorite);
+    const favoriteShape = getFavoriteShape();
+
+    dispatch(toggleFavoriteRecipe(favoriteShape, isFavorite));
     setFavorite(!isFavorite);
   }
 
   return (
     <button type="button" onClick={ handleFavoriteClick }>
       <img
-        data-testid="favorite-btn"
+        data-testid={ testId }
         src={ isFavorite ? blackHeart : whiteHeart }
         alt="favorite"
       />
@@ -43,6 +62,7 @@ const FavoriteButton = ({ recipe, type }) => {
 FavoriteButton.propTypes = {
   recipe: PropTypes.objectOf(PropTypes.any).isRequired,
   type: PropTypes.string.isRequired,
+  testId: PropTypes.string.isRequired,
 };
 
 export default FavoriteButton;

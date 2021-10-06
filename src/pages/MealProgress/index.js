@@ -1,31 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 
 import ShareButton from '../../components/ShareButton';
 import FavoriteButton from '../../components/FavoriteButton';
 
 import {
-  getInProgressRecipes,
-  setInProgressRecipes,
-} from '../../utils/localStorageHelpers';
+  addRecipeIngredient,
+  removeRecipeIngredient,
+} from '../../redux/actions/inProgressRecipesActions';
+
+import { setDoneRecipe } from '../../redux/actions/doneRecipesActions';
 
 import getIngredients from '../../utils/getIngredients';
 
 import './style.css';
 
-function MealProgress(props) {
-  const {
-    match: {
-      params: { id },
-    },
-  } = props;
-
+function MealProgress() {
   const [meal, setMeal] = useState({});
-  const [progressInfo, setProgressInfo] = useState([]);
   const [ingredients, setIngredients] = useState([]);
 
+  const dispatch = useDispatch();
   const history = useHistory();
+  const { id } = useParams();
+
+  const progressInfo = useSelector(
+    ({ inProgressRecipes }) => inProgressRecipes.meals[id] || [],
+  );
 
   useEffect(() => {
     async function getMeal() {
@@ -36,22 +37,8 @@ function MealProgress(props) {
       setMeal(fetchedMeal.meals[0]);
     }
 
-    function getRecipeStatus() {
-      const inProgressRecipes = getInProgressRecipes();
-      const { meals } = inProgressRecipes;
-
-      setProgressInfo(meals[id] || []);
-    }
-
     getMeal();
-    getRecipeStatus();
   }, [id]);
-
-  useEffect(() => {
-    if (id) {
-      setInProgressRecipes(progressInfo, 'meals', id);
-    }
-  }, [id, progressInfo]);
 
   useEffect(() => {
     setIngredients(getIngredients(meal));
@@ -59,13 +46,14 @@ function MealProgress(props) {
 
   function handleChange(ingredient, isChecked) {
     if (!isChecked) {
-      setProgressInfo([...progressInfo, ingredient]);
+      dispatch(addRecipeIngredient(id, 'comida', ingredient));
     } else {
-      setProgressInfo(progressInfo.filter((name) => ingredient !== name));
+      dispatch(removeRecipeIngredient(id, 'comida', ingredient));
     }
   }
 
   function handleClickComidas() {
+    dispatch(setDoneRecipe(meal, 'Meal'));
     history.push('/receitas-feitas');
   }
 
@@ -77,8 +65,8 @@ function MealProgress(props) {
         alt={ meal.strMeal }
       />
       <h1 data-testid="recipe-title">{meal.strMeal}</h1>
-      <ShareButton />
-      <FavoriteButton recipe={ meal } type="comida" />
+      <ShareButton type="comidas" id={ id } testId="share-btn" />
+      <FavoriteButton recipe={ meal } type="comida" testId="favorite-btn" />
       <p data-testid="recipe-category">{meal.strCategory}</p>
       {ingredients.map(({ ingredient }, index) => {
         const isChecked = progressInfo.includes(ingredient);
@@ -113,13 +101,5 @@ function MealProgress(props) {
     </div>
   );
 }
-
-MealProgress.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string,
-    }),
-  }).isRequired,
-};
 
 export default MealProgress;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 
 import Loading from '../../components/Loading';
 import ShareButton from '../../components/ShareButton';
@@ -12,18 +12,19 @@ import './style.css';
 
 const MAX_RECOMENDATIONS = 6;
 
-const DrinkDetails = (props) => {
-  const {
-    match: {
-      params: { id },
-    },
-  } = props;
-
+const DrinkDetails = () => {
   const [drink, setDrink] = useState({});
   const [meals, setMeals] = useState([]);
   const [ingredients, setIngredients] = useState([]);
 
   const history = useHistory();
+  const { id } = useParams();
+
+  const isDone = useSelector(({ doneRecipes }) => doneRecipes
+    .some((recipe) => recipe.id === id));
+  const isInProgress = useSelector(
+    ({ inProgressRecipes }) => !!inProgressRecipes.cocktails[id],
+  );
 
   useEffect(() => {
     async function getDrink() {
@@ -70,8 +71,8 @@ const DrinkDetails = (props) => {
         alt={ drink.strDrink }
       />
       <h1 data-testid="recipe-title">{drink.strDrink}</h1>
-      <ShareButton />
-      <FavoriteButton recipe={ drink } type="bebida" />
+      <ShareButton type="bebidas" id={ drink.idDrink } testId="share-btn" />
+      <FavoriteButton recipe={ drink } type="bebida" testId="favorite-btn" />
       <p data-testid="recipe-category">{drink.strAlcoholic}</p>
       {ingredients.map(({ ingredient, measure }, index) => (
         <div key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
@@ -96,24 +97,18 @@ const DrinkDetails = (props) => {
           </div>
         ))}
       </div>
-      <button
-        onClick={ startRecipe }
-        className="start-recipe"
-        type="button"
-        data-testid="start-recipe-btn"
-      >
-        Iniciar Receita
-      </button>
+      {!isDone && (
+        <button
+          onClick={ startRecipe }
+          className="start-recipe"
+          type="button"
+          data-testid="start-recipe-btn"
+        >
+          {isInProgress ? 'Continuar Receita' : 'Iniciar Receita'}
+        </button>
+      )}
     </div>
   );
-};
-
-DrinkDetails.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string,
-    }),
-  }).isRequired,
 };
 
 export default DrinkDetails;

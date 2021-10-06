@@ -1,29 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 
 import ShareButton from '../../components/ShareButton';
 import FavoriteButton from '../../components/FavoriteButton';
 
 import {
-  getInProgressRecipes,
-  setInProgressRecipes,
-} from '../../utils/localStorageHelpers';
+  addRecipeIngredient,
+  removeRecipeIngredient,
+} from '../../redux/actions/inProgressRecipesActions';
+
+import { setDoneRecipe } from '../../redux/actions/doneRecipesActions';
 
 import getIngredients from '../../utils/getIngredients';
 
-function DrinkProgress(props) {
-  const {
-    match: {
-      params: { id },
-    },
-  } = props;
-
+function DrinkProgress() {
   const [drink, setDrink] = useState({});
-  const [progressInfo, setProgressInfo] = useState([]);
   const [ingredients, setIngredients] = useState([]);
 
+  const dispatch = useDispatch();
   const history = useHistory();
+  const { id } = useParams();
+
+  const progressInfo = useSelector(
+    ({ inProgressRecipes }) => inProgressRecipes.cocktails[id] || [],
+  );
 
   useEffect(() => {
     async function getDrinks() {
@@ -34,22 +35,8 @@ function DrinkProgress(props) {
       setDrink(fetchedDrinks.drinks[0]);
     }
 
-    function getRecipeStatus() {
-      const inProgressRecipes = getInProgressRecipes();
-      const { cocktails } = inProgressRecipes;
-
-      setProgressInfo(cocktails[id] || []);
-    }
-
     getDrinks();
-    getRecipeStatus();
   }, [id]);
-
-  useEffect(() => {
-    if (id) {
-      setInProgressRecipes(progressInfo, 'cocktails', id);
-    }
-  }, [id, progressInfo]);
 
   useEffect(() => {
     setIngredients(getIngredients(drink));
@@ -57,13 +44,14 @@ function DrinkProgress(props) {
 
   function handleChange(ingredient, isChecked) {
     if (!isChecked) {
-      setProgressInfo([...progressInfo, ingredient]);
+      dispatch(addRecipeIngredient(id, 'bebida', ingredient));
     } else {
-      setProgressInfo(progressInfo.filter((name) => ingredient !== name));
+      dispatch(removeRecipeIngredient(id, 'bebida', ingredient));
     }
   }
 
   function handleClickBebidas() {
+    dispatch(setDoneRecipe(drink, 'Drink'));
     history.push('/receitas-feitas');
   }
 
@@ -75,8 +63,8 @@ function DrinkProgress(props) {
         alt={ drink.strDrink }
       />
       <h1 data-testid="recipe-title">{drink.strDrink}</h1>
-      <ShareButton />
-      <FavoriteButton recipe={ drink } type="bebida" />
+      <ShareButton type="bebidas" id={ id } testId="share-btn" />
+      <FavoriteButton recipe={ drink } type="bebida" testId="favorite-btn" />
       <p data-testid="recipe-category">{drink.strAlcoholic}</p>
       {ingredients.map(({ ingredient }, index) => {
         const isChecked = progressInfo.includes(ingredient);
@@ -112,12 +100,5 @@ function DrinkProgress(props) {
     </div>
   );
 }
-DrinkProgress.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string,
-    }),
-  }).isRequired,
-};
 
 export default DrinkProgress;
