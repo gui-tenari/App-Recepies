@@ -1,0 +1,61 @@
+.input-container {
+  position: relative;
+  padding: 0.5em 1em;
+  border-bottom: 1px solid rgba(255, 255, 255, 1);
+  display: flex;
+  align-items: center;
+  vertical-align: middle;
+  margin-bottom: 2em;
+  font-size: 1.2em;
+}
+
+.outline {
+  position: absolute;
+  content: '';
+  width: 100%;
+  height: 2px;
+  background: var(--main-orange);
+  top: 100%;
+  left: 0;
+  visibility: hidden;
+  transform: scale(0, 1);
+  transition: transform ease-out 0.1s;
+  border-radius: 50px;
+}
+
+.input-container input {
+  padding: 0 1em;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 0.8em;
+}
+
+.input-container input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+  user-select: none;
+}
+
+.input-container input:-webkit-autofill,
+.input-container input:-webkit-autofill:focus {
+  transition: background-color 600000s 0s, color 600000s 0s;
+}
+
+.input-container input:focus-visible {
+  outline: none;
+}
+
+.input-container:focus-within .outline {
+  visibility: visible;
+  transform: scale(1, 1);
+}
+
+.input-container label {
+  display: flex;
+  margin: 0;
+}
+
+.input-container img {
+  width: 1.2em;
+  user-select: none;
+}

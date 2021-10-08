@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import profileIcon from '../../images/profileIcon.svg';
-import searchIcon from '../../images/searchIcon.svg';
 import SearchBar from '../SearchBar';
+
+import searchIcon from '../../images/icons/search.svg';
+import userIcon from '../../images/icons/user.svg';
+
+import './style.css';
 
 const Header = ({ title, hasSearchBar }) => {
   // const [inputValue, setInputValue] = useState('');
@@ -13,16 +16,22 @@ const Header = ({ title, hasSearchBar }) => {
   return (
     <header>
       <Link to="/perfil">
-        <img data-testid="profile-top-btn" src={ profileIcon } alt="Perfil" />
+        <img
+          className="user-button"
+          data-testid="profile-top-btn"
+          src={ userIcon }
+          alt="Perfil"
+        />
       </Link>
-      <div>
-        <h1 data-testid="page-title">{title}</h1>
-      </div>
+      <h1 className="page-title" data-testid="page-title">
+        {title}
+      </h1>
       {hasSearchBar && (
         <div>
           {showInputSearch && <SearchBar />}
           <button
             type="button"
+            className="search-icon"
             onClick={ () => {
               setShowInputSearch(!showInputSearch);
             } }

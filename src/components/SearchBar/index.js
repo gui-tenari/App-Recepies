@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
+import Input from '../Input';
+import Button from '../Button';
+
 import {
   setDrinksByIngredient,
   setDrinksByName,
@@ -13,6 +16,8 @@ import {
   setMealsByName,
   setMealsByFirstLetter,
 } from '../../redux/actions/mealsActions';
+
+import './style.css';
 
 const typeTable = {
   '/comidas': 'meals',
@@ -55,10 +60,6 @@ function SearchBar() {
     },
   };
 
-  const handleInputText = ({ target: { value } }) => {
-    setSearchInput(value);
-  };
-
   const handleChange = ({ target: { value } }) => {
     setSelectedFilter(value);
   };
@@ -70,60 +71,60 @@ function SearchBar() {
   };
 
   return (
-    <div>
-      <input
-        id="search-input"
+    <div className="search-bar">
+      <Input
         type="text"
-        data-testid="search-input"
-        className="input-field-search"
-        name="search-input"
+        placeholder="Buscar Receita"
         value={ searchInput }
-        placeholder="Buscar"
-        onChange={ handleInputText }
+        onChange={ ({ target }) => setSearchInput(target.value) }
+        className="search-input"
       />
 
-      <label htmlFor="ingredient-search">
-        <input
-          id="ingredient-search"
-          type="radio"
-          data-testid="ingredient-search-radio"
-          value="ingredients"
-          checked={ selectedFilter === 'ingredients' }
-          onChange={ handleChange }
-        />
-        ingredientes
-      </label>
-      <label htmlFor="name-search">
-        <input
-          id="name-search"
-          type="radio"
-          data-testid="name-search-radio"
-          value="name"
-          checked={ selectedFilter === 'name' }
-          onChange={ handleChange }
-        />
-        Nome
-      </label>
-      <label htmlFor="first-letter-search">
-        <input
-          id="first-letter-search"
-          type="radio"
-          data-testid="first-letter-search-radio"
-          value="firstLetter"
-          checked={ selectedFilter === 'firstLetter' }
-          onChange={ handleChange }
-        />
-        Primeira Letra
-      </label>
+      <div className="search-types">
+        <label htmlFor="ingredient-search">
+          <input
+            id="ingredient-search"
+            type="radio"
+            data-testid="ingredient-search-radio"
+            value="ingredients"
+            checked={ selectedFilter === 'ingredients' }
+            onChange={ handleChange }
+          />
+          <span className="radio-control" />
+          Ingredientes
+        </label>
+        <label htmlFor="name-search">
+          <input
+            id="name-search"
+            type="radio"
+            data-testid="name-search-radio"
+            value="name"
+            checked={ selectedFilter === 'name' }
+            onChange={ handleChange }
+          />
+          <span className="radio-control" />
+          Nome
+        </label>
+        <label htmlFor="first-letter-search">
+          <input
+            id="first-letter-search"
+            type="radio"
+            data-testid="first-letter-search-radio"
+            value="firstLetter"
+            checked={ selectedFilter === 'firstLetter' }
+            onChange={ handleChange }
+          />
+          <span className="radio-control" />
+          Primeira Letra
+        </label>
+      </div>
 
-      <button
+      <Button
         type="button"
-        className="button-search"
-        data-testid="exec-search-btn"
         onClick={ handleClick }
-      >
-        Buscar
-      </button>
+        text="Buscar"
+        className="search-button"
+      />
     </div>
   );
 }

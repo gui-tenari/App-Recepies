@@ -26,7 +26,7 @@ const Meals = () => {
   }
 
   return (
-    <div>
+    <div className="container">
       <Header title="Comidas" hasSearchBar />
       <CategoryFilters type="meals" />
       {isFetching ? (

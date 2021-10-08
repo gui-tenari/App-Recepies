@@ -1,1 +1,31 @@
-/* Stylesheet of Login page */
+.login-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  background: rgba(0, 0, 0, 0.781) url('../../images/login-background.jpeg');
+  background-blend-mode: darken;
+  background-size: cover;
+  height: 640px;
+  width: 360px;
+}
+
+.login-title {
+  font-family: Cookie, serif;
+  font-size: 4em;
+  margin-bottom: 1em;
+  font-weight: 400;
+}
+
+.login-page p {
+  margin-bottom: 1em;
+  font-weight: 700;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  width: 80%;
+}

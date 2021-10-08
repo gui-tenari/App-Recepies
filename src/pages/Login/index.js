@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import Input from '../../components/Input';
+import Button from '../../components/Button';
+
+import emailIcon from '../../images/icons/email.svg';
+import passwordIcon from '../../images/icons/password.svg';
+
+import './style.css';
+
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -16,10 +24,7 @@ function Login() {
       'inProgressRecipes',
       JSON.stringify({ meals: {}, cocktails: {} }),
     );
-    localStorage.setItem(
-      'doneRecipes',
-      JSON.stringify([]),
-    );
+    localStorage.setItem('doneRecipes', JSON.stringify([]));
     history.push('/comidas');
   };
 
@@ -27,27 +32,33 @@ function Login() {
   const MIN_PASSWORD_LENGTH = 6;
 
   return (
-    <form onSubmit={ handleLogin }>
-      <input
-        type="text"
-        value={ email }
-        onChange={ (e) => setEmail(e.target.value) }
-        data-testid="email-input"
-      />
-      <input
-        type="password"
-        value={ password }
-        onChange={ (e) => setPassword(e.target.value) }
-        data-testid="password-input"
-      />
-      <button
-        type="submit"
-        data-testid="login-submit-btn"
-        disabled={ !(REGEX.test(email) && password.length > MIN_PASSWORD_LENGTH) }
-      >
-        Login
-      </button>
-    </form>
+    <div className="login-page">
+      <h1 className="login-title">My Recipes</h1>
+      <p>Login</p>
+      <form className="login-form" onSubmit={ handleLogin }>
+        <Input
+          type="text"
+          icon={ emailIcon }
+          placeholder="Email"
+          value={ email }
+          onChange={ (e) => setEmail(e.target.value) }
+        />
+        <Input
+          type="password"
+          icon={ passwordIcon }
+          placeholder="Senha"
+          value={ password }
+          onChange={ (e) => setPassword(e.target.value) }
+        />
+        <Button
+          type="submit"
+          disabled={
+            !(REGEX.test(email) && password.length > MIN_PASSWORD_LENGTH)
+          }
+          text="Entrar"
+        />
+      </form>
+    </div>
   );
 }
 

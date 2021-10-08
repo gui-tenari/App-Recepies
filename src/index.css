@@ -1,8 +1,17 @@
-body {
+:root {
+  --main-orange: #f55a00;
+  --main-blue-ish: #1f222b;
+  --secondary-blue-ish: #292d39;
+}
+
+* {
+  padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arimo, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
