@@ -1,9 +1,9 @@
 .app {
   position: relative;
-  width: 360px;
+  width: 100vw;
   display: flex;
   flex-direction: column;
-  min-height: 640px;
+  min-height: 100vh;
   background: var(--main-blue-ish);
 }
 

@@ -3,7 +3,11 @@ import React from 'react';
 
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import Button from '../../components/Button';
+
 import { getRandomRecipe } from '../../services/recipesAPI';
+
+import './style.css';
 
 const ExploreDrinks = ({ history }) => {
   const handleClick = async () => {
@@ -17,24 +21,21 @@ const ExploreDrinks = ({ history }) => {
   };
 
   return (
-    <div>
+    <>
       <Header title="Explorar Bebidas" />
-      <button
-        type="button"
-        data-testid="explore-by-ingredient"
-        onClick={ () => history.push('/explorar/bebidas/ingredientes') }
-      >
-        Por Ingredientes
-      </button>
-      <button
-        type="button"
-        data-testid="explore-surprise"
-        onClick={ handleClick }
-      >
-        Me Surpreenda!
-      </button>
+      <div className="explore-drinks">
+        <div className="explore-drink-ingredients">
+          <Button
+            text="Por Ingredientes"
+            onClick={ () => history.push('/explorar/bebidas/ingredientes') }
+          />
+        </div>
+        <div className="explore-random-drink">
+          <Button text="Me Surpreenda!" onClick={ handleClick } />
+        </div>
+      </div>
       <Footer />
-    </div>
+    </>
   );
 };
 
