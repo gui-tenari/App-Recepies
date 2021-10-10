@@ -27,7 +27,12 @@ const Header = ({ title, hasSearchBar }) => {
         {title}
       </h1>
       <div>
-        {showInputSearch && <SearchBar />}
+        {showInputSearch && (
+          <SearchBar
+            showInputSearch={ showInputSearch }
+            setShowInputSearch={ setShowInputSearch }
+          />
+        )}
         <button
           type="button"
           className="search-icon"

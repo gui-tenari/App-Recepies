@@ -3,12 +3,13 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  flex-grow: 1;
   color: white;
   background: rgba(0, 0, 0, 0.781) url('../../images/login-background.jpeg');
   background-blend-mode: darken;
   background-size: cover;
-  height: 640px;
-  width: 360px;
+  height: 100%;
+  width: 100%;
 }
 
 .login-title {

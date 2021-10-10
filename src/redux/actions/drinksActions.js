@@ -23,9 +23,9 @@ const setDrinks = (drinks) => ({
   payload: drinks,
 });
 
-export const setFilteredDrinks = (drinks, filterType) => ({
+export const setFilteredDrinks = (drinks, filterInfo) => ({
   type: DRINKS_ACTIONS.SET_FILTERED_DRINKS,
-  payload: { drinks, filterType },
+  payload: { drinks, filterInfo },
 });
 
 const setCategories = (categories) => ({
@@ -52,7 +52,7 @@ export const fetchDrinksThunk = () => async (dispatch, getState) => {
       const drinks = await getRecipes('drinks');
 
       dispatch(setDrinks(drinks));
-      dispatch(setFilteredDrinks(drinks));
+      dispatch(setFilteredDrinks(drinks, { term: '', type: '' }));
     } catch (error) {
       dispatch(failedRequest(error.message));
     }
@@ -65,7 +65,7 @@ export const setDrinksByIngredient = (type, search) => async (dispatch) => {
   try {
     const drinks = await getRecipesByIngredient(type, search);
 
-    dispatch(setFilteredDrinks(drinks, 'query'));
+    dispatch(setFilteredDrinks(drinks, { term: search, type: 'query' }));
   } catch (error) {
     global.alert(RECIPES_NOT_FOUND);
     dispatch(failedRequest(error.message));
@@ -78,7 +78,7 @@ export const setDrinksByName = (type, search) => async (dispatch) => {
   try {
     const drinks = await getRecipesByName(type, search);
 
-    dispatch(setFilteredDrinks(drinks, 'query'));
+    dispatch(setFilteredDrinks(drinks, { term: search, type: 'query' }));
   } catch (error) {
     global.alert(RECIPES_NOT_FOUND);
     dispatch(failedRequest(error.message));
@@ -91,7 +91,7 @@ export const setDrinksByFirstLetter = (type, search) => async (dispatch) => {
   try {
     const drinks = await getRecipesByFirstLetter(type, search);
 
-    dispatch(setFilteredDrinks(drinks, 'query'));
+    dispatch(setFilteredDrinks(drinks, { term: search, type: 'query' }));
   } catch (error) {
     global.alert(RECIPES_NOT_FOUND);
     dispatch(failedRequest(error.message));
@@ -104,7 +104,7 @@ export const setDrinksByCategory = (category) => async (dispatch) => {
   try {
     const drinks = await getRecipesByCategory('drinks', category);
 
-    dispatch(setFilteredDrinks(drinks, 'category'));
+    dispatch(setFilteredDrinks(drinks, { term: category, type: 'category' }));
   } catch (error) {
     dispatch(failedRequest(error.message));
   }

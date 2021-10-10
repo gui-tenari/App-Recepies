@@ -9,7 +9,7 @@
   padding: 1em;
   gap: 1em;
   border-radius: 0.5em;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 0.7em rgba(0, 0, 0, 0.5);
   text-align: left;
   font-size: 0.8em;
 }

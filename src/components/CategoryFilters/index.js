@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -18,12 +18,27 @@ import {
 import './style.css';
 
 const CategoryFilters = ({ type }) => {
-  const [activeFilter, setActiveFilter] = useState('All');
-  const dispatch = useDispatch();
-
   const categories = useSelector((state) => state[type].categories);
   const { mealList } = useSelector(({ meals }) => meals);
   const { drinkList } = useSelector(({ drinks }) => drinks);
+
+  const activeFilter = useSelector(({ meals, drinks }) => {
+    if (type === 'meals') {
+      const { term, type: filterType } = meals.filterInfo;
+
+      if (term && filterType === 'category') return term;
+
+      return 'All';
+    }
+
+    const { term, type: filterType } = drinks.filterInfo;
+
+    if (term && filterType === 'category') return term;
+
+    return 'All';
+  });
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (type === 'meals') {
@@ -35,28 +50,26 @@ const CategoryFilters = ({ type }) => {
 
   const handleAllClick = () => {
     if (type === 'meals') {
-      dispatch(setFilteredMeals(mealList, ''));
+      dispatch(setFilteredMeals(mealList, { term: '', type: 'category' }));
     } else {
-      dispatch(setFilteredDrinks(drinkList, ''));
+      dispatch(setFilteredDrinks(drinkList, { term: '', type: 'category' }));
     }
-
-    setActiveFilter('All');
   };
 
   const handleFilterClick = (category) => {
     if (type === 'meals') {
       if (activeFilter === category) {
-        setActiveFilter('All');
-        dispatch(setFilteredMeals(mealList, ''));
+        dispatch(
+          setFilteredMeals(mealList, { term: category, type: 'category' }),
+        );
       } else {
-        setActiveFilter(category);
         dispatch(setMealsByCategory(category));
       }
     } else if (activeFilter === category) {
-      setActiveFilter('All');
-      dispatch(setFilteredDrinks(drinkList, ''));
+      dispatch(
+        setFilteredDrinks(drinkList, { term: category, type: 'category' }),
+      );
     } else {
-      setActiveFilter(category);
       dispatch(setDrinksByCategory(category));
     }
   };

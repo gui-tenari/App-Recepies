@@ -4,7 +4,10 @@ const INITIAL_STATE = {
   drinkList: [],
   filteredDrinks: [],
   categories: [],
-  filterType: '',
+  filterInfo: {
+    term: '',
+    type: '',
+  },
   isFetching: false,
   error: '',
 };
@@ -24,7 +27,7 @@ const drinksReducer = (state = INITIAL_STATE, action) => {
       isFetching: false,
       error: '',
       filteredDrinks: action.payload.drinks,
-      filterType: action.payload.filterType,
+      filterInfo: action.payload.filterInfo,
     };
   case DRINKS_ACTIONS.SET_DRINK_CATEGORIES:
     return {

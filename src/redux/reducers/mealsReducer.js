@@ -4,7 +4,10 @@ const INITIAL_STATE = {
   mealList: [],
   filteredMeals: [],
   categories: [],
-  filterType: '',
+  filterInfo: {
+    term: '',
+    type: '',
+  },
   isFetching: false,
   error: '',
 };
@@ -24,7 +27,7 @@ const mealsReducer = (state = INITIAL_STATE, action) => {
       isFetching: false,
       error: '',
       filteredMeals: action.payload.meals,
-      filterType: action.payload.filterType,
+      filterInfo: action.payload.filterInfo,
     };
   case MEALS_ACTIONS.SET_MEAL_CATEGORIES:
     return {

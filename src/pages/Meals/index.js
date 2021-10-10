@@ -13,7 +13,7 @@ import { fetchMealsThunk } from '../../redux/actions/mealsActions';
 import './style.css';
 
 const Meals = () => {
-  const { filteredMeals, isFetching, filterType } = useSelector(
+  const { filteredMeals, isFetching, filterInfo } = useSelector(
     ({ meals }) => meals,
   );
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ const Meals = () => {
     dispatch(fetchMealsThunk());
   }, [dispatch]);
 
-  if (filteredMeals.length === 1 && filterType === 'query') {
+  if (filteredMeals.length === 1 && filterInfo.type === 'query') {
     const { idMeal } = filteredMeals[0];
 
     history.push(`/comidas/${idMeal}`);

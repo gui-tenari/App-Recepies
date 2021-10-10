@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
@@ -24,7 +25,7 @@ const typeTable = {
   '/bebidas': 'drinks',
 };
 
-function SearchBar() {
+function SearchBar({ showInputSearch, setShowInputSearch }) {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
 
@@ -68,6 +69,8 @@ function SearchBar() {
     const recipeType = typeTable[pathname];
 
     filterTable[selectedFilter](recipeType);
+
+    setShowInputSearch(!showInputSearch);
   };
 
   return (
@@ -123,10 +126,14 @@ function SearchBar() {
         type="button"
         onClick={ handleClick }
         text="Buscar"
-        className="search-button"
       />
     </div>
   );
 }
+
+SearchBar.propTypes = {
+  showInputSearch: PropTypes.bool.isRequired,
+  setShowInputSearch: PropTypes.func.isRequired,
+};
 
 export default SearchBar;

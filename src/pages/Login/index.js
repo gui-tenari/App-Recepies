@@ -36,7 +36,7 @@ function Login() {
       <h1 className="login-title">My Recipes</h1>
       <form className="login-form" onSubmit={ handleLogin }>
         <Input
-          type="text"
+          type="email"
           icon={ emailIcon }
           placeholder="Email"
           value={ email }

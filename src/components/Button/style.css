@@ -4,9 +4,10 @@
   color: white;
   font-weight: 700;
   padding: 1em 2em;
-  border-radius: 8px;
+  border-radius: 0.4em;
   cursor: pointer;
   user-select: none;
+  box-shadow: 0 0 1em rgba(0, 0, 0, 0.5);
 }
 
 .default-button:hover {

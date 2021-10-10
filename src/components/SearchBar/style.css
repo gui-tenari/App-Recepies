@@ -20,9 +20,9 @@
   padding: 0 !important;
 }
 
-.search-button {
-  padding: 0.7em 2em !important;
-  align-self: flex-start !important;
+.search-bar > button {
+  padding: 0.7em 2em;
+  align-self: flex-start;
 }
 
 .search-types {
@@ -38,7 +38,6 @@
 
 .radio-control {
   display: inline-block;
-  vertical-align: middle;
   margin-right: 0.3em;
   border-radius: 50%;
   width: 0.8em;

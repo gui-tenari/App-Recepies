@@ -1,7 +1,7 @@
 .category-button {
   background-color: var(--main-gray);
   border: none;
-  border-radius: 5px;
+  border-radius: 0.4em;
   padding: 0.6em 0;
   width: 100%;
   color: var(--main-blue-ish);
@@ -11,6 +11,6 @@
 
 .active-filter {
   background: var(--light-orange);
-  box-shadow: 0 0 0 1px var(--main-orange);
+  box-shadow: 0 0 0 0.1em var(--main-orange);
   color: var(--main-orange);
 }
