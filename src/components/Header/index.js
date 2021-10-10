@@ -26,24 +26,21 @@ const Header = ({ title, hasSearchBar }) => {
       <h1 className="page-title" data-testid="page-title">
         {title}
       </h1>
-      {hasSearchBar && (
-        <div>
-          {showInputSearch && <SearchBar />}
-          <button
-            type="button"
-            className="search-icon"
-            onClick={ () => {
-              setShowInputSearch(!showInputSearch);
-            } }
-          >
-            <img
-              data-testid="search-top-btn"
-              src={ searchIcon }
-              alt="Pesquisar"
-            />
-          </button>
-        </div>
-      )}
+      <div>
+        {showInputSearch && <SearchBar />}
+        <button
+          type="button"
+          className="search-icon"
+          onClick={ () => {
+            setShowInputSearch(!showInputSearch);
+          } }
+          style={
+            hasSearchBar ? { visibility: 'visible' } : { visibility: 'hidden' }
+          }
+        >
+          <img data-testid="search-top-btn" src={ searchIcon } alt="Pesquisar" />
+        </button>
+      </div>
     </header>
   );
 };

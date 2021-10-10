@@ -1,0 +1,19 @@
+.profile-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  flex-grow: 1;
+  color: white;
+  padding: 3em;
+  gap: 2em;
+  background: rgba(0, 0, 0, 0.781) url('../../images/profile-background.jpeg');
+  background-blend-mode: darken;
+  background-size: cover;
+  background-position: 50% 50%;
+}
+
+.profile-content p {
+  align-self: center;
+  font-weight: 700;
+}
