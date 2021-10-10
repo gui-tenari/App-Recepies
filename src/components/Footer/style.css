@@ -8,6 +8,6 @@ footer {
   position: sticky;
   bottom: 0;
   padding: 0.6em 1.3em;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
   margin-top: auto;
 }

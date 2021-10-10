@@ -1,0 +1,32 @@
+.explore-content {
+  display: grid;
+  flex-grow: 1;
+}
+
+.bg-meal,
+.bg-drink {
+  display: flex;
+  align-items: center;
+  padding: 5em 4em;
+}
+
+.bg-meal {
+  background: rgba(0, 0, 0, 0.781) url('../../images/explore-meals.jpeg');
+  background-blend-mode: darken;
+  background-size: cover;
+  background-position: 50% 50%;
+  box-shadow: inset 0 -5px 10px black;
+}
+
+.bg-drink {
+  background: rgba(0, 0, 0, 0.781) url('../../images/explore-drinks.jpeg');
+  background-blend-mode: darken;
+  background-size: cover;
+  background-position: 50%;
+  box-shadow: inset 0 5px 10px black;
+}
+
+.bg-meal button,
+.bg-drink button {
+  flex-grow: 1;
+}
