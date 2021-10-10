@@ -17,8 +17,12 @@ const CategoryButton = ({ category, handleFilterClick, testId, activeFilter }) =
 CategoryButton.propTypes = {
   category: PropTypes.string.isRequired,
   handleFilterClick: PropTypes.func.isRequired,
-  testId: PropTypes.string.isRequired,
   activeFilter: PropTypes.string.isRequired,
+  testId: PropTypes.string,
+};
+
+CategoryButton.defaultProps = {
+  testId: '',
 };
 
 export default CategoryButton;

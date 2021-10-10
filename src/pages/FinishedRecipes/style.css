@@ -1,0 +1,11 @@
+.finished-recipes {
+  display:flex;
+  flex-direction: column;
+  gap: 1em;
+  padding: 1em;
+}
+
+.filter-section {
+  display: flex;
+  gap: 1em;
+}

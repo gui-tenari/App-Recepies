@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import copy from 'clipboard-copy';
 
-import shareIcon from '../../images/shareIcon.svg';
+import shareIcon from '../../images/icons/share.svg';
 
-const COPIED_LINK_ALERT_TIME = 3000;
+import './style.css';
+
+const COPIED_LINK_ALERT_TIME = 2000;
 
 const ShareButton = ({ type, id, testId }) => {
   const [copiedLink, setCopiedLink] = useState(false);
@@ -11,17 +14,17 @@ const ShareButton = ({ type, id, testId }) => {
   function handleShareClick() {
     const link = `${global.location.origin}/${type}/${id}`;
 
-    navigator.clipboard.writeText(link);
+    copy(link);
     setCopiedLink(true);
     setTimeout(() => setCopiedLink(false), COPIED_LINK_ALERT_TIME);
   }
 
   return (
     <>
-      <button type="button" onClick={ handleShareClick }>
+      <button type="button" onClick={ handleShareClick } className="share-icon">
         <img src={ shareIcon } alt="share" data-testid={ testId } />
       </button>
-      {copiedLink && <p>Link copiado!</p>}
+      {copiedLink && <p className="copy-modal">Link copiado!</p>}
     </>
   );
 };

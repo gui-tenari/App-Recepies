@@ -1,0 +1,18 @@
+.share-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+}
+
+.copy-modal {
+  display: flex;
+  padding: 1em;
+  color: white;
+  background: rgba(0, 0, 0, 0.8);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 0.4em;
+}
