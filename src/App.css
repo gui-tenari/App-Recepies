@@ -1,14 +1,15 @@
 .app {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 360px;
-  height: 640px;
+  display: flex;
+  flex-direction: column;
+  min-height: 640px;
+  background: var(--main-blue-ish);
 }
 
 .container {
   width: 100%;
+  min-height: 100%;
 }
 
 .meals {

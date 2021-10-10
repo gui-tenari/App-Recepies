@@ -11,7 +11,9 @@ import CategoryFilters from '../../components/CategoryFilters';
 import { fetchDrinksThunk } from '../../redux/actions/drinksActions';
 
 const Drinks = () => {
-  const { filteredDrinks, isFetching, filterType } = useSelector(({ drinks }) => drinks);
+  const { filteredDrinks, isFetching, filterType } = useSelector(
+    ({ drinks }) => drinks,
+  );
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -25,24 +27,30 @@ const Drinks = () => {
   }
 
   return (
-    <div>
+    <>
       <Header title="Bebidas" hasSearchBar />
-      <CategoryFilters type="drinks" />
-      {isFetching ? (
-        <Loading />
-      ) : (
-        filteredDrinks.map(({ idDrink, strDrinkThumb, strDrink }, index) => (
-          <RecipeCard
-            key={ idDrink }
-            id={ idDrink }
-            thumb={ strDrinkThumb }
-            name={ strDrink }
-            index={ index }
-          />
-        ))
-      )}
+      <div className="recipes-content">
+        <CategoryFilters type="drinks" />
+        {isFetching ? (
+          <Loading />
+        ) : (
+          <div className="recipe-list">
+            {filteredDrinks.map(
+              ({ idDrink, strDrinkThumb, strDrink }, index) => (
+                <RecipeCard
+                  key={ idDrink }
+                  id={ idDrink }
+                  thumb={ strDrinkThumb }
+                  name={ strDrink }
+                  index={ index }
+                />
+              ),
+            )}
+          </div>
+        )}
+      </div>
       <Footer />
-    </div>
+    </>
   );
 };
 

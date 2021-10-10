@@ -1,7 +1,9 @@
 :root {
   --main-orange: #f55a00;
+  --light-orange: #f6c7af;
   --main-blue-ish: #1f222b;
   --secondary-blue-ish: #292d39;
+  --main-gray: #f7f8fe;
 }
 
 * {

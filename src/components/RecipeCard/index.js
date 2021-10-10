@@ -1,20 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 
 import './style.css';
 
 const RecipeCard = ({ id, thumb, name, index }) => {
+  const history = useHistory();
   const { pathname } = useLocation();
-  const location = pathname.includes('comidas') ? '/comidas' : 'bebidas';
+  const location = pathname.includes('comidas') ? '/comidas' : '/bebidas';
+
   return (
-    <div className="recipe-card">
-      <img data-testid={ `${index}-card-img` } src={ thumb } alt={ name } />
-      <p data-testid={ `${index}-card-name` }>{name}</p>
-      <Link to={ `${location}/${id}` } data-testid={ `${index}-recipe-card` }>
-        Mais detalhes
-      </Link>
-    </div>
+    <button
+      type="button"
+      className="recipe-card"
+      onClick={ () => history.push(`${location}/${id}`) }
+    >
+      <p>{name}</p>
+      <div className="image-container">
+        <img data-testid={ `${index}-card-img` } src={ thumb } alt={ name } />
+      </div>
+    </button>
   );
 };
 

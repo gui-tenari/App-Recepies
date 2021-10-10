@@ -111,7 +111,7 @@ export const setDrinksByCategory = (category) => async (dispatch) => {
 };
 
 export const setDrinkCategories = () => async (dispatch, getState) => {
-  dispatch(requestApi());
+  // dispatch(requestApi());
 
   try {
     const { drinks } = getState();

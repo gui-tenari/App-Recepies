@@ -1,6 +1,13 @@
 footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--main-blue-ish);
+  color: white;
+  width: 360px;
+  position: sticky;
   bottom: 0;
-  height: 3em;
-  position: fixed;
-  width: 100vw;
+  padding: 0.6em 1.3em;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 1);
+  margin-top: auto;
 }

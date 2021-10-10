@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import drinkIcon from '../../images/drinkIcon.svg';
-import exploreIcon from '../../images/exploreIcon.svg';
-import mealIcon from '../../images/mealIcon.svg';
+import drinkIcon from '../../images/icons/drink.svg';
+import exploreIcon from '../../images/icons/explore.svg';
+import mealIcon from '../../images/icons/food.svg';
 
 import './style.css';
 

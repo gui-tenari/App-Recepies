@@ -28,11 +28,12 @@ Input.propTypes = {
   placeholder: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  className: PropTypes.string.isRequired,
+  className: PropTypes.string,
 };
 
 Input.defaultProps = {
   icon: undefined,
+  className: '',
 };
 
 export default Input;

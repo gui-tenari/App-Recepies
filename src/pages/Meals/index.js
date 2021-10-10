@@ -10,8 +10,12 @@ import CategoryFilters from '../../components/CategoryFilters';
 
 import { fetchMealsThunk } from '../../redux/actions/mealsActions';
 
+import './style.css';
+
 const Meals = () => {
-  const { filteredMeals, isFetching, filterType } = useSelector(({ meals }) => meals);
+  const { filteredMeals, isFetching, filterType } = useSelector(
+    ({ meals }) => meals,
+  );
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -26,24 +30,28 @@ const Meals = () => {
   }
 
   return (
-    <div className="container">
+    <>
       <Header title="Comidas" hasSearchBar />
-      <CategoryFilters type="meals" />
-      {isFetching ? (
-        <Loading />
-      ) : (
-        filteredMeals.map(({ idMeal, strMealThumb, strMeal }, index) => (
-          <RecipeCard
-            key={ idMeal }
-            id={ idMeal }
-            thumb={ strMealThumb }
-            name={ strMeal }
-            index={ index }
-          />
-        ))
-      )}
+      <div className="recipes-content">
+        <CategoryFilters type="meals" />
+        {isFetching ? (
+          <Loading />
+        ) : (
+          <div className="recipe-list">
+            {filteredMeals.map(({ idMeal, strMealThumb, strMeal }, index) => (
+              <RecipeCard
+                key={ idMeal }
+                id={ idMeal }
+                thumb={ strMealThumb }
+                name={ strMeal }
+                index={ index }
+              />
+            ))}
+          </div>
+        )}
+      </div>
       <Footer />
-    </div>
+    </>
   );
 };
 

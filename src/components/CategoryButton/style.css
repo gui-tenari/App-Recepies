@@ -1,3 +1,16 @@
 .category-button {
-  background-color: lightblue;
+  background-color: var(--main-gray);
+  border: none;
+  border-radius: 5px;
+  padding: 0.6em 0;
+  width: 100%;
+  color: var(--main-blue-ish);
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.active-filter {
+  background: var(--light-orange);
+  box-shadow: 0 0 0 1px var(--main-orange);
+  color: var(--main-orange);
 }

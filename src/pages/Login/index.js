@@ -34,7 +34,6 @@ function Login() {
   return (
     <div className="login-page">
       <h1 className="login-title">My Recipes</h1>
-      <p>Login</p>
       <form className="login-form" onSubmit={ handleLogin }>
         <Input
           type="text"

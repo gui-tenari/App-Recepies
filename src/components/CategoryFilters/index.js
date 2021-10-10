@@ -18,7 +18,7 @@ import {
 import './style.css';
 
 const CategoryFilters = ({ type }) => {
-  const [activeFilter, setActiveFilter] = useState('');
+  const [activeFilter, setActiveFilter] = useState('All');
   const dispatch = useDispatch();
 
   const categories = useSelector((state) => state[type].categories);
@@ -39,19 +39,21 @@ const CategoryFilters = ({ type }) => {
     } else {
       dispatch(setFilteredDrinks(drinkList, ''));
     }
+
+    setActiveFilter('All');
   };
 
   const handleFilterClick = (category) => {
     if (type === 'meals') {
       if (activeFilter === category) {
-        setActiveFilter('');
+        setActiveFilter('All');
         dispatch(setFilteredMeals(mealList, ''));
       } else {
         setActiveFilter(category);
         dispatch(setMealsByCategory(category));
       }
     } else if (activeFilter === category) {
-      setActiveFilter('');
+      setActiveFilter('All');
       dispatch(setFilteredDrinks(drinkList, ''));
     } else {
       setActiveFilter(category);
@@ -66,6 +68,7 @@ const CategoryFilters = ({ type }) => {
         type={ type }
         handleFilterClick={ handleAllClick }
         testId="All-category-filter"
+        activeFilter={ activeFilter }
       />
       {categories.map(({ strCategory: category }) => (
         <CategoryButton
@@ -74,6 +77,7 @@ const CategoryFilters = ({ type }) => {
           testId={ `${category}-category-filter` }
           type={ type }
           handleFilterClick={ handleFilterClick }
+          activeFilter={ activeFilter }
         />
       ))}
     </div>

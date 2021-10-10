@@ -4,8 +4,8 @@ header {
   align-items: center;
   background: var(--main-blue-ish);
   color: white;
-  width: 360px;
-  position: fixed;
+  width: 100%;
+  position: sticky;
   top: 0;
   padding: 0.7em 1.3em;
   box-shadow: 0 0 5px rgba(0, 0, 0, 1);

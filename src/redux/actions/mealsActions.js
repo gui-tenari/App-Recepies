@@ -46,6 +46,7 @@ export const fetchMealsThunk = () => async (dispatch, getState) => {
 
   if (filteredMeals.length === 0) {
     dispatch(requestApi());
+    console.log('request meals');
 
     try {
       const meals = await getRecipes('meals');
@@ -122,7 +123,7 @@ export const setMealsByArea = (area) => async (dispatch) => {
 };
 
 export const setMealCategories = () => async (dispatch, getState) => {
-  dispatch(requestApi());
+  // dispatch(requestApi());
 
   try {
     const { meals } = getState();
