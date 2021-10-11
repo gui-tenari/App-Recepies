@@ -12,6 +12,14 @@
   box-shadow: 0 0 0.7em rgba(0, 0, 0, 0.5);
   text-align: left;
   font-size: 0.8em;
+  overflow: hidden;
+}
+
+.recipe-card > p {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .recipe-card:hover {

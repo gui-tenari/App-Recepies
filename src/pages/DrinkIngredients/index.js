@@ -22,18 +22,20 @@ const DrinkIngredients = () => {
   }, []);
 
   return (
-    <div>
+    <>
       <Header title="Explorar Ingredientes" />
-      {ingredients.map((ingredient, index) => (
-        <IngredientCard
-          key={ index }
-          index={ index }
-          ingredient={ ingredient }
-          type="drinks"
-        />
-      ))}
+      <div className="explore-ingredients">
+        {ingredients.map((ingredient, index) => (
+          <IngredientCard
+            key={ index }
+            index={ index }
+            ingredient={ ingredient }
+            type="drinks"
+          />
+        ))}
+      </div>
       <Footer />
-    </div>
+    </>
   );
 };
 

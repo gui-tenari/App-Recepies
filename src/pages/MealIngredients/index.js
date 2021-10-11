@@ -6,6 +6,8 @@ import IngredientCard from '../../components/IngredientCard';
 // import Loading from '../../components/Loading';
 import { getIngredients } from '../../services/recipesAPI';
 
+import './style.css';
+
 const MealIngredients = () => {
   const [ingredients, setIngredients] = useState([]);
 
@@ -22,18 +24,20 @@ const MealIngredients = () => {
   }, []);
 
   return (
-    <div>
+    <>
       <Header title="Explorar Ingredientes" />
-      {ingredients.map((ingredient, index) => (
-        <IngredientCard
-          key={ index }
-          index={ index }
-          ingredient={ ingredient }
-          type="meals"
-        />
-      ))}
+      <div className="explore-ingredients">
+        {ingredients.map((ingredient, index) => (
+          <IngredientCard
+            key={ index }
+            index={ index }
+            ingredient={ ingredient }
+            type="meals"
+          />
+        ))}
+      </div>
       <Footer />
-    </div>
+    </>
   );
 };
 
