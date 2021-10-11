@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import RecipeCard from '../../components/RecipeCard';
+import Loading from '../../components/Loading';
 
 import { getMealAreas } from '../../services/recipesAPI';
 import {
@@ -11,7 +12,8 @@ import {
   setFilteredMeals,
   fetchMealsThunk,
 } from '../../redux/actions/mealsActions';
-import Loading from '../../components/Loading';
+
+import './style.css';
 
 const MealAreas = () => {
   const [areas, setAreas] = useState([]);
@@ -40,38 +42,43 @@ const MealAreas = () => {
       dispatch(fetchMealsThunk());
     }
   }, [selectedArea, dispatch]);
+
   return (
-    <div>
+    <>
       <Header title="Explorar Origem" hasSearchBar />
-      <select
-        data-testid="explore-by-area-dropdown"
-        value={ selectedArea }
-        onChange={ ({ target }) => setSelectedArea(target.value) }
-      >
-        <option value="All" data-testid="All-option">
-          All
-        </option>
-        {areas.map(({ strArea: area }) => (
-          <option key={ area } value={ area } data-testid={ `${area}-option` }>
-            {area}
+      <div className="meal-areas-container">
+        <select
+          data-testid="explore-by-area-dropdown"
+          value={ selectedArea }
+          onChange={ ({ target }) => setSelectedArea(target.value) }
+        >
+          <option value="All" data-testid="All-option">
+            All
           </option>
-        ))}
-      </select>
-      {selectedArea ? (
-        filteredMeals.map(({ idMeal, strMealThumb, strMeal }, index) => (
-          <RecipeCard
-            key={ idMeal }
-            id={ idMeal }
-            thumb={ strMealThumb }
-            name={ strMeal }
-            index={ index }
-          />
-        ))
-      ) : (
-        <Loading />
-      )}
+          {areas.map(({ strArea: area }) => (
+            <option key={ area } value={ area } data-testid={ `${area}-option` }>
+              {area}
+            </option>
+          ))}
+        </select>
+        <div className="recipe-list">
+          {selectedArea ? (
+            filteredMeals.map(({ idMeal, strMealThumb, strMeal }, index) => (
+              <RecipeCard
+                key={ idMeal }
+                id={ idMeal }
+                thumb={ strMealThumb }
+                name={ strMeal }
+                index={ index }
+              />
+            ))
+          ) : (
+            <Loading />
+          )}
+        </div>
+      </div>
       <Footer />
-    </div>
+    </>
   );
 };
 
