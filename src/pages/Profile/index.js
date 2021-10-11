@@ -34,7 +34,7 @@ function Profile() {
         />
         <Button
           text="Sair"
-          onClick={ () => localStorage.clear() }
+          onClick={ () => { localStorage.clear(); history.push('/'); } }
         />
       </div>
       <Footer />

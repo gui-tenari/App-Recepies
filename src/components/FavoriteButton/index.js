@@ -4,8 +4,10 @@ import PropTypes from 'prop-types';
 
 import { toggleFavoriteRecipe } from '../../redux/actions/favoriteRecipesActions';
 
-import whiteHeart from '../../images/whiteHeartIcon.svg';
-import blackHeart from '../../images/blackHeartIcon.svg';
+import filledHeart from '../../images/icons/filled-heart.svg';
+import outlineHeart from '../../images/icons/outline-heart.svg';
+
+import './style.css';
 
 const typeTable = {
   comida: 'Meal',
@@ -49,10 +51,14 @@ const FavoriteButton = ({ recipe, type, testId }) => {
   }
 
   return (
-    <button type="button" onClick={ handleFavoriteClick }>
+    <button
+      className="favorite-button"
+      type="button"
+      onClick={ handleFavoriteClick }
+    >
       <img
         data-testid={ testId }
-        src={ isFavorite ? blackHeart : whiteHeart }
+        src={ isFavorite ? filledHeart : outlineHeart }
         alt="favorite"
       />
     </button>

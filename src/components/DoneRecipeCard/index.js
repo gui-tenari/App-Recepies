@@ -7,7 +7,7 @@ import ShareButton from '../ShareButton';
 import './style.css';
 
 const DoneRecipeCard = ({ recipe, index }) => (
-  <div className="done-recipe-card" key={ recipe.id }>
+  <div className="done-recipe-card">
     <div className="done-image-container">
       <Link to={ `/${recipe.type}s/${recipe.id}` }>
         <img

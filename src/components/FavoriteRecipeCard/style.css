@@ -1,0 +1,12 @@
+.favorite-main-info {
+  display: grid;
+  grid-template-rows: 0.5fr 1.5fr 1fr;
+  flex-grow: 1;
+  align-items: flex-start;
+  width: min-content;
+}
+
+.buttons-section {
+  display: flex;
+  justify-content: space-around;
+}
