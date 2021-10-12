@@ -17,7 +17,7 @@
 }
 
 .explore-meal-ingredients {
-  background: var(--background-filter) url('../../images/explore-meal-ingredients.jpeg');
+  background: var(--background-filter) url('../../images/explore-meal-ingredients-small.jpeg');
   background-blend-mode: darken;
   background-size: cover;
   background-position: 50% 50%;
@@ -25,7 +25,7 @@
 }
 
 .explore-meal-areas {
-  background: var(--background-filter) url('../../images/explore-meal-areas.jpeg');
+  background: var(--background-filter) url('../../images/explore-meal-areas-small.jpeg');
   background-blend-mode: darken;
   background-size: cover;
   background-position: 50% 50%;
@@ -33,7 +33,7 @@
 }
 
 .explore-random-meal {
-  background: var(--background-filter) url('../../images/explore-random-meal.png');
+  background: var(--background-filter) url('../../images/explore-random-meal-small.png');
   background-blend-mode: darken;
   background-size: cover;
   background-position: 50% 50%;

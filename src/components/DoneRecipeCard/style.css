@@ -47,9 +47,16 @@
 }
 
 .done-recipe-name {
+  overflow: hidden;
   text-decoration: none;
   color: white;
   font-size: 1.7em;
+}
+
+.done-recipe-name > p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .done-recipe-date {

@@ -17,7 +17,7 @@
 }
 
 .explore-drink-ingredients {
-  background: var(--background-filter) url('../../images/explore-drink-ingredients.png');
+  background: var(--background-filter) url('../../images/explore-drink-ingredients-small.png');
   background-blend-mode: darken;
   background-size: cover;
   background-position: 50% 50%;
@@ -25,7 +25,7 @@
 }
 
 .explore-random-drink {
-  background: var(--background-filter) url('../../images/explore-random-drink.png');
+  background: var(--background-filter) url('../../images/explore-random-drink-small.png');
   background-blend-mode: darken;
   background-size: cover;
   background-position: 50% 50%;

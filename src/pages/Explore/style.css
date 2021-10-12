@@ -11,7 +11,7 @@
 }
 
 .bg-meal {
-  background: var(--background-filter) url('../../images/explore-meals.jpeg');
+  background: var(--background-filter) url('../../images/explore-meals-small.jpeg');
   background-blend-mode: darken;
   background-size: cover;
   background-position: 50% 50%;
@@ -19,7 +19,7 @@
 }
 
 .bg-drink {
-  background: var(--background-filter) url('../../images/explore-drinks.jpeg');
+  background: var(--background-filter) url('../../images/explore-drinks-small.jpeg');
   background-blend-mode: darken;
   background-size: cover;
   background-position: 50%;
