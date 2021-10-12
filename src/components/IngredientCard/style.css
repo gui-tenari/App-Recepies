@@ -21,7 +21,7 @@
 
 .ingredient-card .image-container {
   position: relative;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .ingredient-card .image-container img {

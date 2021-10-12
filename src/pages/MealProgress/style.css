@@ -1,3 +1,13 @@
-.finished {
+/* .finished {
   text-decoration: line-through;
+} */
+.recipe-progress .recipe-info > button {
+  position: unset !important;
+  transform: initial !important;
+  width: 100%;
+  margin-top: 1em;
+}
+
+.recipe-progress .recipe-info {
+  padding-bottom: 1em;
 }

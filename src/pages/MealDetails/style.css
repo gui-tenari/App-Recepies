@@ -16,6 +16,7 @@
   margin-top: 50vh;
   z-index: 2;
   padding: 1em;
+  padding-bottom: 4em;
 }
 
 .info-header {
@@ -36,6 +37,11 @@
   display: flex;
   align-items: center;
   gap: 0.5em;
+}
+
+.icons-section img {
+  filter: invert(60%) sepia(65%) saturate(6754%) hue-rotate(
+    22deg) brightness(120%) contrast(106%);
 }
 
 .section-name {
@@ -76,7 +82,6 @@
   overflow: scroll;
   width: 100%;
   gap: 0.5em;
-  margin-bottom: 3.5em;
 }
 
 .carousel::-webkit-scrollbar {

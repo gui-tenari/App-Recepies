@@ -4,6 +4,8 @@ import { useHistory, useParams } from 'react-router-dom';
 
 import ShareButton from '../../components/ShareButton';
 import FavoriteButton from '../../components/FavoriteButton';
+import IngredientCheckbox from '../../components/IngredientCheckbox';
+import Button from '../../components/Button';
 
 import {
   addRecipeIngredient,
@@ -58,46 +60,54 @@ function MealProgress() {
   }
 
   return (
-    <div>
+    <div className="recipe-details recipe-progress">
       <img
+        className="recipe-image"
         data-testid="recipe-photo"
         src={ meal.strMealThumb }
         alt={ meal.strMeal }
       />
-      <h1 data-testid="recipe-title">{meal.strMeal}</h1>
-      <ShareButton type="comidas" id={ id } testId="share-btn" />
-      <FavoriteButton recipe={ meal } type="comida" testId="favorite-btn" />
-      <p data-testid="recipe-category">{meal.strCategory}</p>
-      {ingredients.map(({ ingredient }, index) => {
-        const isChecked = progressInfo.includes(ingredient);
-        return (
-          <label
-            key={ ingredient }
-            data-testid={ `${index}-ingredient-step` }
-            htmlFor={ `${index}-ingredient` }
-            className={ isChecked ? 'finished' : '' }
-          >
-            <input
-              type="checkbox"
-              id={ `${index}-ingredient` }
-              name="progress"
-              checked={ isChecked }
-              onChange={ () => handleChange(ingredient, isChecked) }
-            />
-            {ingredient}
-          </label>
-        );
-      })}
-      <p data-testid="instructions">{meal.strInstructions}</p>
-      <button
-        onClick={ handleClickComidas }
-        className="start-recipe"
-        type="button"
-        data-testid="finish-recipe-btn"
-        disabled={ progressInfo.length !== ingredients.length }
-      >
-        Finalizar Receita
-      </button>
+      <div className="recipe-info">
+        <div className="info-header">
+          <div className="name-section">
+            <h1 data-testid="recipe-title">{meal.strMeal}</h1>
+            <p data-testid="recipe-category">{meal.strCategory}</p>
+          </div>
+          <div className="icons-section">
+            <ShareButton type="comidas" id={ id } testId="share-btn" />
+            <FavoriteButton recipe={ meal } type="comida" testId="favorite-btn" />
+          </div>
+        </div>
+
+        <p className="section-name">Ingredients</p>
+
+        <div className="ingredients-section">
+          {ingredients.map(({ ingredient }, index) => {
+            const isChecked = progressInfo.includes(ingredient);
+            return (
+              <IngredientCheckbox
+                name="progress"
+                key={ ingredient }
+                text={ ingredient }
+                isChecked={ isChecked }
+                onChange={ () => handleChange(ingredient, isChecked) }
+                index={ index }
+              />
+            );
+          })}
+        </div>
+
+        <p className="section-name">Instructions</p>
+        <p className="instructions" data-testid="instructions">
+          {meal.strInstructions}
+        </p>
+
+        <Button
+          disabled={ progressInfo.length !== ingredients.length }
+          text="Finalizar Receita"
+          onClick={ () => handleClickComidas() }
+        />
+      </div>
     </div>
   );
 }

@@ -1,0 +1,40 @@
+.finished {
+  text-decoration: line-through;
+  text-decoration-color: var(--main-orange);
+}
+
+.ingredient-checkbox {
+  display: flex;
+  gap: 0.3em;
+  align-items: center;
+  line-height: 1.6em;
+}
+
+.ingredient-checkbox input {
+  display: none;
+}
+
+.ingredient-checkbox input:checked ~ .custom-checkbox > .checkmark {
+  opacity: 1;
+}
+
+.custom-checkbox {
+  position: relative;
+  display: flex;
+  width: 1em;
+  height: 1em;
+  border: 2px solid var(--main-orange);
+  border-radius: 0.1em;
+}
+
+.checkmark {
+  position: absolute;
+  height: 0.3em;
+  width: 0.5em;
+  border-left: 3px solid var(--main-orange);
+  border-bottom: 3px solid var(--main-orange);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  opacity: 0;
+}
