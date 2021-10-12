@@ -3,7 +3,7 @@
   flex-direction: column;
   flex-grow: 1;
   position: relative;
-  /* gap: 0.5em; */
+  gap: 0.5em;
 }
 
 .bg-meal,
@@ -20,7 +20,7 @@
   background-size: cover;
   background-position: 50% 50%;
   flex-grow: 1;
-  margin-bottom: 0.25em;
+  /* margin-bottom: 0.25em; */
 }
 
 .bg-drink {
@@ -30,7 +30,7 @@
   background-size: cover;
   background-position: 50%;
   flex-grow: 1;
-  margin-top: 0.25em;
+  /* margin-top: 0.25em; */
 }
 
 .bg-meal button,
