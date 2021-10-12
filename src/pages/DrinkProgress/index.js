@@ -4,6 +4,7 @@ import { useHistory, useParams } from 'react-router-dom';
 
 import ShareButton from '../../components/ShareButton';
 import FavoriteButton from '../../components/FavoriteButton';
+import Button from '../../components/Button';
 
 import {
   addRecipeIngredient,
@@ -13,6 +14,7 @@ import {
 import { setDoneRecipe } from '../../redux/actions/doneRecipesActions';
 
 import getIngredients from '../../utils/getIngredients';
+import IngredientCheckbox from '../../components/IngredientCheckbox';
 
 function DrinkProgress() {
   const [drink, setDrink] = useState({});
@@ -56,47 +58,61 @@ function DrinkProgress() {
   }
 
   return (
-    <div>
+    <div className="recipe-details recipe-progress">
       <img
+        className="recipe-image"
         data-testid="recipe-photo"
         src={ drink.strDrinkThumb }
         alt={ drink.strDrink }
       />
-      <h1 data-testid="recipe-title">{drink.strDrink}</h1>
-      <ShareButton type="bebidas" id={ id } testId="share-btn" />
-      <FavoriteButton recipe={ drink } type="bebida" testId="favorite-btn" />
-      <p data-testid="recipe-category">{drink.strAlcoholic}</p>
-      {ingredients.map(({ ingredient }, index) => {
-        const isChecked = progressInfo.includes(ingredient);
 
-        return (
-          <label
-            key={ ingredient }
-            data-testid={ `${index}-ingredient-step` }
-            htmlFor={ `${index}-ingredient` }
-            className={ isChecked ? 'finished' : '' }
-          >
-            <input
-              type="checkbox"
-              id={ `${index}-ingredient` }
-              name="progress"
-              checked={ isChecked }
-              onChange={ () => handleChange(ingredient, isChecked) }
+      <div className="recipe-info">
+        <div className="info-header">
+          <div className="name-section">
+            <h1 data-testid="recipe-title">{drink.strDrink}</h1>
+            <p data-testid="recipe-category">{drink.strAlcoholic}</p>
+          </div>
+          <div className="icons-section">
+            <ShareButton type="bebidas" id={ id } testId="share-btn" />
+            <FavoriteButton
+              recipe={ drink }
+              type="bebida"
+              testId="favorite-btn"
             />
-            {ingredient}
-          </label>
-        );
-      })}
-      <p data-testid="instructions">{drink.strInstructions}</p>
-      <button
-        onClick={ handleClickBebidas }
-        className="start-recipe"
-        type="button"
-        data-testid="finish-recipe-btn"
-        disabled={ progressInfo.length !== ingredients.length }
-      >
-        Finalizar Receita
-      </button>
+          </div>
+        </div>
+
+        <div className="section-name">Ingredients</div>
+
+        <div className="ingredients-section">
+          {ingredients.map(({ ingredient, measure }, index) => {
+            const ingredientKey = `${ingredient} - ${measure}`;
+            const isChecked = progressInfo.includes(ingredientKey);
+
+            return (
+              <IngredientCheckbox
+                name="progress"
+                key={ ingredientKey }
+                text={ ingredientKey }
+                isChecked={ isChecked }
+                onChange={ () => handleChange(ingredientKey, isChecked) }
+                index={ index }
+              />
+            );
+          })}
+        </div>
+
+        <div className="section-name">Instructions</div>
+        <p className="instructions" data-testid="instructions">
+          {drink.strInstructions}
+        </p>
+
+        <Button
+          disabled={ progressInfo.length !== ingredients.length }
+          text="Finalizar Receita"
+          onClick={ () => handleClickBebidas() }
+        />
+      </div>
     </div>
   );
 }

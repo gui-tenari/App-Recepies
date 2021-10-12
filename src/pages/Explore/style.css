@@ -1,6 +1,8 @@
 .explore-content {
   display: grid;
   flex-grow: 1;
+  position: relative;
+  gap: 0.5em;
 }
 
 .bg-meal,
@@ -11,19 +13,19 @@
 }
 
 .bg-meal {
-  background: var(--background-filter) url('../../images/explore-meals-small.jpeg');
+  background: var(--background-filter)
+    url('../../images/explore-meals-small.jpeg');
   background-blend-mode: darken;
   background-size: cover;
   background-position: 50% 50%;
-  /* box-shadow: inset 0 -5px 10px black; */
 }
 
 .bg-drink {
-  background: var(--background-filter) url('../../images/explore-drinks-small.jpeg');
+  background: var(--background-filter)
+    url('../../images/explore-drinks-small.jpeg');
   background-blend-mode: darken;
   background-size: cover;
   background-position: 50%;
-  /* box-shadow: inset 0 5px 10px black; */
 }
 
 .bg-meal button,

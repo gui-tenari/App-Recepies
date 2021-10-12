@@ -1,8 +1,10 @@
 import React from 'react';
 
+import './style.css';
+
 const Loading = () => (
-  <div>
-    <p>Loading</p>
+  <div className="loading-container">
+    <div className="loading-circle" />
   </div>
 );
 

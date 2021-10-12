@@ -1,0 +1,33 @@
+.loading-container {
+  position: absolute;
+  background: var(--main-blue-ish);
+  width: 100%;
+  height: 100%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  display: grid;
+  place-items: center;
+}
+
+.loading-circle {
+  width: 4em;
+  height: 4em;
+  border: 5px solid transparent;
+  border-radius: 50%;
+  border-top-color: var(--main-orange);
+  border-right-color: var(--main-orange);
+  border-left-color: var(--main-orange);
+  animation: loading-animation infinite 2s linear;
+}
+
+@keyframes loading-animation {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

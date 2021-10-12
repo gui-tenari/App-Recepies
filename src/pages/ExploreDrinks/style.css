@@ -1,6 +1,7 @@
 .explore-drinks {
   display: grid;
   flex-grow: 1;
+  gap: 0.5em;
 }
 
 .explore-drinks > div {
@@ -17,17 +18,17 @@
 }
 
 .explore-drink-ingredients {
-  background: var(--background-filter) url('../../images/explore-drink-ingredients-small.png');
+  background: var(--background-filter)
+    url('../../images/explore-drink-ingredients-small.png');
   background-blend-mode: darken;
   background-size: cover;
   background-position: 50% 50%;
-  /* box-shadow: inset 0 0 10px black; */
 }
 
 .explore-random-drink {
-  background: var(--background-filter) url('../../images/explore-random-drink-small.png');
+  background: var(--background-filter)
+    url('../../images/explore-random-drink-small.png');
   background-blend-mode: darken;
   background-size: cover;
   background-position: 50% 50%;
-  /* box-shadow: inset 0 0 10px black; */
 }

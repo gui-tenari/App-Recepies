@@ -46,6 +46,10 @@
   align-self: flex-start;
 }
 
+.done-recipe-card .second-section {
+  overflow: hidden;
+}
+
 .done-recipe-name {
   overflow: hidden;
   text-decoration: none;

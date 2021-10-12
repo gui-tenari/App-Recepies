@@ -82,15 +82,16 @@ function MealProgress() {
         <p className="section-name">Ingredients</p>
 
         <div className="ingredients-section">
-          {ingredients.map(({ ingredient }, index) => {
-            const isChecked = progressInfo.includes(ingredient);
+          {ingredients.map(({ ingredient, measure }, index) => {
+            const ingredientKey = `${ingredient} - ${measure}`;
+            const isChecked = progressInfo.includes(ingredientKey);
             return (
               <IngredientCheckbox
                 name="progress"
-                key={ ingredient }
-                text={ ingredient }
+                key={ ingredientKey }
+                text={ ingredientKey }
                 isChecked={ isChecked }
-                onChange={ () => handleChange(ingredient, isChecked) }
+                onChange={ () => handleChange(ingredientKey, isChecked) }
                 index={ index }
               />
             );

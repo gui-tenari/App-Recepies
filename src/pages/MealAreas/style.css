@@ -5,7 +5,24 @@
   padding: 0.8em 0.6em;
 }
 
-.meal-areas-container select {
+.select-container {
+  position: relative;
+}
+
+.select-container:after {
+  content: '';
+  position: absolute;
+  right: 1em;
+  bottom: 50%;
+  transform: rotate(45deg);
+  border-bottom: 3px solid white;
+  border-right: 3px solid white;
+  width: 5px;
+  height: 5px;
+  vertical-align: middle;
+}
+
+.select-container select {
   width: 100%;
   padding: 0.8em;
   font-size: 1em;
@@ -13,8 +30,10 @@
   background: var(--secondary-blue-ish);
   border: none;
   border-radius: 0.4em;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
-.meal-areas-container select:focus-visible {
+.select-container select:focus-visible {
   outline: none;
 }
