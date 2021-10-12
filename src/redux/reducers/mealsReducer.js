@@ -8,7 +8,7 @@ const INITIAL_STATE = {
     term: '',
     type: '',
   },
-  isFetching: false,
+  isFetching: true,
   error: '',
 };
 

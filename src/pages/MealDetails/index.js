@@ -72,7 +72,7 @@ const MealDetails = () => {
         src={ meal.strMealThumb }
         alt={ meal.strMeal }
       />
-      <div className="recipe-info">
+      <div className={ `recipe-info ${isDone && 'no-bottom-padding'}` }>
         <div className="info-header">
           <div className="name-section">
             <h1 data-testid="recipe-title">{meal.strMeal}</h1>

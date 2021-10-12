@@ -111,3 +111,7 @@
 .recommendation-card img {
   width: 100%;
 }
+
+.no-bottom-padding {
+  padding-bottom: 1em;
+}
