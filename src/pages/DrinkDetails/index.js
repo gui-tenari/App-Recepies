@@ -74,7 +74,7 @@ const DrinkDetails = () => {
         src={ drink.strDrinkThumb }
         alt={ drink.strDrink }
       />
-      <div className="recipe-info">
+      <div className={ `recipe-info ${isDone && 'no-bottom-padding'}` }>
         <div className="info-header">
           <div className="name-section">
             <h1 data-testid="recipe-title">{drink.strDrink}</h1>

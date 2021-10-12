@@ -86,8 +86,13 @@
 }
 
 .carousel::-webkit-scrollbar {
-  height: 0;
+  height: 2px;
   width: 0;
+}
+
+.carousel::-webkit-scrollbar-thumb {
+  background: var(--main-orange);
+  border-radius: 50px;
 }
 
 .recommendation-card {
