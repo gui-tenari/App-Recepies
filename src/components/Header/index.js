@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 
 import SearchBar from '../SearchBar';
 
-import searchIcon from '../../images/icons/search.svg';
-import userIcon from '../../images/icons/user.svg';
+import searchIcon from '../../images/icons/searchIcon.svg';
+import userIcon from '../../images/icons/profileIcon.svg';
 
 import './style.css';
 
@@ -15,36 +15,34 @@ const Header = ({ title, hasSearchBar }) => {
 
   return (
     <header>
-      <Link to="/perfil">
-        <img
-          className="user-button"
-          data-testid="profile-top-btn"
-          src={ userIcon }
-          alt="Perfil"
-        />
+      <Link to="/perfil" className="user-button">
+        <img data-testid="profile-top-btn" src={ userIcon } alt="Perfil" />
       </Link>
       <h1 className="page-title" data-testid="page-title">
         {title}
       </h1>
-      <div>
+      <div className="search-section">
         {showInputSearch && (
           <SearchBar
             showInputSearch={ showInputSearch }
             setShowInputSearch={ setShowInputSearch }
           />
         )}
-        <button
-          type="button"
-          className="search-icon"
-          onClick={ () => {
-            setShowInputSearch(!showInputSearch);
-          } }
-          style={
-            hasSearchBar ? { visibility: 'visible' } : { visibility: 'hidden' }
-          }
-        >
-          <img data-testid="search-top-btn" src={ searchIcon } alt="Pesquisar" />
-        </button>
+        {hasSearchBar && (
+          <button
+            type="button"
+            className="search-icon"
+            onClick={ () => {
+              setShowInputSearch(!showInputSearch);
+            } }
+          >
+            <img
+              data-testid="search-top-btn"
+              src={ searchIcon }
+              alt="Pesquisar"
+            />
+          </button>
+        )}
       </div>
     </header>
   );

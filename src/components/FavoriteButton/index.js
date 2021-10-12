@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 
 import { toggleFavoriteRecipe } from '../../redux/actions/favoriteRecipesActions';
 
-import filledHeart from '../../images/icons/filled-heart.svg';
-import outlineHeart from '../../images/icons/outline-heart.svg';
+import filledHeart from '../../images/icons/blackHeartIcon.svg';
+import outlineHeart from '../../images/icons/whiteHeartIcon.svg';
 
 import './style.css';
 

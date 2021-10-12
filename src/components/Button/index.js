@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 
 import './style.css';
 
-const Button = ({ text, type, disabled, className, onClick }) => (
+const Button = ({ text, type, disabled, className, onClick, testId }) => (
   <button
     type={ type === 'submit' ? 'submit' : 'button' }
     disabled={ disabled }
     className={ `default-button ${className}` }
     onClick={ onClick }
+    data-testid={ testId }
   >
     {text}
   </button>
@@ -16,6 +17,7 @@ const Button = ({ text, type, disabled, className, onClick }) => (
 
 Button.propTypes = {
   text: PropTypes.string.isRequired,
+  testId: PropTypes.string.isRequired,
   type: PropTypes.string,
   disabled: PropTypes.bool,
   className: PropTypes.string,

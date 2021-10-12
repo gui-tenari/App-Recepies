@@ -5,6 +5,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import Loading from '../../components/Loading';
 import ShareButton from '../../components/ShareButton';
 import FavoriteButton from '../../components/FavoriteButton';
+import BackButton from '../../components/BackButton';
 import Button from '../../components/Button';
 
 import getIngredients from '../../utils/getIngredients';
@@ -64,6 +65,7 @@ const MealDetails = () => {
 
   return (
     <div className="recipe-details">
+      <BackButton />
       <img
         className="recipe-image"
         data-testid="recipe-photo"
@@ -133,6 +135,7 @@ const MealDetails = () => {
           <Button
             text={ isInProgress ? 'Continuar Receita' : 'Iniciar Receita' }
             onClick={ () => startRecipe() }
+            testId="start-recipe-btn"
           />
         )}
       </div>

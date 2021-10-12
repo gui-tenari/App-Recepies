@@ -37,6 +37,7 @@ const IngredientCard = ({ ingredient, index, type }) => {
       className="ingredient-card"
       to={ type === 'meals' ? '/comidas' : '/bebidas' }
       onClick={ handleClick }
+      data-testid={ `${index}-ingredient-card` }
     >
       <p data-testid={ `${index}-card-name` }>{ingredientName}</p>
       <div className="image-container">

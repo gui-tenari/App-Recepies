@@ -1,0 +1,10 @@
+.back-button {
+  border: none;
+  cursor: pointer;
+  background: none;
+  display: flex;
+  position: absolute;
+  top: 1em;
+  left: 1em;
+  z-index: 99;
+}

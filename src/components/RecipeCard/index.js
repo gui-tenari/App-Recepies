@@ -13,9 +13,10 @@ const RecipeCard = ({ id, thumb, name, index }) => {
     <button
       type="button"
       className="recipe-card"
+      data-testid={ `${index}-recipe-card` }
       onClick={ () => history.push(`${location}/${id}`) }
     >
-      <p>{name}</p>
+      <p data-testid={ `${index}-card-name` }>{name}</p>
       <div className="image-container">
         <img data-testid={ `${index}-card-img` } src={ thumb } alt={ name } />
       </div>

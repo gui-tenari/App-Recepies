@@ -51,10 +51,12 @@
 }
 
 .done-recipe-name {
+  display: inline-block;
   overflow: hidden;
   text-decoration: none;
   color: white;
   font-size: 1.7em;
+  width: 100%;
 }
 
 .done-recipe-name > p {

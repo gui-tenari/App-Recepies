@@ -28,16 +28,22 @@ const ExploreMeals = ({ history }) => {
           <Button
             text="Por Ingredientes"
             onClick={ () => history.push('/explorar/comidas/ingredientes') }
+            testId="explore-by-ingredient"
           />
         </div>
         <div className="explore-meal-areas">
           <Button
             text="Por Local de Origem"
             onClick={ () => history.push('/explorar/comidas/area') }
+            testId="explore-by-area"
           />
         </div>
         <div className="explore-random-meal">
-          <Button text="Me Surpreenda!" onClick={ handleClick } />
+          <Button
+            text="Me Surpreenda!"
+            onClick={ handleClick }
+            testId="explore-surprise"
+          />
         </div>
       </div>
       <Footer />

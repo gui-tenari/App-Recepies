@@ -27,14 +27,17 @@ function Profile() {
         <Button
           text="Receitas Feitas"
           onClick={ () => history.push('/receitas-feitas') }
+          testId="profile-done-btn"
         />
         <Button
           text="Receitas Favoritas"
           onClick={ () => history.push('/receitas-favoritas') }
+          testId="profile-favorite-btn"
         />
         <Button
           text="Sair"
           onClick={ () => { localStorage.clear(); history.push('/'); } }
+          testId="profile-logout-btn"
         />
       </div>
       <Footer />

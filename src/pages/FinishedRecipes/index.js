@@ -39,6 +39,7 @@ const FinishedRecipes = () => {
             handleFilterClick={ (category) => {
               setFilter(category);
             } }
+            testId="filter-by-all-btn"
             activeFilter={ filter }
           />
           <CategoryButton
@@ -46,6 +47,7 @@ const FinishedRecipes = () => {
             handleFilterClick={ (category) => {
               setFilter(category);
             } }
+            testId="filter-by-food-btn"
             activeFilter={ filter }
           />
           <CategoryButton
@@ -53,6 +55,7 @@ const FinishedRecipes = () => {
             handleFilterClick={ (category) => {
               setFilter(category);
             } }
+            testId="filter-by-drink-btn"
             activeFilter={ filter }
           />
         </div>

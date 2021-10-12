@@ -41,6 +41,7 @@ function Login() {
           placeholder="Email"
           value={ email }
           onChange={ (e) => setEmail(e.target.value) }
+          testId="email-input"
         />
         <Input
           type="password"
@@ -48,6 +49,7 @@ function Login() {
           placeholder="Senha"
           value={ password }
           onChange={ (e) => setPassword(e.target.value) }
+          testId="password-input"
         />
         <Button
           type="submit"
@@ -55,6 +57,7 @@ function Login() {
             !(REGEX.test(email) && password.length > MIN_PASSWORD_LENGTH)
           }
           text="Entrar"
+          testId="login-submit-btn"
         />
       </form>
     </div>

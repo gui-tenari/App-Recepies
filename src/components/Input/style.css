@@ -29,6 +29,7 @@
   border: none;
   color: white;
   font-size: 0.8em;
+  width: 100%;
 }
 
 .input-container input::placeholder {

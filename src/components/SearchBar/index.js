@@ -81,6 +81,7 @@ function SearchBar({ showInputSearch, setShowInputSearch }) {
         value={ searchInput }
         onChange={ ({ target }) => setSearchInput(target.value) }
         className="search-input"
+        testId="search-input"
       />
 
       <div className="search-types">
@@ -88,36 +89,39 @@ function SearchBar({ showInputSearch, setShowInputSearch }) {
           <input
             id="ingredient-search"
             type="radio"
-            data-testid="ingredient-search-radio"
             value="ingredients"
             checked={ selectedFilter === 'ingredients' }
             onChange={ handleChange }
           />
-          <span className="radio-control" />
+          <span
+            className="radio-control"
+            data-testid="ingredient-search-radio"
+          />
           Ingredientes
         </label>
         <label htmlFor="name-search">
           <input
             id="name-search"
             type="radio"
-            data-testid="name-search-radio"
             value="name"
             checked={ selectedFilter === 'name' }
             onChange={ handleChange }
           />
-          <span className="radio-control" />
+          <span className="radio-control" data-testid="name-search-radio" />
           Nome
         </label>
         <label htmlFor="first-letter-search">
           <input
             id="first-letter-search"
             type="radio"
-            data-testid="first-letter-search-radio"
             value="firstLetter"
             checked={ selectedFilter === 'firstLetter' }
             onChange={ handleChange }
           />
-          <span className="radio-control" />
+          <span
+            className="radio-control"
+            data-testid="first-letter-search-radio"
+          />
           Primeira Letra
         </label>
       </div>
@@ -126,6 +130,7 @@ function SearchBar({ showInputSearch, setShowInputSearch }) {
         type="button"
         onClick={ handleClick }
         text="Buscar"
+        testId="exec-search-btn"
       />
     </div>
   );

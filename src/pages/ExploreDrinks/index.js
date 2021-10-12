@@ -28,10 +28,15 @@ const ExploreDrinks = ({ history }) => {
           <Button
             text="Por Ingredientes"
             onClick={ () => history.push('/explorar/bebidas/ingredientes') }
+            testId="explore-by-ingredient"
           />
         </div>
         <div className="explore-random-drink">
-          <Button text="Me Surpreenda!" onClick={ handleClick } />
+          <Button
+            text="Me Surpreenda!"
+            onClick={ handleClick }
+            testId="explore-surprise"
+          />
         </div>
       </div>
       <Footer />

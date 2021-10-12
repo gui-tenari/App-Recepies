@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import copy from 'clipboard-copy';
 
-import shareIcon from '../../images/icons/share.svg';
+import shareIcon from '../../images/icons/shareIcon.svg';
 
 import './style.css';
 

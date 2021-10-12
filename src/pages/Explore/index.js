@@ -18,12 +18,14 @@ const Explore = () => {
           <Button
             text="Explorar Comidas"
             onClick={ () => history.push('/explorar/comidas') }
+            testId="explore-food"
           />
         </div>
         <div className="bg-drink">
           <Button
             text="Explorar Bebidas"
             onClick={ () => history.push('/explorar/bebidas') }
+            testId="explore-drinks"
           />
         </div>
       </div>

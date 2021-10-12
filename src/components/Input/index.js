@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import './style.css';
 
-const Input = ({ type, icon, placeholder, value, onChange, className }) => (
+const Input = ({ type, icon, placeholder, value, onChange, className, testId }) => (
   <div className={ `input-container ${className}` }>
     <label htmlFor={ placeholder }>
       {icon && <img src={ icon } alt={ `${placeholder}-icon` } />}
@@ -16,6 +16,7 @@ const Input = ({ type, icon, placeholder, value, onChange, className }) => (
       value={ value }
       onChange={ onChange }
       spellCheck={ false }
+      data-testid={ testId }
     />
 
     <div className="outline" />
@@ -29,11 +30,13 @@ Input.propTypes = {
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   className: PropTypes.string,
+  testId: PropTypes.string,
 };
 
 Input.defaultProps = {
   icon: undefined,
   className: '',
+  testId: '',
 };
 
 export default Input;

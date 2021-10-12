@@ -7,7 +7,9 @@ const IngredientCheckbox = ({ text, name, isChecked, onChange, index }) => (
   <label
     data-testid={ `${index}-ingredient-step` }
     htmlFor={ `${index}-ingredient` }
-    className={ isChecked ? 'ingredient-checkbox finished' : 'ingredient-checkbox' }
+    className={
+      isChecked ? 'ingredient-checkbox finished' : 'ingredient-checkbox'
+    }
   >
     <input
       type="checkbox"

@@ -5,6 +5,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import ShareButton from '../../components/ShareButton';
 import FavoriteButton from '../../components/FavoriteButton';
 import IngredientCheckbox from '../../components/IngredientCheckbox';
+import BackButton from '../../components/BackButton';
 import Button from '../../components/Button';
 
 import {
@@ -61,6 +62,7 @@ function MealProgress() {
 
   return (
     <div className="recipe-details recipe-progress">
+      <BackButton />
       <img
         className="recipe-image"
         data-testid="recipe-photo"
@@ -107,6 +109,7 @@ function MealProgress() {
           disabled={ progressInfo.length !== ingredients.length }
           text="Finalizar Receita"
           onClick={ () => handleClickComidas() }
+          testId="finish-recipe-btn"
         />
       </div>
     </div>
