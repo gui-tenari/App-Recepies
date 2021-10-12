@@ -3,23 +3,3 @@
   margin: auto;
   position: fixed;
 }
-
-.carousel {
-  display: flex;
-  overflow: scroll;
-  width: 100%;
-}
-
-.carousel::-webkit-scrollbar {
-  height: 0;
-}
-
-.recommendation-card {
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-}
-
-.recommendation-card img {
-  width: 180px;
-}

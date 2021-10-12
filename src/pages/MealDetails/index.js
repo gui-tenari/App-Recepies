@@ -5,6 +5,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import Loading from '../../components/Loading';
 import ShareButton from '../../components/ShareButton';
 import FavoriteButton from '../../components/FavoriteButton';
+import Button from '../../components/Button';
 
 import getIngredients from '../../utils/getIngredients';
 
@@ -62,54 +63,79 @@ const MealDetails = () => {
   }
 
   return (
-    <div>
+    <div className="recipe-details">
       <img
+        className="recipe-image"
         data-testid="recipe-photo"
         src={ meal.strMealThumb }
         alt={ meal.strMeal }
       />
-      <h1 data-testid="recipe-title">{meal.strMeal}</h1>
-      <ShareButton type="comidas" id={ meal.idMeal } testId="share-btn" />
-      <FavoriteButton recipe={ meal } type="comida" testId="favorite-btn" />
-      <p data-testid="recipe-category">{meal.strCategory}</p>
-      {ingredients.map(({ ingredient, measure }, index) => (
-        <div key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
-          <p>
-            {ingredient}
-            {measure && <span>{` - ${measure}`}</span>}
-          </p>
-        </div>
-      ))}
-      <p data-testid="instructions">{meal.strInstructions}</p>
-      <iframe
-        data-testid="video"
-        src={ meal.strYoutube.replace('watch?v=', 'embed/') }
-        title={ meal.strMeal }
-      />
-      <div className="carousel">
-        {drinks.slice(0, MAX_RECOMENDATIONS).map((drink, index) => (
-          <div
-            className="recommendation-card"
-            data-testid={ `${index}-recomendation-card` }
-            key={ drink.strDrink }
-          >
-            <span data-testid={ `${index}-recomendation-title` }>
-              {drink.strDrink}
-            </span>
-            <img src={ drink.strDrinkThumb } alt={ drink.strDrink } />
+      <div className="recipe-info">
+        <div className="info-header">
+          <div className="name-section">
+            <h1 data-testid="recipe-title">{meal.strMeal}</h1>
+            <p data-testid="recipe-category">{meal.strCategory}</p>
           </div>
-        ))}
+          <div className="icons-section">
+            <ShareButton type="comidas" id={ meal.idMeal } testId="share-btn" />
+            <FavoriteButton recipe={ meal } type="comida" testId="favorite-btn" />
+          </div>
+        </div>
+
+        <p className="section-name">Ingredients</p>
+
+        <div className="ingredients-section">
+          {ingredients.map(({ ingredient, measure }, index) => (
+            <div
+              key={ index }
+              data-testid={ `${index}-ingredient-name-and-measure` }
+            >
+              <p>
+                {`- ${ingredient}`}
+                {measure && <span>{` - ${measure}`}</span>}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <p className="section-name">Instructions</p>
+        <p className="instructions" data-testid="instructions">
+          {meal.strInstructions}
+        </p>
+
+        <p className="section-name">Video</p>
+        <iframe
+          className="recipe-video"
+          data-testid="video"
+          src={ meal.strYoutube.replace('watch?v=', 'embed/') }
+          title={ meal.strMeal }
+        />
+
+        <p className="section-name">Recommendations</p>
+        <div className="carousel">
+          {drinks.slice(0, MAX_RECOMENDATIONS).map((drink, index) => (
+            <div
+              className="recommendation-card"
+              data-testid={ `${index}-recomendation-card` }
+              key={ drink.strDrink }
+            >
+              <span data-testid={ `${index}-recomendation-title` }>
+                {drink.strDrink}
+              </span>
+              <div className="image-container">
+                <img src={ drink.strDrinkThumb } alt={ drink.strDrink } />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {!isDone && (
+          <Button
+            text={ isInProgress ? 'Continuar Receita' : 'Iniciar Receita' }
+            onClick={ () => startRecipe() }
+          />
+        )}
       </div>
-      {!isDone && (
-        <button
-          onClick={ startRecipe }
-          className="start-recipe"
-          type="button"
-          data-testid="start-recipe-btn"
-        >
-          {isInProgress ? 'Continuar Receita' : 'Iniciar Receita'}
-        </button>
-      )}
     </div>
   );
 };

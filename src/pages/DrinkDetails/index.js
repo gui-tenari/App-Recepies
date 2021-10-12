@@ -5,6 +5,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import Loading from '../../components/Loading';
 import ShareButton from '../../components/ShareButton';
 import FavoriteButton from '../../components/FavoriteButton';
+import Button from '../../components/Button';
 
 import getIngredients from '../../utils/getIngredients';
 
@@ -64,49 +65,74 @@ const DrinkDetails = () => {
   }
 
   return (
-    <div>
+    <div className="recipe-details">
       <img
+        className="recipe-image"
         data-testid="recipe-photo"
         src={ drink.strDrinkThumb }
         alt={ drink.strDrink }
       />
-      <h1 data-testid="recipe-title">{drink.strDrink}</h1>
-      <ShareButton type="bebidas" id={ drink.idDrink } testId="share-btn" />
-      <FavoriteButton recipe={ drink } type="bebida" testId="favorite-btn" />
-      <p data-testid="recipe-category">{drink.strAlcoholic}</p>
-      {ingredients.map(({ ingredient, measure }, index) => (
-        <div key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
-          <p>
-            {ingredient}
-            {measure && <span>{` - ${measure}`}</span>}
-          </p>
-        </div>
-      ))}
-      <p data-testid="instructions">{drink.strInstructions}</p>
-      <div className="carousel">
-        {meals.slice(0, MAX_RECOMENDATIONS).map((meal, index) => (
-          <div
-            className="recommendation-card"
-            data-testid={ `${index}-recomendation-card` }
-            key={ meal.strMeal }
-          >
-            <span data-testid={ `${index}-recomendation-title` }>
-              {meal.strMeal}
-            </span>
-            <img src={ meal.strMealThumb } alt={ meal.strMeal } />
+      <div className="recipe-info">
+        <div className="info-header">
+          <div className="name-section">
+            <h1 data-testid="recipe-title">{drink.strDrink}</h1>
+            <p data-testid="recipe-category">{drink.strAlcoholic}</p>
           </div>
-        ))}
+          <div className="icons-section">
+            <ShareButton type="bebidas" id={ drink.idDrink } testId="share-btn" />
+            <FavoriteButton
+              recipe={ drink }
+              type="bebida"
+              testId="favorite-btn"
+            />
+          </div>
+        </div>
+
+        <div className="section-name">Ingredients</div>
+
+        <div className="ingredients-section">
+          {ingredients.map(({ ingredient, measure }, index) => (
+            <div
+              key={ index }
+              data-testid={ `${index}-ingredient-name-and-measure` }
+            >
+              <p>
+                {`- ${ingredient}`}
+                {measure && <span>{` - ${measure}`}</span>}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <div className="section-name">Instructions</div>
+        <p className="instructions" data-testid="instructions">
+          {drink.strInstructions}
+        </p>
+
+        <div className="section-name">Recommendations</div>
+        <div className="carousel">
+          {meals.slice(0, MAX_RECOMENDATIONS).map((meal, index) => (
+            <div
+              className="recommendation-card"
+              data-testid={ `${index}-recomendation-card` }
+              key={ meal.strMeal }
+            >
+              <span data-testid={ `${index}-recomendation-title` }>
+                {meal.strMeal}
+              </span>
+              <div className="image-container">
+                <img src={ meal.strMealThumb } alt={ meal.strMeal } />
+              </div>
+            </div>
+          ))}
+        </div>
+        {!isDone && (
+          <Button
+            text={ isInProgress ? 'Continuar Receita' : 'Iniciar Receita' }
+            onClick={ () => startRecipe() }
+          />
+        )}
       </div>
-      {!isDone && (
-        <button
-          onClick={ startRecipe }
-          className="start-recipe"
-          type="button"
-          data-testid="start-recipe-btn"
-        >
-          {isInProgress ? 'Continuar Receita' : 'Iniciar Receita'}
-        </button>
-      )}
     </div>
   );
 };
